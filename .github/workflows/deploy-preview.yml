@@ -1,8 +1,8 @@
 name: Деплой превью на GitHub Pages
 
+# Пока сайт не готов, автодеплой на push отключён — работаем локально.
+# Когда будет готово показать заказчику: вкладка Actions → этот workflow → Run workflow.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
