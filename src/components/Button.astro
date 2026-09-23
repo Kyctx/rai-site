@@ -35,9 +35,9 @@ const iconSize = 20;
   class:list={['btn', `btn--${variant}`, `btn--${size}`, 'pill-hover', className]}
   {...rest}
 >
-  {icon && iconPosition === 'start' && <Icon name={icon} size={iconSize} strokeWidth={1.6} />}
+  {icon && iconPosition === 'start' && <Icon name={icon} size={iconSize} />}
   <span class="label-m"><slot /></span>
-  {icon && iconPosition === 'end' && <Icon name={icon} size={iconSize} strokeWidth={1.6} />}
+  {icon && iconPosition === 'end' && <Icon name={icon} size={iconSize} />}
 </Tag>
 
 <style>
