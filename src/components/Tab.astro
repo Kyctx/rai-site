@@ -44,6 +44,11 @@ const { active = false, compact = false, id, controls, class: className } = Astr
     border-color: var(--color-bg-inverse);
   }
 
+  /* На hover красится только рамка — фон и текст не меняются */
+  .tab:not(.tab--active):hover {
+    border-color: var(--color-accent-primary);
+  }
+
   .tab--compact {
     padding: 10px 12px;
     font-size: 14px;

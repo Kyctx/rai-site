@@ -125,14 +125,13 @@ const iconSize = 20;
     border: 1px solid var(--color-border-default);
   }
 
+  /* Заливка красит только рамку (stroke), не фон и не текст кнопки */
   .btn--outline::before {
-    background-color: var(--color-accent-primary);
+    display: none;
   }
 
   .btn--outline:hover {
-    color: var(--color-text-inverse);
     border-color: var(--color-accent-primary);
-    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
   .btn--soft {
