@@ -1,0 +1,51 @@
+---
+// Базовый layout: <head>, подключение шрифтов/стилей, Яндекс.Метрика (только в production).
+// Header и Footer подключаются здесь же после вёрстки соответствующих секций (00 и 13).
+import site from '@data/site.json';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const isProd = import.meta.env.PROD;
+const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title} · {site.brand}</title>
+    {description && <meta name="description" content={description} />}
+
+    <link rel="preload" href="/fonts/cormorant-garamond-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/onest-variable-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+
+    <style is:global>
+      @import "@styles/tokens.css";
+      @import "@styles/base.css";
+    </style>
+
+    {isProd && metrikaId && (
+      <script is:inline define:vars={{ metrikaId }}>
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym(metrikaId, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+      </script>
+    )}
+  </head>
+  <body>
+    <slot name="header" />
+    <main>
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

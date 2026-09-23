@@ -1,0 +1,20 @@
+---
+// Логотип «Рай»: графит + зелёный лист (public/icons/logo.svg), цвета зафиксированы по макету.
+interface Props {
+  width?: number;
+  class?: string;
+}
+
+const { width = 61, class: className } = Astro.props;
+const height = Math.round((width * 30) / 61);
+---
+
+<img
+  src="/icons/logo.svg"
+  alt="Рай"
+  width={width}
+  height={height}
+  class={className}
+  loading="eager"
+  decoding="async"
+/>

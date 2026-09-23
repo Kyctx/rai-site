@@ -1,0 +1,314 @@
+/*
+  Базовые стили «Рай»: шрифты, сброс, типографические классы.
+  Размеры текста берутся только отсюда — в секциях font-size не задаём (правило 2 в CLAUDE.md).
+*/
+
+/* ===== Шрифты (локально, кириллица + латиница) ===== */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-500-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-500-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-400italic-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-400italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Курсив 500 использует то же начертание, что и 400 (у Cormorant Garamond
+   один статический italic-файл на оба веса — см. public/fonts). */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-400italic-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-400italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
+}
+
+/* Onest — вариативный шрифт (ось wght покрывает 400–600 одним файлом) */
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/onest-variable-cyrillic.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/onest-variable-latin.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
+}
+
+/* ===== Сброс ===== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body-m);
+  line-height: var(--lh-body-m);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Видимый фокус — обязателен по правилу 6 (доступность) */
+:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+/* ===== Контейнер и секции ===== */
+
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-page-x);
+}
+
+.section {
+  padding-block: var(--space-section-y);
+}
+
+.section--dark {
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+
+/* Акцент в заголовке: <em> — курсив, цвет accent/primary (на тёмном фоне — accent/soft) */
+.h1 em, .h2 em, .h3 em, .h4 em, .h5 em {
+  font-style: italic;
+  font-weight: inherit;
+  color: var(--color-accent-primary);
+}
+
+.section--dark em {
+  color: var(--color-accent-soft);
+}
+
+/* ===== Типографика: 19 стилей «Рай/…» ===== */
+/* Мобильный размер — из «Рай/Mobile/…», десктопный — из «Рай/…»,
+   между 768 и 1439px — плавный clamp() (правило 2, 7 в CLAUDE.md). */
+
+.h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-h1-mobile), 4.2vw + 12px, var(--fs-h1-desktop));
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+}
+
+.h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-h2-mobile), 2.9vw + 10px, var(--fs-h2-desktop));
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+}
+
+.h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-h3-mobile), 1.7vw + 12px, var(--fs-h3-desktop));
+  line-height: var(--lh-h3);
+}
+
+.h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-h4-mobile), 0.9vw + 14px, var(--fs-h4-desktop));
+  line-height: var(--lh-h4);
+}
+
+.h5 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-h5-mobile), 0.3vw + 17px, var(--fs-h5-desktop));
+  line-height: var(--lh-h5);
+}
+
+.quote {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-quote-mobile), 0.9vw + 14px, var(--fs-quote-desktop));
+  line-height: var(--lh-quote);
+}
+
+.num-l {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-num-l-mobile), 2.4vw + 8px, var(--fs-num-l-desktop));
+  line-height: var(--lh-num-l);
+}
+
+.num-xl {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(var(--fs-num-xl-mobile), 5.4vw + 4px, var(--fs-num-xl-desktop));
+  line-height: var(--lh-num-xl);
+}
+
+.num-step {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(var(--fs-num-step-mobile), 0.9vw + 14px, var(--fs-num-step-desktop));
+  line-height: var(--lh-num-step);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-eyebrow);
+  line-height: var(--lh-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(var(--fs-title-mobile), 0.6vw + 12px, var(--fs-title-desktop));
+  line-height: var(--lh-title);
+}
+
+.body-l {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(var(--fs-body-l-mobile), 0.4vw + 14px, var(--fs-body-l-desktop));
+  line-height: var(--lh-body-l);
+}
+
+.body-l-strong {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(var(--fs-body-l-mobile), 0.4vw + 14px, var(--fs-body-l-desktop));
+  line-height: var(--lh-body-l);
+}
+
+.body-m {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body-m);
+  line-height: var(--lh-body-m);
+}
+
+.body-s {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body-s);
+  line-height: var(--lh-body-s);
+}
+
+.body-s-strong {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-body-s);
+  line-height: var(--lh-body-s);
+}
+
+.label-m {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-label-m);
+  line-height: var(--lh-label-m);
+}
+
+.label-s {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-label-s);
+  line-height: var(--lh-label-s);
+}

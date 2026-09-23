@@ -1,0 +1,93 @@
+/*
+  Дизайн-токены «Рай».
+  Единственный источник цветов, отступов, радиусов, теней и шрифтовых переменных.
+  Значения — из rai-handoff.md (раздел 2) и Figma UI Kit (страница «UI Kit — Рай», основы 209:72).
+  Ничего здесь не выдумано: если токена нет — его нет и в макете, нужно уточнять у заказчика.
+*/
+
+:root {
+  /* Цвета */
+  --color-bg-page: #F5F1EA;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-secondary: #EAE3D7;
+  --color-bg-inverse: #26292C;
+  --color-text-primary: #26292C;
+  --color-text-secondary: #6B6A66;
+  --color-text-inverse: #F5F1EA;
+  --color-accent-primary: #56634B;
+  --color-accent-hover: #46523D;
+  --color-accent-soft: #DDE2D3;
+  --color-border-default: #DAD2C4;
+
+  /* Отступы (шкала space/*) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-112: 112px;
+
+  /* Поля контейнера: desktop 1024+ — 120px, mobile — 20px (см. правило 7 в CLAUDE.md) */
+  --space-page-x: 20px;
+
+  /* Вертикальный ритм секций: mobile 64px, desktop 112px */
+  --space-section-y: 64px;
+  /* Шапка секции → контент: mobile 32px, desktop 48px */
+  --space-section-header-gap: 32px;
+
+  /* Радиусы */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  /* Тени */
+  --shadow-sm: 0 4px 18px rgba(38, 41, 44, .06);
+  --shadow-lg: 0 16px 40px rgba(38, 41, 44, .08);
+
+  /* Шрифты */
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Onest", system-ui, sans-serif;
+
+  /* Контейнер */
+  --container-max: 1200px;
+
+  /* ===== Типографика: мобильные базовые размеры (до 767px) ===== */
+  /* Каждый стиль ниже — пара «мобильный размер» / «десктопный размер»,
+     base.css собирает из них clamp() c плавным переходом 768–1439px. */
+  --fs-h1-mobile: 40px;       --fs-h1-desktop: 72px;       --lh-h1: 105%; --ls-h1: -0.01em;
+  --fs-h2-mobile: 32px;       --fs-h2-desktop: 52px;       --lh-h2: 105%; --ls-h2: -0.005em;
+  --fs-h3-mobile: 28px;       --fs-h3-desktop: 40px;       --lh-h3: 105%;
+  --fs-h4-mobile: 24px;       --fs-h4-desktop: 30px;       --lh-h4: 110%;
+  --fs-h5-mobile: 20px;       --fs-h5-desktop: 22px;       --lh-h5: 115%;
+  --fs-quote-mobile: 22px;    --fs-quote-desktop: 28px;    --lh-quote: 120%;
+  --fs-num-l-mobile: 40px;    --fs-num-l-desktop: 56px;    --lh-num-l: 100%;
+  --fs-num-xl-mobile: 52px;   --fs-num-xl-desktop: 88px;   --lh-num-xl: 100%;
+  --fs-num-step-mobile: 24px; --fs-num-step-desktop: 30px; --lh-num-step: 110%;
+  --fs-title-mobile: 18px;    --fs-title-desktop: 22px;    --lh-title: 125%;
+  --fs-body-l-mobile: 17px;   --fs-body-l-desktop: 20px;   --lh-body-l: 150%;
+
+  /* Стили без мобильных отличий (одинаковы на всех брейкпоинтах) */
+  --fs-body-m: 16px;   --lh-body-m: 150%;
+  --fs-body-s: 14px;   --lh-body-s: 145%;
+  --fs-label-m: 16px;  --lh-label-m: 120%;
+  --fs-label-s: 13px;  --lh-label-s: 120%;
+  --fs-eyebrow: 13px;  --lh-eyebrow: 120%; --ls-eyebrow: 0.06em;
+}
+
+/* Десктопная сетка: контейнер 1200px, поля 120px */
+@media (min-width: 1024px) {
+  :root {
+    --space-page-x: 120px;
+    --space-section-y: 112px;
+    --space-section-header-gap: 48px;
+  }
+}

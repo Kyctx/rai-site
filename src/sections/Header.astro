@@ -1,0 +1,408 @@
+---
+// 00 · Хедер. Desktop 198:2587 — пилюля с логотипом, ссылками и кнопкой-телефоном.
+// Mobile 214:3649 — компактная пилюля (лого + кнопки «Позвонить»/«Меню»),
+// по тапу на «Меню» открывается полноэкранное мобильное меню (214:4722).
+import Logo from '@components/Logo.astro';
+import Icon from '@components/Icon.astro';
+import site from '@data/site.json';
+
+// Пункты меню → секции главной (id из таблицы в CLAUDE.md).
+const navLinks = [
+  { label: 'Услуги', href: '#services' },
+  { label: 'Каталог', href: '#pricing' },
+  { label: 'Калькулятор', href: '#calculator' },
+  { label: 'Справочник', href: '#guide' },
+  { label: 'Контакты', href: '#contact' },
+];
+
+const telHref = `tel:${site.phone.tel}`;
+---
+
+<header class="header">
+  <div class="header__bar">
+    <!-- Desktop: логотип + ссылки + телефон в одной пилюле -->
+    <nav class="header__pill header__pill--desktop" aria-label="Основная навигация">
+      <div class="header__group">
+        <a href="#top" class="header__logo" aria-label={`${site.brand} — на главную`}>
+          <Logo width={61} />
+        </a>
+        <span class="header__divider" aria-hidden="true"></span>
+        <ul class="header__links">
+          {navLinks.map((item) => (
+            <li><a href={item.href} class="label-m header__link">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <a href={telHref} class="header__phone-btn label-m" data-goal="call_click">
+        <Icon name="phone" size={18} />
+        {site.phone.display}
+      </a>
+    </nav>
+
+    <!-- Mobile: компактная пилюля -->
+    <div class="header__pill header__pill--mobile">
+      <a href="#top" class="header__logo" aria-label={`${site.brand} — на главную`}>
+        <Logo width={53} />
+      </a>
+      <div class="header__actions">
+        <a href={telHref} class="header__icon-btn header__icon-btn--accent" aria-label="Позвонить" data-goal="call_click">
+          <Icon name="phone" size={20} />
+        </a>
+        <button
+          type="button"
+          class="header__icon-btn"
+          id="menu-toggle"
+          aria-label="Открыть меню"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <Icon name="menu" size={20} />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Мобильное меню на весь экран (214:4722) -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <div class="mobile-menu__bar">
+      <a href="#top" class="header__logo" aria-label={`${site.brand} — на главную`}>
+        <Logo width={53} />
+      </a>
+      <div class="header__actions">
+        <a href={telHref} class="header__icon-btn header__icon-btn--accent" aria-label="Позвонить" data-goal="call_click">
+          <Icon name="phone" size={20} />
+        </a>
+        <button
+          type="button"
+          class="header__icon-btn"
+          id="menu-close"
+          aria-label="Закрыть меню"
+        >
+          <Icon name="plus" size={20} class="mobile-menu__close-icon" />
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu__content">
+      <ul class="mobile-menu__links">
+        {navLinks.map((item) => (
+          <li>
+            <a href={item.href} class="mobile-menu__link h4">
+              {item.label}
+              <Icon name="arrow" size={20} />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mobile-menu__contact">
+        <p class="eyebrow mobile-menu__eyebrow">Круглосуточная линия</p>
+        <a href={telHref} class="num-l mobile-menu__phone" data-goal="call_click">{site.phone.display}</a>
+        <div class="mobile-menu__buttons">
+          <a href={telHref} class="button button--accent button--m" data-goal="call_click">
+            <Icon name="phone" size={18} />
+            <span class="label-m">Позвонить</span>
+          </a>
+          <a href={`https://t.me/${site.messengers.telegram}`} class="button button--outline button--m">
+            <Icon name="message" size={18} />
+            <span class="label-m">Написать в Telegram или MAX</span>
+          </a>
+        </div>
+        <p class="body-s mobile-menu__address">{site.address.text} · {site.address.hours}</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: var(--space-12);
+    z-index: 100;
+    padding-inline: var(--space-12);
+  }
+
+  @media (min-width: 1024px) {
+    .header {
+      top: var(--space-20);
+      padding-inline: var(--space-page-x);
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .header__bar {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 1024px) {
+    .header__bar {
+      width: auto;
+    }
+  }
+
+  .header__pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-8);
+    padding-left: var(--space-20);
+  }
+
+  .header__pill--desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .header__pill--desktop {
+      display: flex;
+      justify-content: normal;
+      gap: var(--space-40);
+      height: 71px;
+      padding-left: 22px;
+      width: fit-content;
+    }
+    .header__pill--mobile {
+      display: none;
+    }
+  }
+
+  .header__group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-20);
+  }
+
+  .header__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .header__divider {
+    width: 1px;
+    height: 22px;
+    background: var(--color-border-default);
+  }
+
+  .header__links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .header__link {
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    transition: color 0.15s ease;
+  }
+
+  .header__link:hover {
+    color: var(--color-accent-primary);
+    text-decoration: underline;
+  }
+
+  .header__phone-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-pill);
+    padding: 18px 30px;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+  }
+
+  .header__phone-btn:hover {
+    background: var(--color-accent-hover);
+  }
+
+  /* Мобильная пилюля */
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .header__icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+  }
+
+  .header__icon-btn--accent {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .header__icon-btn--accent:hover {
+    background: var(--color-accent-hover);
+  }
+
+  /* Полноэкранное мобильное меню */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--color-bg-page);
+    padding: var(--space-12) var(--space-12) var(--space-32);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    overflow-y: auto;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-menu {
+      display: none !important;
+    }
+  }
+
+  .mobile-menu__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-8);
+    padding-left: var(--space-20);
+    flex-shrink: 0;
+  }
+
+  .mobile-menu__close-icon {
+    transform: rotate(45deg);
+  }
+
+  .mobile-menu__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    padding-inline: var(--space-8);
+    flex: 1;
+  }
+
+  .mobile-menu__links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+    color: var(--color-text-primary);
+  }
+
+  .mobile-menu__contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin-top: auto;
+  }
+
+  .mobile-menu__eyebrow {
+    color: var(--color-accent-primary);
+  }
+
+  .mobile-menu__phone {
+    color: var(--color-text-primary);
+  }
+
+  .mobile-menu__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-top: var(--space-8);
+  }
+
+  .mobile-menu__address {
+    color: var(--color-text-secondary);
+  }
+
+  /* Кнопки (используются здесь локально; общий компонент Button.astro — при вёрстке Hero) */
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: var(--radius-pill);
+    padding-block: var(--space-16);
+    width: 100%;
+    text-align: center;
+  }
+
+  .button--dark {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .button--accent {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .button--accent:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .button--outline {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-default);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const closeBtn = document.getElementById('menu-close');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && closeBtn && menu) {
+    const open = () => {
+      menu.hidden = false;
+      document.body.style.overflow = 'hidden';
+      toggle.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      menu.hidden = true;
+      document.body.style.overflow = '';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    };
+
+    toggle.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    menu.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLElement && event.target.closest('a')) {
+        close();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !menu.hidden) {
+        close();
+      }
+    });
+  }
+</script>

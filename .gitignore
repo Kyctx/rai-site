@@ -1,0 +1,17 @@
+# Astro
+dist/
+.astro/
+
+# Зависимости
+node_modules/
+
+# Окружение и секреты
+.env
+.env.*
+!.env.example
+public/api/config.php
+
+# Служебное
+.DS_Store
+Thumbs.db
+*.log

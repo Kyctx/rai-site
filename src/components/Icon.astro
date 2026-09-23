@@ -1,0 +1,23 @@
+---
+// Иконка из public/icons/*.svg. Обводка наследует цвет текста (stroke="currentColor" уже в файле).
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+
+const filePath = path.resolve('public/icons', `${name}.svg`);
+const raw = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf-8') : '';
+// Убираем фиксированные width/height из файла — размер задаём снаружи через проп.
+const svg = raw
+  .replace(/\swidth="[^"]*"/, '')
+  .replace(/\sheight="[^"]*"/, '')
+  .replace('<svg', `<svg width="${size}" height="${size}" aria-hidden="true" focusable="false"${className ? ` class="${className}"` : ''}`);
+---
+
+<Fragment set:html={svg} />
