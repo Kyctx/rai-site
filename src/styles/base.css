@@ -1,80 +1,8 @@
 /*
-  Базовые стили «Рай»: шрифты, сброс, типографические классы.
+  Базовые стили «Рай»: сброс, типографические классы.
+  @font-face вынесен в Base.astro (пути к шрифтам зависят от BASE_URL — см. astro.config.mjs).
   Размеры текста берутся только отсюда — в секциях font-size не задаём (правило 2 в CLAUDE.md).
 */
-
-/* ===== Шрифты (локально, кириллица + латиница) ===== */
-
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-500-cyrillic.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-500-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
-}
-
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-400italic-cyrillic.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-400italic-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
-}
-
-/* Курсив 500 использует то же начертание, что и 400 (у Cormorant Garamond
-   один статический italic-файл на оба веса — см. public/fonts). */
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-400italic-cyrillic.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/cormorant-garamond-400italic-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
-}
-
-/* Onest — вариативный шрифт (ось wght покрывает 400–600 одним файлом) */
-@font-face {
-  font-family: "Onest";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/onest-variable-cyrillic.woff2") format("woff2-variations");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: "Onest";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/onest-variable-latin.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
-}
 
 /* ===== Сброс ===== */
 
