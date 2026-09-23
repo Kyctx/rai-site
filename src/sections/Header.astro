@@ -33,7 +33,7 @@ const telHref = `tel:${site.phone.tel}`;
           ))}
         </ul>
       </div>
-      <a href={telHref} class="header__phone-btn label-m" data-goal="call_click">
+      <a href={telHref} class="header__phone-btn pill-hover label-m" data-goal="call_click">
         <Icon name="phone" size={18} />
         {site.phone.display}
       </a>
@@ -45,12 +45,12 @@ const telHref = `tel:${site.phone.tel}`;
         <Logo width={53} />
       </a>
       <div class="header__actions">
-        <a href={telHref} class="header__icon-btn header__icon-btn--accent" aria-label="Позвонить" data-goal="call_click">
+        <a href={telHref} class="header__icon-btn header__icon-btn--accent pill-hover" aria-label="Позвонить" data-goal="call_click">
           <Icon name="phone" size={20} />
         </a>
         <button
           type="button"
-          class="header__icon-btn"
+          class="header__icon-btn pill-hover"
           id="menu-toggle"
           aria-label="Открыть меню"
           aria-expanded="false"
@@ -69,12 +69,12 @@ const telHref = `tel:${site.phone.tel}`;
         <Logo width={53} />
       </a>
       <div class="header__actions">
-        <a href={telHref} class="header__icon-btn header__icon-btn--accent" aria-label="Позвонить" data-goal="call_click">
+        <a href={telHref} class="header__icon-btn header__icon-btn--accent pill-hover" aria-label="Позвонить" data-goal="call_click">
           <Icon name="phone" size={20} />
         </a>
         <button
           type="button"
-          class="header__icon-btn"
+          class="header__icon-btn pill-hover"
           id="menu-close"
           aria-label="Закрыть меню"
         >
@@ -99,11 +99,11 @@ const telHref = `tel:${site.phone.tel}`;
         <p class="eyebrow mobile-menu__eyebrow">Круглосуточная линия</p>
         <a href={telHref} class="num-l mobile-menu__phone" data-goal="call_click">{site.phone.display}</a>
         <div class="mobile-menu__buttons">
-          <a href={telHref} class="button button--accent button--m" data-goal="call_click">
+          <a href={telHref} class="button button--accent pill-hover button--m" data-goal="call_click">
             <Icon name="phone" size={18} />
             <span class="label-m">Позвонить</span>
           </a>
-          <a href={`https://t.me/${site.messengers.telegram}`} class="button button--outline button--m">
+          <a href={`https://t.me/${site.messengers.telegram}`} class="button button--outline pill-hover button--m">
             <Icon name="message" size={18} />
             <span class="label-m">Написать в Telegram или MAX</span>
           </a>
@@ -238,11 +238,59 @@ const telHref = `tel:${site.phone.tel}`;
     border-radius: var(--radius-pill);
     padding: 18px 30px;
     white-space: nowrap;
-    transition: background-color 0.15s ease;
+  }
+
+  /* Анимация pill-кнопок: заливка кругом из центра + лёгкое увеличение + свечение
+     (по референсу пользователя, Uiverse.io by gharsh11032000) */
+  .pill-hover {
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    transition: scale 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
+  }
+
+  .pill-hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    aspect-ratio: 1;
+    width: 220%;
+    border-radius: 50%;
+    scale: 0;
+    z-index: -1;
+    transition: scale 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .pill-hover:hover::before {
+    scale: 1;
+  }
+
+  .pill-hover:hover {
+    scale: 1.05;
+  }
+
+  .pill-hover:active {
+    scale: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill-hover,
+    .pill-hover::before {
+      transition: none;
+    }
+    .pill-hover:hover {
+      scale: 1;
+    }
+  }
+
+  .header__phone-btn::before {
+    background-color: var(--color-accent-primary);
   }
 
   .header__phone-btn:hover {
-    background: var(--color-accent-hover);
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
   /* Мобильная пилюля */
@@ -264,13 +312,26 @@ const telHref = `tel:${site.phone.tel}`;
     flex-shrink: 0;
   }
 
+  .header__icon-btn::before {
+    background-color: var(--color-accent-soft);
+  }
+
+  .header__icon-btn:hover {
+    box-shadow: 0 0 16px rgba(86, 99, 75, 0.25);
+  }
+
   .header__icon-btn--accent {
     background: var(--color-accent-primary);
     color: var(--color-text-inverse);
   }
 
+  .header__icon-btn--accent::before {
+    background-color: var(--color-accent-hover);
+  }
+
   .header__icon-btn--accent:hover {
-    background: var(--color-accent-hover);
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
   /* Полноэкранное мобильное меню */
@@ -377,19 +438,43 @@ const telHref = `tel:${site.phone.tel}`;
     color: var(--color-text-inverse);
   }
 
+  .button--dark::before {
+    background-color: var(--color-accent-primary);
+  }
+
+  .button--dark:hover {
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+  }
+
   .button--accent {
     background: var(--color-accent-primary);
     color: var(--color-text-inverse);
   }
 
+  .button--accent::before {
+    background-color: var(--color-accent-hover);
+  }
+
   .button--accent:hover {
-    background: var(--color-accent-hover);
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
   .button--outline {
     background: transparent;
     color: var(--color-text-primary);
     border: 1px solid var(--color-border-default);
+  }
+
+  .button--outline::before {
+    background-color: var(--color-accent-primary);
+  }
+
+  .button--outline:hover {
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 </style>
 
