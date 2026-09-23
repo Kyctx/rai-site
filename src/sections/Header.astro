@@ -240,8 +240,8 @@ const telHref = `tel:${site.phone.tel}`;
     white-space: nowrap;
   }
 
-  /* Анимация pill-кнопок: заливка кругом из центра + лёгкое увеличение + свечение
-     (по референсу пользователя, Uiverse.io by gharsh11032000).
+  /* Анимация pill-кнопок: заливка кругом из центра + свечение
+     (по референсу пользователя, Uiverse.io by gharsh11032000; без scale самой кнопки).
      ::before — маленькая точка (50px) в центре кнопки, на hover она растёт через
      scale до множителя, которого хватает, чтобы дорасти до краёв конкретной
      кнопки (множитель задан отдельно для каждой — см. --pill-scale ниже). */
@@ -250,7 +250,7 @@ const telHref = `tel:${site.phone.tel}`;
     overflow: hidden;
     z-index: 0;
     --pill-scale: 3;
-    transition: scale 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
+    transition: box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
   }
 
   .pill-hover::before {
@@ -270,21 +270,10 @@ const telHref = `tel:${site.phone.tel}`;
     scale: var(--pill-scale);
   }
 
-  .pill-hover:hover {
-    scale: 1.05;
-  }
-
-  .pill-hover:active {
-    scale: 1;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .pill-hover,
     .pill-hover::before {
       transition: none;
-    }
-    .pill-hover:hover {
-      scale: 1;
     }
   }
 
