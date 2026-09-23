@@ -51,7 +51,6 @@ const iconSize = 20;
     position: relative;
     overflow: hidden;
     z-index: 0;
-    --pill-scale: 6;
     transition: box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease, border-color 0.3s ease;
   }
 
@@ -59,13 +58,18 @@ const iconSize = 20;
     flex-shrink: 0;
   }
 
+  /* Круг растёт из точки в центре кнопки. Размер задан в % от самой кнопки
+     (не фиксированным px), поэтому при любой ширине кнопки — хоть узкой,
+     хоть растянутой на широком экране — заливка всегда доходит до краёв:
+     scale(0) сжимает круг любого стартового размера в точку, а на hover
+     300% диагонали с запасом перекрывает даже вытянутый прямоугольник. */
   .btn::before {
     content: '';
     position: absolute;
     inset: 0;
     margin: auto;
-    width: 50px;
-    height: 50px;
+    width: 300%;
+    aspect-ratio: 1;
     border-radius: 50%;
     scale: 0;
     z-index: -1;
@@ -73,7 +77,7 @@ const iconSize = 20;
   }
 
   .btn:hover::before {
-    scale: var(--pill-scale);
+    scale: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
