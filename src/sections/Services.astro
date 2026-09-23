@@ -275,7 +275,8 @@ const services = [
       height: auto;
       padding: var(--space-24);
       border-radius: 20px 20px 0 0;
-      border-bottom: none;
+      border: none;
+      background: var(--color-bg-secondary);
     }
   }
 
@@ -285,8 +286,25 @@ const services = [
     color: var(--color-text-inverse);
   }
 
+  @media (min-width: 1024px) {
+    .services__tab--active {
+      background: var(--color-bg-surface);
+      color: var(--color-text-primary);
+    }
+
+    .services__tab:not(.services__tab--active) .services__tab-title {
+      opacity: 0.75;
+    }
+  }
+
   .services__tab:not(.services__tab--active):hover {
     border-color: var(--color-accent-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .services__tab:not(.services__tab--active):hover {
+      background: var(--color-border-default);
+    }
   }
 
   .services__tab-title {
@@ -312,6 +330,12 @@ const services = [
 
   .services__tab--active .services__tab-price {
     color: var(--color-accent-soft);
+  }
+
+  @media (min-width: 1024px) {
+    .services__tab--active .services__tab-price {
+      color: var(--color-accent-primary);
+    }
   }
 
   /* ===== Панель ===== */
@@ -388,6 +412,12 @@ const services = [
     border-radius: 50%;
     background: var(--color-accent-primary);
     flex-shrink: 0;
+  }
+
+  /* Первый шаг — текущий этап: точка залита; остальные — контур */
+  .services__step:not(:first-child) .services__step-rail::before {
+    background: var(--color-bg-surface);
+    border: 1.5px solid var(--color-accent-primary);
   }
 
   .services__step-rail::after {
