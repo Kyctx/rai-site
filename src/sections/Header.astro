@@ -241,12 +241,16 @@ const telHref = `tel:${site.phone.tel}`;
   }
 
   /* Анимация pill-кнопок: заливка кругом из центра + лёгкое увеличение + свечение
-     (по референсу пользователя, Uiverse.io by gharsh11032000) */
+     (по референсу пользователя, Uiverse.io by gharsh11032000).
+     ::before — маленькая точка (50px) в центре кнопки, на hover она растёт через
+     scale до множителя, которого хватает, чтобы дорасти до краёв конкретной
+     кнопки (множитель задан отдельно для каждой — см. --pill-scale ниже). */
   .pill-hover {
     position: relative;
     overflow: hidden;
     z-index: 0;
-    transition: scale 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
+    --pill-scale: 3;
+    transition: scale 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
   }
 
   .pill-hover::before {
@@ -254,8 +258,8 @@ const telHref = `tel:${site.phone.tel}`;
     position: absolute;
     inset: 0;
     margin: auto;
-    aspect-ratio: 1;
-    width: 220%;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     scale: 0;
     z-index: -1;
@@ -263,7 +267,7 @@ const telHref = `tel:${site.phone.tel}`;
   }
 
   .pill-hover:hover::before {
-    scale: 1;
+    scale: var(--pill-scale);
   }
 
   .pill-hover:hover {
@@ -286,6 +290,10 @@ const telHref = `tel:${site.phone.tel}`;
 
   .header__phone-btn::before {
     background-color: var(--color-accent-primary);
+  }
+
+  .header__phone-btn {
+    --pill-scale: 5;
   }
 
   .header__phone-btn:hover {
@@ -431,6 +439,7 @@ const telHref = `tel:${site.phone.tel}`;
     padding-block: var(--space-16);
     width: 100%;
     text-align: center;
+    --pill-scale: 7;
   }
 
   .button--dark {
