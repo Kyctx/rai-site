@@ -1,0 +1,571 @@
+---
+// 02 · Services — Услуги. Desktop 198:2659, mobile 214:3721.
+// 4 вкладки переключают панель: слева таймлайн «Как пройдёт», справа карточка
+// с ценой и составом. На mobile вкладки — плитки 2×2, «Как пройдёт» — аккордеон.
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import prices from '@data/prices.json';
+
+const priceById: Record<string, (typeof prices.services)[number]> = Object.fromEntries(
+  prices.services.map((s) => [s.id, s])
+);
+const benefit = prices.benefit.display;
+const priceOf = (id: string) => priceById[id]?.from ?? 0;
+const transportPerKm = prices.services.find((s) => s.id === 'transport')?.fromPerKm ?? 0;
+
+// Контент панели — данные конкретной секции (таймлайн и состав), в prices/site.json им не место.
+// Тексты и цены услуги «Погребение» — из макета Figma (198:2659); для «Кремации», «Перевозки»
+// и «Памятника» макет ещё не проработан (см. rai-handoff.md) — состав ниже собран по аналогии.
+const services = [
+  {
+    id: 'burial',
+    tabTitle: 'Погребение',
+    price: priceOf('burial'),
+    priceNote: `с пособием — от ${(priceOf('burial') - benefit).toLocaleString('ru-RU')} ₽`,
+    panelTitle: 'Погребение',
+    description: 'Традиционное прощание и захоронение на кладбище Нижнего Новгорода или области.',
+    timelineTitle: 'Как пройдёт погребение',
+    timelineSubtitle: '5 шагов — от звонка до поминок',
+    steps: [
+      { title: 'Сразу после звонка', text: 'Агент приезжает и забирает заботы о документах' },
+      { title: 'В первый день', text: 'Выбираем место на кладбище, гроб и зал — смета при вас' },
+      { title: '1–2 дня', text: 'Готовим всё к прощанию, докладываем о каждом шаге' },
+      { title: 'День прощания', text: 'Катафалк, автобус для близких, прощание и погребение' },
+      { title: 'После', text: `Оформляем пособие ${benefit.toLocaleString('ru-RU')} ₽, помогаем с поминками и памятником` },
+    ],
+    includes: [
+      'Место на кладбище и все бумаги',
+      'Гроб, венки и всё необходимое',
+      'Катафалк и автобус для близких',
+      'Прощание в зале или на кладбище',
+    ],
+    buttonLabel: 'Рассчитать погребение',
+  },
+  {
+    id: 'cremation',
+    tabTitle: 'Кремация',
+    price: priceOf('cremation'),
+    priceNote: `с пособием — от ${(priceOf('cremation') - benefit).toLocaleString('ru-RU')} ₽`,
+    panelTitle: 'Кремация',
+    description: 'Прощание и кремация в крематории Нижнего Новгорода, урну передаём родным или помогаем с захоронением в колумбарии.',
+    timelineTitle: 'Как пройдёт кремация',
+    timelineSubtitle: '5 шагов — от звонка до урны',
+    steps: [
+      { title: 'Сразу после звонка', text: 'Агент приезжает и забирает заботы о документах' },
+      { title: 'В первый день', text: 'Выбираем зал прощания, гроб и время кремации — смета при вас' },
+      { title: '1–2 дня', text: 'Готовим всё к прощанию, докладываем о каждом шаге' },
+      { title: 'День прощания', text: 'Катафалк, автобус для близких, прощание и кремация' },
+      { title: 'После', text: `Оформляем пособие ${benefit.toLocaleString('ru-RU')} ₽, передаём урну и помогаем с захоронением` },
+    ],
+    includes: [
+      'Кремация и урна',
+      'Гроб, венки и всё необходимое',
+      'Катафалк и автобус для близких',
+      'Прощание в зале крематория',
+    ],
+    buttonLabel: 'Рассчитать кремацию',
+  },
+  {
+    id: 'transport',
+    tabTitle: 'Перевозка',
+    price: null,
+    priceNote: null,
+    panelTitle: 'Перевозка',
+    description: 'Организуем транспортировку тела из другого города или региона — оформление, машина и сопровождение до Нижнего Новгорода.',
+    timelineTitle: 'Как пройдёт перевозка',
+    timelineSubtitle: '4 шага — от звонка до прибытия',
+    steps: [
+      { title: 'Сразу после звонка', text: 'Агент берёт на себя оформление документов на перевозку' },
+      { title: 'В первый день', text: 'Согласовываем маршрут, транспорт и сроки — смета при вас' },
+      { title: 'В пути', text: 'Сопровождаем груз, держим вас в курсе на каждом этапе' },
+      { title: 'По прибытии', text: 'Встречаем в Нижнем Новгороде и продолжаем организацию похорон' },
+    ],
+    includes: [
+      'Оформление всех документов',
+      'Специальный транспорт и бригада',
+      'Сопровождение на всём пути',
+      'Встреча и хранение по прибытии',
+    ],
+    buttonLabel: 'Рассчитать перевозку',
+  },
+  {
+    id: 'monument',
+    tabTitle: 'Памятник и уход',
+    price: priceOf('monument'),
+    priceNote: null,
+    panelTitle: 'Памятник и уход',
+    description: 'Изготовим и установим памятник, благоустроим место захоронения и возьмём на себя регулярный уход за могилой.',
+    timelineTitle: 'Как пройдёт установка',
+    timelineSubtitle: '4 шага — от заказа до ухода',
+    steps: [
+      { title: 'Консультация', text: 'Агент поможет выбрать памятник и материал, покажет образцы' },
+      { title: 'Изготовление', text: 'Готовим памятник и гравировку — смета при вас' },
+      { title: 'Установка', text: 'Устанавливаем памятник и благоустраиваем место' },
+      { title: 'После', text: 'По желанию берём место на регулярный уход' },
+    ],
+    includes: [
+      'Памятник, цоколь и гравировка',
+      'Доставка и установка',
+      'Благоустройство места',
+      'Уход за могилой по желанию',
+    ],
+    buttonLabel: 'Рассчитать памятник',
+  },
+];
+---
+
+<section id="services" aria-labelledby="services-title" class="section services">
+  <div class="container services__inner">
+    <div class="services__header">
+      <p class="eyebrow">Чем мы помогаем</p>
+      <h2 id="services-title" class="h2">
+        Выберите, с чем помочь, — покажем, <em>как всё пройдёт</em>
+      </h2>
+    </div>
+
+    <div class="services__body">
+      <div role="tablist" aria-label="Услуги" class="services__tabs">
+        {services.map((s, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`services-tab-${s.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            aria-controls={`services-panel-${s.id}`}
+            tabindex={i === 0 ? 0 : -1}
+            class:list={['services__tab', { 'services__tab--active': i === 0 }]}
+          >
+            <span class="h4 services__tab-title">{s.tabTitle}</span>
+            {s.id === 'transport' ? (
+              <>
+                <span class="body-s services__tab-price services__tab-price--desktop">из другого города — от {transportPerKm} ₽/км</span>
+                <span class="body-s services__tab-price services__tab-price--mobile">от {transportPerKm} ₽/км</span>
+              </>
+            ) : (
+              <span class="body-s services__tab-price">от {s.price?.toLocaleString('ru-RU')} ₽</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      <div class="services__panels">
+        {services.map((s, i) => (
+          <div
+            id={`services-panel-${s.id}`}
+            role="tabpanel"
+            aria-labelledby={`services-tab-${s.id}`}
+            class="services__panel"
+            hidden={i !== 0}
+          >
+            <div class="services__timeline">
+              <p class="label-m services__timeline-title">{s.timelineTitle}</p>
+              <ol class="services__steps">
+                {s.steps.map((step) => (
+                  <li class="services__step">
+                    <span class="services__step-rail" aria-hidden="true"></span>
+                    <div class="services__step-body">
+                      <p class="label-m">{step.title}</p>
+                      <p class="body-s services__step-text">{step.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div class="services__summary">
+              <p class="h3 services__summary-title">{s.panelTitle}</p>
+              <p class="body-m services__summary-text">{s.description}</p>
+              <div class="services__price">
+                <p class="num-l services__price-value">
+                  {s.id === 'transport'
+                    ? `от ${transportPerKm} ₽/км`
+                    : `от ${s.price?.toLocaleString('ru-RU')} ₽`}
+                </p>
+                {s.priceNote && <p class="body-s-strong services__price-note">{s.priceNote}</p>}
+              </div>
+              <ul class="services__includes">
+                {s.includes.map((item) => (
+                  <li class="services__include">
+                    <Icon name="check" size={16} class="services__include-icon" />
+                    <span class="body-s">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button variant="primary" size="m" icon="arrow" href="#calculator" class="services__cta">
+                {s.buttonLabel}
+              </Button>
+            </div>
+
+            <details class="services__accordion">
+              <summary class="services__accordion-summary">
+                <span class="services__accordion-text">
+                  <span class="label-m">{s.timelineTitle}</span>
+                  <span class="body-s services__accordion-sub">{s.timelineSubtitle}</span>
+                </span>
+                <span class="services__accordion-icon" aria-hidden="true"><Icon name="chevron" size={16} /></span>
+              </summary>
+              <ol class="services__steps services__steps--accordion">
+                {s.steps.map((step) => (
+                  <li class="services__step">
+                    <span class="services__step-rail" aria-hidden="true"></span>
+                    <div class="services__step-body">
+                      <p class="label-m">{step.title}</p>
+                      <p class="body-s services__step-text">{step.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section-header-gap);
+  }
+
+  .services__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .services__header .h2 {
+    max-width: 820px;
+  }
+
+  /* ===== Вкладки ===== */
+
+  .services__tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .services__tabs {
+      grid-template-columns: repeat(4, 1fr);
+      align-items: end;
+      gap: var(--space-12);
+    }
+  }
+
+  .services__tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-8);
+    height: 102px;
+    padding: var(--space-16);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    text-align: left;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .services__tab {
+      height: auto;
+      padding: var(--space-24);
+      border-radius: 20px 20px 0 0;
+      border-bottom: none;
+    }
+  }
+
+  .services__tab--active {
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .services__tab:not(.services__tab--active):hover {
+    border-color: var(--color-accent-primary);
+  }
+
+  .services__tab-title {
+    color: inherit;
+  }
+
+  .services__tab-price {
+    color: var(--color-text-secondary);
+  }
+
+  .services__tab-price--desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .services__tab-price--desktop {
+      display: inline;
+    }
+    .services__tab-price--mobile {
+      display: none;
+    }
+  }
+
+  .services__tab--active .services__tab-price {
+    color: var(--color-accent-soft);
+  }
+
+  /* ===== Панель ===== */
+
+  .services__panels {
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .services__panels {
+      border-radius: 0 20px 20px 20px;
+    }
+  }
+
+  .services__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .services__panel[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .services__panel {
+      flex-direction: row;
+      gap: var(--space-80);
+      padding: var(--space-48);
+    }
+  }
+
+  /* Таймлайн — на desktop виден сразу, на mobile спрятан в аккордеон */
+  .services__timeline {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .services__timeline {
+      display: block;
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  .services__timeline-title {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-20);
+  }
+
+  .services__steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .services__step {
+    display: flex;
+    gap: var(--space-20);
+  }
+
+  .services__step-rail {
+    flex-shrink: 0;
+    width: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .services__step-rail::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-accent-primary);
+    flex-shrink: 0;
+  }
+
+  .services__step-rail::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    bottom: -20px;
+    width: 2px;
+    background: var(--color-border-default);
+  }
+
+  .services__step:last-child .services__step-rail::after {
+    display: none;
+  }
+
+  .services__step-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-bottom: var(--space-20);
+  }
+
+  .services__step-text {
+    color: var(--color-text-secondary);
+  }
+
+  /* ===== Карточка-итог ===== */
+
+  .services__summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-20);
+    padding: var(--space-20);
+    background: var(--color-bg-page);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .services__summary {
+      padding: var(--space-32);
+      width: 420px;
+      flex-shrink: 0;
+    }
+  }
+
+  .services__summary-text {
+    color: var(--color-text-secondary);
+  }
+
+  .services__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-16);
+  }
+
+  .services__price-note {
+    color: var(--color-accent-primary);
+  }
+
+  .services__includes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+  }
+
+  .services__include {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  .services__include-icon {
+    flex-shrink: 0;
+    color: var(--color-accent-primary);
+  }
+
+  .services__cta {
+    width: 100%;
+  }
+
+  /* ===== Аккордеон «Как пройдёт» (mobile) ===== */
+
+  .services__accordion {
+    padding: var(--space-16) var(--space-20);
+  }
+
+  @media (min-width: 1024px) {
+    .services__accordion {
+      display: none;
+    }
+  }
+
+  .services__accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+    padding-block: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .services__accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .services__accordion-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .services__accordion-sub {
+    color: var(--color-text-secondary);
+  }
+
+  .services__accordion-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .services__accordion[open] .services__accordion-icon {
+    transform: rotate(180deg);
+  }
+
+  .services__steps--accordion {
+    padding-top: var(--space-20);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .services__tab,
+    .services__accordion-icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector('.services');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        tab.classList.toggle('services__tab--active', selected);
+      });
+      panels.forEach((p, i) => {
+        p.hidden = i !== index;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (key === 'ArrowRight' || key === 'ArrowLeft') {
+          event.preventDefault();
+          const dir = key === 'ArrowRight' ? 1 : -1;
+          const next = (index + dir + tabs.length) % tabs.length;
+          activate(next, true);
+        }
+      });
+    });
+  }
+</script>
