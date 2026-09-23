@@ -242,10 +242,10 @@ const telHref = `tel:${site.phone.tel}`;
 
   /* Анимация pill-кнопок: заливка кругом из центра + свечение
      (по референсу пользователя, Uiverse.io by gharsh11032000; без scale самой кнопки).
-     Размер круга — в % от самой кнопки (не фиксированный px), поэтому заливка
-     всегда доходит до краёв независимо от ширины кнопки на любом экране:
-     scale(0) сжимает круг в точку, на hover 300% диагонали перекрывает
-     даже растянутую широкую кнопку с запасом. */
+     ::before — эллипс, вписанный ровно в прямоугольник кнопки (inset: 0,
+     без фиксированной ширины/aspect-ratio) — форма всегда подобна самой
+     кнопке на любой её ширине. scale(0) стягивает его в точку в центре,
+     scale(3) на hover раскрывает с запасом до дальних углов. */
   .pill-hover {
     position: relative;
     overflow: hidden;
@@ -257,9 +257,6 @@ const telHref = `tel:${site.phone.tel}`;
     content: '';
     position: absolute;
     inset: 0;
-    margin: auto;
-    width: 300%;
-    aspect-ratio: 1;
     border-radius: 50%;
     scale: 0;
     z-index: -1;
@@ -267,7 +264,7 @@ const telHref = `tel:${site.phone.tel}`;
   }
 
   .pill-hover:hover::before {
-    scale: 1;
+    scale: 3;
   }
 
   @media (prefers-reduced-motion: reduce) {
