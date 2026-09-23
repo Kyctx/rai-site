@@ -198,12 +198,35 @@ const telHref = `tel:${site.phone.tel}`;
   .header__link {
     color: var(--color-text-primary);
     white-space: nowrap;
+    position: relative;
     transition: color 0.15s ease;
+  }
+
+  .header__link::before {
+    content: '';
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-primary);
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transition: width 0.3s ease, left 0.3s ease;
   }
 
   .header__link:hover {
     color: var(--color-accent-primary);
-    text-decoration: underline;
+  }
+
+  .header__link:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header__link::before {
+      transition: none;
+    }
   }
 
   .header__phone-btn {
