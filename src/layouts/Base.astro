@@ -85,19 +85,6 @@ const fontFaceCss = `
     src: url("${font('onest-variable-latin.woff2')}") format("woff2-variations");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
   }
-  /* В файлах Cormorant Garamond нет глифа ₽ (U+20BD) — без явного unicode-range
-     браузер (особенно на Windows) рисует его отсутствующим прямоугольником вместо
-     тихого перехода к следующему шрифту в font-family. Подменяем только этот
-     символ на системный serif с поддержкой рубля — форма близка, разрыва стиля
-     не видно. */
-  @font-face {
-    font-family: "Cormorant Garamond";
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: local("Georgia"), local("Times New Roman"), local("PT Serif");
-    unicode-range: U+20BD;
-  }
 `;
 ---
 

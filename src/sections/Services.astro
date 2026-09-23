@@ -177,9 +177,11 @@ const services = [
               <p class="body-m services__summary-text">{s.description}</p>
               <div class="services__price">
                 <p class="h3 services__price-value">
-                  {s.id === 'transport'
-                    ? `от ${transportPerKm} ₽/км`
-                    : `от ${s.price?.toLocaleString('ru-RU')} ₽`}
+                  {s.id === 'transport' ? (
+                    <>от {transportPerKm} <span class="rub">₽</span>/км</>
+                  ) : (
+                    <>от {s.price?.toLocaleString('ru-RU')} <span class="rub">₽</span></>
+                  )}
                 </p>
                 {s.priceNote && <p class="body-s-strong services__price-note">{s.priceNote}</p>}
               </div>

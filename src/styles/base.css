@@ -243,3 +243,11 @@ input, textarea, select {
   font-size: var(--fs-label-s);
   line-height: var(--lh-label-s);
 }
+
+/* В шрифте Cormorant Garamond нет глифа ₽ — без этого класса символ рубля
+   в ценах (.h3, .num-l, .num-xl) рисуется как отсутствующий глиф.
+   Оборачивать знак рубля в цифровых стилях: <span class="rub">₽</span>. */
+.rub {
+  font-family: var(--font-sans);
+  margin-left: 0.15em;
+}
