@@ -1,0 +1,58 @@
+---
+// Вкладка (UI Kit «Рай»): State Active/Default. Используется в группах role="tablist".
+// compact — уменьшенные паддинги и 14px текст для мобильных мест с тремя+ вкладками в ряд
+// (например, ситуации в Hero, см. rai-handoff.md 5a).
+interface Props {
+  active?: boolean;
+  compact?: boolean;
+  id: string;
+  controls: string;
+  class?: string;
+}
+
+const { active = false, compact = false, id, controls, class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  role="tab"
+  id={id}
+  aria-selected={active ? 'true' : 'false'}
+  aria-controls={controls}
+  tabindex={active ? 0 : -1}
+  class:list={['tab', 'label-m', { 'tab--active': active, 'tab--compact': compact }, className]}
+>
+  <slot />
+</button>
+
+<style>
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-12) var(--space-20);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-default);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .tab--active {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+
+  .tab--compact {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    .tab--compact {
+      padding: var(--space-12) var(--space-20);
+      font-size: var(--fs-label-m);
+    }
+  }
+</style>

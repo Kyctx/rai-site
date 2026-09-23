@@ -2,6 +2,7 @@
 // Главная страница. Секции подключаются по мере вёрстки (см. таблицу в CLAUDE.md).
 import Base from '@layouts/Base.astro';
 import Header from '@sections/Header.astro';
+import Hero from '@sections/Hero.astro';
 ---
 
 <Base title="Рай — ритуальные услуги в Нижнем Новгороде" description="Круглосуточная ритуальная служба: организация похорон, кремация, перевозка, памятники. Приедем в течение часа.">
@@ -10,6 +11,7 @@ import Header from '@sections/Header.astro';
   </Fragment>
 
   <div id="top"></div>
+  <Hero />
   <p class="container body-m" style="padding-block: var(--space-96);">
     Остальные секции главной страницы будут добавлены по одной (см. таблицу секций в CLAUDE.md).
   </p>

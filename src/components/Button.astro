@@ -1,0 +1,147 @@
+---
+// Кнопка (UI Kit «Рай»): variant Primary/Dark/Outline/Soft, size M/L.
+// Primary — основное действие, остальные — второстепенные (см. описание компонента в Figma).
+import Icon from '@components/Icon.astro';
+
+interface Props {
+  variant?: 'primary' | 'dark' | 'outline' | 'soft';
+  size?: 'm' | 'l';
+  icon?: string;
+  iconPosition?: 'start' | 'end';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  [key: `data-${string}`]: string | undefined;
+}
+
+const {
+  variant = 'primary',
+  size = 'm',
+  icon,
+  iconPosition = 'end',
+  href,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const iconSize = size === 'l' ? 20 : 18;
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, 'pill-hover', className]}
+  {...rest}
+>
+  {icon && iconPosition === 'start' && <Icon name={icon} size={iconSize} />}
+  <span class="label-m"><slot /></span>
+  {icon && iconPosition === 'end' && <Icon name={icon} size={iconSize} />}
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-12);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    --pill-scale: 6;
+    transition: box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    scale: 0;
+    z-index: -1;
+    transition: scale 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .btn:hover::before {
+    scale: var(--pill-scale);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn::before {
+      transition: none;
+    }
+  }
+
+  .btn--m {
+    padding: var(--space-16) var(--space-32);
+  }
+
+  .btn--l {
+    padding: var(--space-20) var(--space-40);
+  }
+
+  .btn--primary {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--primary::before {
+    background-color: var(--color-accent-hover);
+  }
+
+  .btn--primary:hover {
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+  }
+
+  .btn--dark {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--dark::before {
+    background-color: var(--color-accent-primary);
+  }
+
+  .btn--dark:hover {
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+  }
+
+  .btn--outline {
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-default);
+  }
+
+  .btn--outline::before {
+    background-color: var(--color-accent-primary);
+  }
+
+  .btn--outline:hover {
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+  }
+
+  .btn--soft {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-primary);
+  }
+
+  .btn--soft::before {
+    background-color: var(--color-accent-primary);
+  }
+
+  .btn--soft:hover {
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+  }
+</style>

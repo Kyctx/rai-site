@@ -81,7 +81,10 @@ input, textarea, select {
 /* ===== Контейнер и секции ===== */
 
 .container {
-  max-width: var(--container-max);
+  /* Контентная область — ровно 1200px (не считая полей): раз box-sizing: border-box
+     включает padding в width, max-width должен быть шире контента на 2×поля,
+     иначе на 1440px экране контент внутри контейнера окажется уже 1200px. */
+  max-width: calc(var(--container-max) + var(--space-page-x) * 2);
   margin-inline: auto;
   padding-inline: var(--space-page-x);
 }

@@ -1,0 +1,496 @@
+---
+// 01 · Hero — первый экран. Desktop 198:2611, mobile 214:3673.
+// Слева обещание и кнопки, справа (на mobile — под контентом) — три первых шага,
+// переключаемые вкладками «Дома / В больнице / В другом городе».
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import Tab from '@components/Tab.astro';
+import prices from '@data/prices.json';
+
+const price = prices.services.find((s) => s.id === 'burial')?.from ?? 0;
+
+// Шаги по ситуациям — данные конкретной секции, в prices/site.json им не место.
+const situations = [
+  {
+    id: 'home',
+    label: 'Дома',
+    labelMobile: 'Дома',
+    steps: [
+      { title: 'Позвоните 112', text: 'Врач скорой констатирует смерть, полиция оформит протокол.' },
+      { title: 'Позвоните нам', text: 'Агент приедет в течение часа и организует перевозку в морг.' },
+      { title: 'Найдите документы', text: 'Паспорт умершего, ваш паспорт, полис ОМС, медкарта.' },
+    ],
+  },
+  {
+    id: 'hospital',
+    label: 'В больнице',
+    labelMobile: 'Больница',
+    steps: [
+      { title: 'Сообщите врачу', text: 'Персонал больницы констатирует смерть и оформит документы.' },
+      { title: 'Позвоните нам', text: 'Агент приедет в течение часа и заберёт тело из морга больницы.' },
+      { title: 'Найдите документы', text: 'Паспорт умершего, ваш паспорт, полис ОМС, медкарта.' },
+    ],
+  },
+  {
+    id: 'other-city',
+    label: 'В другом городе',
+    labelMobile: 'Другой город',
+    steps: [
+      { title: 'Вызовите скорую', text: 'Врач на месте констатирует смерть и оформит протокол.' },
+      { title: 'Позвоните нам', text: 'Организуем перевозку груза 200 в ваш город — берём это на себя.' },
+      { title: 'Найдите документы', text: 'Паспорт умершего, ваш паспорт, полис ОМС, медкарта.' },
+    ],
+  },
+];
+
+const facts = [
+  { icon: 'wallet', title: `от ${price.toLocaleString('ru-RU')} ₽`, subtitle: 'до вычета пособия' },
+  { icon: 'clock', title: '60 минут', subtitle: 'до приезда, 24/7' },
+  { icon: 'shield', title: 'Оплата после', subtitle: 'рассрочка 0%' },
+];
+---
+
+<section id="hero" aria-labelledby="hero-title" class="hero">
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <span class="hero__status body-s">
+        <span class="hero__status-dot" aria-hidden="true"></span>
+        На связи сейчас · агент приедет в течение часа
+      </span>
+
+      <h1 id="hero-title" class="h1">
+        Близкий человек умер? Поможем <em>с первой минуты</em>
+      </h1>
+
+      <p class="body-l hero__lead">
+        Подскажем, что делать прямо сейчас, приедем в течение часа и возьмём на себя документы, организацию и транспорт.
+      </p>
+
+      <div class="hero__buttons">
+        <Button variant="primary" size="l" icon="arrow" data-goal="call_click">Вызвать агента бесплатно</Button>
+        <Button variant="outline" size="l" icon="calc" href="#calculator">Рассчитать стоимость</Button>
+      </div>
+
+      <div class="hero__facts" role="list">
+        <div class="hero__facts-track">
+          {facts.map((fact) => (
+            <div class="hero__fact" role="listitem">
+              <span class="hero__fact-icon"><Icon name={fact.icon} size={24} /></span>
+              <span class="hero__fact-text">
+                <span class="label-m">{fact.title}</span>
+                <span class="body-s">{fact.subtitle}</span>
+              </span>
+            </div>
+          ))}
+          {/* Дубль для мобильной бегущей ленты (aria-hidden, см. rai-handoff 5a) */}
+          {facts.map((fact) => (
+            <div class="hero__fact hero__fact--clone" role="presentation" aria-hidden="true">
+              <span class="hero__fact-icon"><Icon name={fact.icon} size={24} /></span>
+              <span class="hero__fact-text">
+                <span class="label-m">{fact.title}</span>
+                <span class="body-s">{fact.subtitle}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__panel">
+      <div class="hero__panel-header">
+        <p class="label-s hero__panel-eyebrow">Если это случилось сейчас</p>
+        <div role="tablist" aria-label="Ситуация" class="hero__tabs">
+          {situations.map((s, i) => (
+            <Tab id={`hero-tab-${s.id}`} controls={`hero-panel-${s.id}`} active={i === 0} compact class="hero__tab">
+              <span class="hero__tab-label-desktop">{s.label}</span>
+              <span class="hero__tab-label-mobile">{s.labelMobile}</span>
+            </Tab>
+          ))}
+        </div>
+      </div>
+
+      {situations.map((s, i) => (
+        <div
+          id={`hero-panel-${s.id}`}
+          role="tabpanel"
+          aria-labelledby={`hero-tab-${s.id}`}
+          class="hero__steps"
+          hidden={i !== 0}
+        >
+          {s.steps.map((step, stepIndex) => (
+            <div class="hero__step">
+              <span class="num-step hero__step-number">{stepIndex + 1}</span>
+              <div class="hero__step-body">
+                <p class="title">{step.title}</p>
+                <p class="body-m hero__step-text">{step.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <a href="/guide/pamyatka.pdf" class="hero__memo" data-goal="guide_open">
+        <span class="hero__memo-left">
+          <span class="hero__memo-icon"><Icon name="file" size={20} /></span>
+          <span class="hero__memo-text">
+            <span class="title">Скачать памятку</span>
+            <span class="body-s hero__memo-sub">Что делать в первые 3 дня · PDF, 2 страницы</span>
+          </span>
+        </span>
+        <span class="hero__memo-arrow"><Icon name="arrow" size={22} /></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-section-y);
+  }
+
+  .hero__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+
+  @media (min-width: 1024px) {
+    .hero__grid {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-64);
+    }
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-24);
+  }
+
+  @media (min-width: 1024px) {
+    .hero__content {
+      gap: var(--space-32);
+      width: 600px;
+      flex-shrink: 0;
+    }
+  }
+
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-primary);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__status {
+      padding: var(--space-8) var(--space-16);
+    }
+  }
+
+  .hero__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent-primary);
+    flex-shrink: 0;
+  }
+
+  .hero__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .hero__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+  }
+
+  .hero__buttons :global(.btn) {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__buttons {
+      flex-direction: row;
+      align-items: flex-start;
+      width: auto;
+    }
+    .hero__buttons :global(.btn) {
+      width: auto;
+    }
+  }
+
+  /* Facts: mobile — бегущая лента, desktop — статичная строка в 3 колонки */
+  .hero__facts {
+    width: 100%;
+    border-top: 1px solid var(--color-border-default);
+    padding-top: var(--space-20);
+    overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__facts {
+      padding-top: var(--space-32);
+    }
+  }
+
+  .hero__facts-track {
+    display: flex;
+    gap: var(--space-16);
+    width: max-content;
+    animation: hero-facts-scroll 16s linear infinite;
+  }
+
+  .hero__facts:hover .hero__facts-track,
+  .hero__facts:focus-within .hero__facts-track {
+    animation-play-state: paused;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__facts-track {
+      width: 100%;
+      animation: none;
+    }
+    .hero__fact.hero__fact--clone {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__facts-track {
+      animation: none;
+      overflow-x: auto;
+    }
+  }
+
+  @keyframes hero-facts-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .hero__fact {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+    width: 210px;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__fact {
+      flex: 1;
+      width: auto;
+    }
+  }
+
+  .hero__fact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-primary);
+    flex-shrink: 0;
+  }
+
+  .hero__fact-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--color-text-primary);
+  }
+
+  .hero__fact-text .body-s {
+    color: var(--color-text-secondary);
+  }
+
+  /* Панель "Первые шаги" */
+  .hero__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-24);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__panel {
+      padding: var(--space-40);
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  .hero__panel-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .hero__panel-eyebrow {
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+  }
+
+  .hero__tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__tabs {
+      gap: var(--space-8);
+    }
+  }
+
+  .hero__tab-label-desktop {
+    display: none;
+  }
+
+  .hero__tab-label-mobile {
+    display: inline;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__tab-label-desktop {
+      display: inline;
+    }
+    .hero__tab-label-mobile {
+      display: none;
+    }
+  }
+
+  .hero__steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__steps[hidden] {
+    display: none;
+  }
+
+  .hero__step {
+    display: flex;
+    gap: var(--space-20);
+    padding-block: var(--space-20);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .hero__step:first-child {
+    border-top: none;
+  }
+
+  .hero__step-number {
+    color: var(--color-accent-primary);
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .hero__step-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .hero__step-text {
+    color: var(--color-text-secondary);
+  }
+
+  .hero__memo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    background: var(--color-bg-page);
+    border-radius: var(--radius-md);
+    padding: var(--space-20);
+    color: inherit;
+  }
+
+  .hero__memo-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    min-width: 0;
+  }
+
+  .hero__memo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    flex-shrink: 0;
+  }
+
+  .hero__memo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .hero__memo-sub {
+    color: var(--color-text-secondary);
+  }
+
+  .hero__memo-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transform: rotate(90deg);
+    color: var(--color-text-primary);
+  }
+</style>
+
+<script>
+  const panel = document.querySelector('.hero__panel');
+  if (panel) {
+    const tabs = Array.from(panel.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(panel.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        tab.classList.toggle('tab--active', selected);
+      });
+      panels.forEach((p, i) => {
+        p.hidden = i !== index;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (key === 'ArrowRight' || key === 'ArrowLeft') {
+          event.preventDefault();
+          const dir = key === 'ArrowRight' ? 1 : -1;
+          const next = (index + dir + tabs.length) % tabs.length;
+          activate(next, true);
+        }
+      });
+    });
+  }
+</script>
