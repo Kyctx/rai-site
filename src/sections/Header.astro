@@ -56,7 +56,11 @@ const telHref = `tel:${site.phone.tel}`;
           aria-expanded="false"
           aria-controls="mobile-menu"
         >
-          <Icon name="menu" size={20} />
+          <svg class="menu-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+            <line class="menu-icon__line menu-icon__line--top" x1="2.5" y1="6" x2="17.5" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line class="menu-icon__line menu-icon__line--mid" x1="2.5" y1="10" x2="17.5" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line class="menu-icon__line menu-icon__line--bottom" x1="2.5" y1="14" x2="17.5" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -78,7 +82,11 @@ const telHref = `tel:${site.phone.tel}`;
           id="menu-close"
           aria-label="Закрыть меню"
         >
-          <Icon name="plus" size={20} class="mobile-menu__close-icon" />
+          <svg class="menu-icon is-open" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+            <line class="menu-icon__line menu-icon__line--top" x1="2.5" y1="6" x2="17.5" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line class="menu-icon__line menu-icon__line--mid" x1="2.5" y1="10" x2="17.5" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <line class="menu-icon__line menu-icon__line--bottom" x1="2.5" y1="14" x2="17.5" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -367,8 +375,30 @@ const telHref = `tel:${site.phone.tel}`;
     flex-shrink: 0;
   }
 
-  .mobile-menu__close-icon {
-    transform: rotate(45deg);
+  /* Иконка меню: три линии бургера, анимированно складывающиеся в крестик.
+     Верхняя и нижняя поворачиваются на 45°/-45° и сходятся в центр
+     (на позицию средней линии, y=10), средняя тем временем исчезает. */
+  .menu-icon__line {
+    transform-origin: 10px 10px;
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
+  }
+
+  .menu-icon.is-open .menu-icon__line--top {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .menu-icon.is-open .menu-icon__line--mid {
+    opacity: 0;
+  }
+
+  .menu-icon.is-open .menu-icon__line--bottom {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-icon__line {
+      transition: none;
+    }
   }
 
   .mobile-menu__content {
@@ -482,10 +512,13 @@ const telHref = `tel:${site.phone.tel}`;
   const menu = document.getElementById('mobile-menu');
 
   if (toggle && closeBtn && menu) {
+    const toggleIcon = toggle.querySelector('.menu-icon');
+
     const open = () => {
       menu.hidden = false;
       document.body.style.overflow = 'hidden';
       toggle.setAttribute('aria-expanded', 'true');
+      toggleIcon?.classList.add('is-open');
       closeBtn.focus();
     };
 
@@ -493,6 +526,7 @@ const telHref = `tel:${site.phone.tel}`;
       menu.hidden = true;
       document.body.style.overflow = '';
       toggle.setAttribute('aria-expanded', 'false');
+      toggleIcon?.classList.remove('is-open');
       toggle.focus();
     };
 
