@@ -122,11 +122,6 @@ const fontFaceCss = `
     <main>
       <slot />
     </main>
-    <!-- Пустая распорка нужной высоты — вне <main>, у которого сплошной
-         фон на всю высоту его блока (см. base.css): будь спейсер внутри
-         main, этот фон закрашивал бы и его, и зафиксированный футер под
-         ним так и не открывался бы, сколько ни скролль. -->
-    <div class="footer-spacer" aria-hidden="true"></div>
     <slot name="footer" />
 
     <!-- is:inline + без defer: выполняется синхронно сразу здесь, до первой
@@ -164,33 +159,6 @@ const fontFaceCss = `
         );
 
         sections.forEach(function (s) { observer.observe(s); });
-      })();
-    </script>
-
-    <!-- Футер зафиксирован внизу вьюпорта (position: fixed, см. Footer.astro)
-         и лежит вне потока — .footer-spacer в конце main отвечает за то,
-         чтобы страницу вообще можно было доскроллить настолько, чтобы его
-         открыть; высота спейсера = высота футера, синхронизирует этот
-         скрипт. is:inline без defer — чтобы высота была верной уже к
-         первому скроллу, а не только после отрисовки. -->
-    <script is:inline>
-      (function () {
-        var footer = document.querySelector('footer.footer');
-        var spacer = document.querySelector('.footer-spacer');
-        if (!footer || !spacer) return;
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        var sync = function () {
-          spacer.style.height = footer.offsetHeight + 'px';
-        };
-        sync();
-
-        if ('ResizeObserver' in window) {
-          new ResizeObserver(sync).observe(footer);
-        } else {
-          window.addEventListener('resize', sync);
-        }
       })();
     </script>
   </body>
