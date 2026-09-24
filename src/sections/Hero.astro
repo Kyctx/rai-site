@@ -332,17 +332,33 @@ const facts = [
     }
   }
 
-  /* Facts: mobile — бегущая лента, desktop — статичная строка в 3 колонки */
+  /* Facts: mobile — бегущая лента, desktop — статичная строка в 3 колонки.
+     Раньше лента ехала через CSS-анимацию transform (keyframes), а пауза
+     на тапе управлялась через :hover — на мобильных браузерах :hover
+     «залипает» после тапа, и лента насовсем останавливалась. Теперь это
+     обычный горизонтальный скролл (overflow-x), а автопрокрутку двигает
+     <script> ниже через requestAnimationFrame + scrollLeft — так её можно
+     утянуть пальцем в сторону, а короткий тап (без сдвига) не ставит её
+     на паузу навсегда, только на время нажатия. */
   .hero__facts {
     width: 100%;
     border-top: 1px solid var(--color-border-default);
     padding-top: var(--space-20);
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hero__facts::-webkit-scrollbar {
+    display: none;
   }
 
   @media (min-width: 1024px) {
     .hero__facts {
       padding-top: var(--space-32);
+      overflow: visible;
     }
   }
 
@@ -350,34 +366,15 @@ const facts = [
     display: flex;
     gap: var(--space-16);
     width: max-content;
-    animation: hero-facts-scroll 16s linear infinite;
-  }
-
-  .hero__facts:hover .hero__facts-track,
-  .hero__facts:focus-within .hero__facts-track {
-    animation-play-state: paused;
   }
 
   @media (min-width: 1024px) {
     .hero__facts-track {
       width: 100%;
-      animation: none;
     }
     .hero__fact.hero__fact--clone {
       display: none;
     }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__facts-track {
-      animation: none;
-      overflow-x: auto;
-    }
-  }
-
-  @keyframes hero-facts-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
   }
 
   .hero__fact {
@@ -653,5 +650,59 @@ const facts = [
         }
       });
     });
+  }
+
+  // Бегущая лента фактов (mobile) — автопрокрутка через scrollLeft вместо
+  // CSS-анимации transform, чтобы её можно было утянуть пальцем в сторону
+  // (обычный горизонтальный скролл). Короткий тап без сдвига не «замораживает»
+  // ленту навсегда — пауза длится только пока палец на экране; настоящий
+  // свайп ставит более долгую паузу, чтобы не спорить с инерцией скролла.
+  const facts = document.querySelector<HTMLElement>('.hero__facts');
+  const track = facts?.querySelector<HTMLElement>('.hero__facts-track');
+  if (facts && track) {
+    const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const speed = 0.6; // px за кадр
+    let dragging = false;
+    let moved = false;
+    let downX = 0;
+    let resumeAt = 0;
+
+    const step = () => {
+      if (!dragging && Date.now() >= resumeAt && !isDesktop() && !reducedMotion) {
+        facts.scrollLeft += speed;
+      }
+      // Половина ширины трека — один набор фактов (второй — клон для
+      // бесшовного зацикливания), см. разметку выше
+      const loopWidth = track.scrollWidth / 2;
+      if (loopWidth > 0 && facts.scrollLeft >= loopWidth) {
+        facts.scrollLeft -= loopWidth;
+      }
+      requestAnimationFrame(step);
+    };
+
+    facts.addEventListener('pointerdown', (event) => {
+      dragging = true;
+      moved = false;
+      downX = event.clientX;
+    });
+
+    facts.addEventListener('pointermove', (event) => {
+      if (dragging && Math.abs(event.clientX - downX) > 4) moved = true;
+    });
+
+    const onPointerEnd = () => {
+      if (!dragging) return;
+      dragging = false;
+      // Настоящий свайп — даём инерции скролла отработать, прежде чем
+      // снова подхватывать автопрокрутку; просто тап — продолжаем сразу
+      resumeAt = Date.now() + (moved ? 600 : 0);
+    };
+
+    window.addEventListener('pointerup', onPointerEnd);
+    window.addEventListener('pointercancel', onPointerEnd);
+
+    requestAnimationFrame(step);
   }
 </script>
