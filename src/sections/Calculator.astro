@@ -1199,23 +1199,18 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     }
   }
 
-  /* touch-action: none — чтобы браузер не пытался скроллить/тянуть
-     страницу вместо перетаскивания шторки (см. <script> внизу, свайп
-     вниз для закрытия) */
   .calc-sheet__handle {
     align-self: center;
     width: 40px;
     height: 4px;
     border-radius: var(--radius-pill);
     background: var(--color-border-default);
-    touch-action: none;
   }
 
   .calc-sheet__head {
     display: flex;
     align-items: center;
     gap: var(--space-12);
-    touch-action: none;
   }
 
   .calc-sheet__title {
@@ -1646,31 +1641,41 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       });
     });
 
-    // Свайп вниз за ручку или заголовок шторки — плавно закрывает её.
-    // Тянуть можно только за .calc-sheet__handle/__head, а не за список:
-    // там нужен обычный скролл контента. Дальше трети высоты шторки —
-    // доезжает вниз и закрывается, иначе пружинит обратно на место.
-    // prefers-reduced-motion учтён глобально в base.css
-    // (transition-duration: 0.01ms !important для всех элементов).
+    // Свайп вниз по любой открытой области шторки — плавно закрывает её.
+    // Дальше трети высоты шторки — доезжает вниз и закрывается, иначе
+    // пружинит обратно на место. Список опций при этом сохраняет обычный
+    // скролл: жест на закрытие начинается, только если в момент касания
+    // список уже проскроллен к самому верху (dialog.scrollTop <= 0).
+    //
+    // Пришлось взять нативные touch-события вместо Pointer Events (как в
+    // остальных местах сайта): на реальном тачскрине браузер распознаёт
+    // вертикальный драг по скроллящемуся элементу как жест скролла и
+    // присылает pointercancel уже после первого pointermove — дальше
+    // приходят только touchmove, pointermove/pointerup больше не долетают.
+    // preventDefault в non-passive touchmove — единственный надёжный
+    // способ забрать жест под себя (проверено эмуляцией тача в браузере).
     const enableSwipeToClose = (dialog) => {
-      const dragSources = [dialog.querySelector('.calc-sheet__handle'), dialog.querySelector('.calc-sheet__head')].filter(Boolean);
-      if (!dragSources.length) return;
-
       let startY = 0;
       let offset = 0;
       let dragging = false;
 
-      const onPointerMove = (event) => {
+      const getY = (event) => (event.touches?.[0] ?? event).clientY;
+
+      const onMove = (event) => {
         if (!dragging) return;
-        offset = Math.max(0, event.clientY - startY);
+        offset = Math.max(0, getY(event) - startY);
+        if (offset > 0 && event.cancelable) event.preventDefault();
         dialog.style.transform = `translateY(${offset}px)`;
       };
 
-      const onPointerUp = () => {
+      const endDrag = () => {
         if (!dragging) return;
         dragging = false;
-        window.removeEventListener('pointermove', onPointerMove);
-        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('touchend', endDrag);
+        window.removeEventListener('touchcancel', endDrag);
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', endDrag);
 
         if (offset > dialog.offsetHeight * 0.25) {
           dialog.style.transition = 'transform 0.25s ease';
@@ -1689,19 +1694,28 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
             dialog.style.transition = '';
           }, { once: true });
         }
+        offset = 0;
       };
 
-      dragSources.forEach((source) => {
-        source.addEventListener('pointerdown', (event) => {
-          if (event.pointerType === 'mouse' && event.button !== 0) return;
-          dragging = true;
-          startY = event.clientY;
-          offset = 0;
-          dialog.style.transition = '';
-          window.addEventListener('pointermove', onPointerMove);
-          window.addEventListener('pointerup', onPointerUp);
-        });
-      });
+      const onStart = (event) => {
+        if (event.type === 'mousedown' && event.button !== 0) return;
+        if (dialog.scrollTop > 0) return;
+        dragging = true;
+        startY = getY(event);
+        offset = 0;
+        dialog.style.transition = '';
+        if (event.type === 'touchstart') {
+          window.addEventListener('touchmove', onMove, { passive: false });
+          window.addEventListener('touchend', endDrag);
+          window.addEventListener('touchcancel', endDrag);
+        } else {
+          window.addEventListener('mousemove', onMove);
+          window.addEventListener('mouseup', endDrag);
+        }
+      };
+
+      dialog.addEventListener('touchstart', onStart);
+      dialog.addEventListener('mousedown', onStart);
     };
 
     Object.values(sheets).forEach((dialog) => {
