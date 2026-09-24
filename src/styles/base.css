@@ -62,6 +62,31 @@ button {
   cursor: pointer;
 }
 
+/* Цвет выделения текста — светло-зелёный вместо системного синего. */
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-text-primary);
+}
+
+/* У кликабельных элементов (ссылки, кнопки, лейблы чекбоксов/радио,
+   <summary> аккордеонов) выделение убрано совсем — ни синее, ни
+   зелёное: у них уже есть свои hover/active/focus-состояния, а
+   -webkit-tap-highlight-color убирает стандартную синюю подсветку
+   тапа на мобильных браузерах */
+a,
+button,
+label,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a::selection,
+button::selection,
+label::selection,
+summary::selection {
+  background: transparent;
+}
+
 img, svg {
   display: block;
   max-width: 100%;
