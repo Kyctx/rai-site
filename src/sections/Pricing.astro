@@ -49,14 +49,18 @@ const groups = [
         class="pricing__cards"
         hidden={i !== 0}
       >
-        {g.tariffs.map((t) => (
+        {g.tariffs.map((t, cardIndex) => (
           <Fragment>
             {/* Desktop: карточки всегда развёрнуты — обычный <div>. Внутри
                 <details> Chromium не даёт flex-grow/height:100% работать
                 на прямых детях (проверено изолированно, это не «схлопнутый»
                 отступ — дочерний spacer физически не растёт), поэтому для
-                desktop используем не аккордеон, а простой блок. */}
-            <div class:list={['pricing__card', 'pricing__card--desktop', { 'pricing__card--featured': t.featured }]}>
+                desktop используем не аккордеон, а простой блок.
+                data-card-index — для каскада появления (см. <script> внизу):
+                desktop- и mobile-версия одной карточки идут в разметке не
+                подряд (Fragment чередует div/details), поэтому порядковый
+                nth-child не даёт одной и той же задержки обеим версиям. */}
+            <div data-card-index={cardIndex} class:list={['pricing__card', 'pricing__card--desktop', { 'pricing__card--featured': t.featured }]}>
               <div class="pricing__card-head">
                 <p class="title pricing__card-title">{t.title}</p>
                 {t.badge && <span class="body-s pricing__card-badge">{t.badge}</span>}
@@ -88,7 +92,7 @@ const groups = [
             {/* Mobile: те же карточки — аккордеон. Цена — в summary, поэтому
                 видна и в свёрнутом виде; строка «или …/мес» показывается
                 только в раскрытом состоянии (управляется через [open]) */}
-            <details class:list={['pricing__card', 'pricing__card--mobile', { 'pricing__card--featured': t.featured }]} open>
+            <details data-card-index={cardIndex} class:list={['pricing__card', 'pricing__card--mobile', { 'pricing__card--featured': t.featured }]} open>
               <summary class="pricing__card-summary">
                 <div class="pricing__card-head">
                   <p class="title pricing__card-title">{t.title}</p>
@@ -247,6 +251,35 @@ const groups = [
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-lg);
+  }
+
+  /* Каскад появления — и при первом попадании блока во вьюпорт, и при
+     переключении «Захоронение/Кремация» (см. <script> внизу: remove +
+     принудительный reflow + add на каждый запуск, иначе повторный показ
+     той же карточки не всегда перезапускает CSS-анимацию в браузере). */
+  @keyframes pricing-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pricing__card--enter {
+    animation: pricing-card-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .pricing__card--enter[data-card-index="0"] { animation-delay: 0s; }
+  .pricing__card--enter[data-card-index="1"] { animation-delay: 0.1s; }
+  .pricing__card--enter[data-card-index="2"] { animation-delay: 0.2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing__card--enter {
+      animation: none;
+    }
   }
 
   /* Desktop-карточка (обычный <div>) — здесь gap на прямых детях работает
@@ -540,6 +573,16 @@ const groups = [
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
 
+    // Каскад карточек — пересоздаём класс на каждый показ (remove +
+    // принудительный reflow + add), иначе повторное появление того же
+    // набора карточек не гарантированно перезапускает CSS-анимацию.
+    const animateCards = (panelEl: HTMLElement) => {
+      const cards = Array.from(panelEl.querySelectorAll<HTMLElement>('.pricing__card'));
+      cards.forEach((card) => card.classList.remove('pricing__card--enter'));
+      void panelEl.offsetWidth;
+      cards.forEach((card) => card.classList.add('pricing__card--enter'));
+    };
+
     const activate = (index: number, focus = false) => {
       tabs.forEach((tab, i) => {
         const selected = i === index;
@@ -550,8 +593,30 @@ const groups = [
       panels.forEach((p, i) => {
         p.hidden = i !== index;
       });
+      animateCards(panels[index]);
       if (focus) tabs[index].focus();
     };
+
+    // Появление при первом попадании блока во вьюпорт (аналог общего
+    // reveal-скрипта в Base.astro, но с проигрыванием каскада карточек,
+    // а не просто fade у всей секции целиком).
+    if ('IntersectionObserver' in window) {
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const activePanel = panels.find((p) => !p.hidden);
+              if (activePanel) animateCards(activePanel);
+              sectionObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      );
+      sectionObserver.observe(root);
+    } else if (panels[0]) {
+      animateCards(panels[0]);
+    }
 
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => activate(index));
