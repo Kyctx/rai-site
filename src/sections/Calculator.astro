@@ -863,7 +863,13 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
   @media (min-width: 1024px) {
     .calculator__row {
-      flex-direction: row;
+      /* Grid вместо flex: с flex:1 1 0 боксы всё равно расходились по
+         ширине (у степпера свои padding/border «продавливали» долю чуть
+         больше соседней) — grid с minmax(0, 1fr) делит ровно 50/50, тот
+         же приём и тот же промежуток (--space-8), что у сетки чипов выше. */
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-8);
     }
   }
 
@@ -879,7 +885,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
   @media (min-width: 1024px) {
     .calculator__stepper {
-      flex: 1 0 0;
+      min-width: 0;
     }
   }
 
@@ -927,7 +933,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
   @media (min-width: 1024px) {
     .calculator__privileges-wrap {
-      flex: 1 0 0;
+      min-width: 0;
     }
 
     .calculator__field--privileges {
