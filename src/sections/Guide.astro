@@ -20,11 +20,13 @@ const { total, sections } = site.guide;
 <section id="guide" aria-labelledby="guide-title" class="section guide">
   <div class="container guide__inner">
     <!-- Desktop: полоска вкладок-папок над карточкой -->
-    <ul class="guide__tabs" aria-hidden="true">
+    <ul class="guide__tabs">
       {sections.map((s) => (
-        <li class="guide__tab">
-          <span class="body-m guide__tab-title">{s.title}</span>
-          <span class="label-s guide__tab-count">{s.count}</span>
+        <li>
+          <a href={guideHref} class="guide__tab" data-goal="guide_open">
+            <span class="body-m guide__tab-title">{s.title}</span>
+            <span class="label-s guide__tab-count">{s.count}</span>
+          </a>
         </li>
       ))}
     </ul>
@@ -96,6 +98,11 @@ const { total, sections } = site.guide;
     /* Верхние углы «папки» — вне шкалы --radius-* (там нет значения между
        sm:8 и md:16), как чекбокс в Calculator.astro. */
     border-radius: 10px 10px 0 0;
+    transition: background-color 0.2s ease;
+  }
+
+  .guide__tab:hover {
+    background: var(--color-border-default);
   }
 
   .guide__tab-title {
