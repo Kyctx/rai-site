@@ -61,8 +61,8 @@ const items = [
 
       <!-- Desktop: строка иконка + номер -->
       <a href={telHref} class="faq__phone faq__phone--desktop" data-goal="call_click">
-        <Icon name="phone" size={22} />
-        <span class="title">{site.phone.display}</span>
+        <Icon name="phone" size={18} />
+        <span class="label-m">{site.phone.display}</span>
       </a>
 
       <!-- Mobile: карточка с кнопкой звонка -->
@@ -149,12 +149,56 @@ const items = [
     display: none;
   }
 
+  /* Тот же тёмный пилюльный телефон, что в хедере (.header__phone-btn) —
+     стили Astro скоуплены по компонентам, поэтому паттерн (включая
+     hover-анимацию заливки кругом из центра) продублирован здесь. */
   @media (min-width: 1024px) {
     .faq__phone--desktop {
       display: inline-flex;
       align-items: center;
-      gap: var(--space-12);
-      color: var(--color-text-primary);
+      gap: 10px;
+      background: var(--color-bg-inverse);
+      color: var(--color-text-inverse);
+      border-radius: var(--radius-pill);
+      padding: 18px 30px;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      transition: box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
+    }
+
+    .faq__phone--desktop::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+      border-radius: 50%;
+      scale: 0;
+      z-index: -1;
+      background-color: var(--color-accent-primary);
+      transition: scale 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .faq__phone--desktop:hover::before {
+      scale: 1.7;
+      transition-duration: 0.9s;
+    }
+
+    .faq__phone--desktop:hover {
+      color: var(--color-text-inverse);
+      box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__phone--desktop,
+    .faq__phone--desktop::before {
+      transition: none;
     }
   }
 
