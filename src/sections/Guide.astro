@@ -1,0 +1,234 @@
+---
+// 11 · Guide — Справочник. Desktop 198:3262, mobile 214:4324.
+// Desktop: полоска «вкладок-папок» над карточкой (заголовок + описание +
+// кнопка). Mobile: одна карточка-оглавление — заголовок, описание, 5
+// разделов строками (название, число статей, стрелка), кнопка снизу
+// (rai-handoff.md → 5a). Раздел /guide ещё не построен (страниц справочника
+// нет) — кнопка и строки ведут на будущий общий адрес /guide, как и
+// заглушка PDF-памятки в Hero.astro.
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import site from '@data/site.json';
+
+// BASE_URL учитывает /rai-site/ на GitHub Pages (см. astro.config.mjs).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const guideHref = `${base}/guide`;
+
+const { total, sections } = site.guide;
+---
+
+<section id="guide" aria-labelledby="guide-title" class="section guide">
+  <div class="container guide__inner">
+    <!-- Desktop: полоска вкладок-папок над карточкой -->
+    <ul class="guide__tabs" aria-hidden="true">
+      {sections.map((s) => (
+        <li class="guide__tab">
+          <span class="body-m guide__tab-title">{s.title}</span>
+          <span class="label-s guide__tab-count">{s.count}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="guide__folder">
+      <div class="guide__top">
+        <div class="guide__intro">
+          <p id="guide-title" class="h2 guide__title">Справочник</p>
+          <p class="body-m guide__lead">
+            {total} материалов о документах, деньгах, обрядах и сроках — написаны нашими агентами и юристами.
+          </p>
+        </div>
+
+        <!-- Desktop-кнопка -->
+        <Button href={guideHref} variant="dark" size="l" icon="arrow" class="guide__cta guide__cta--desktop" data-goal="guide_open">
+          Открыть справочник
+        </Button>
+      </div>
+
+      <!-- Mobile: разделы строками -->
+      <ul class="guide__sections">
+        {sections.map((s) => (
+          <li>
+            <a href={guideHref} class="guide__section-row" data-goal="guide_open">
+              <span class="label-m guide__section-title">{s.title}</span>
+              <span class="body-s guide__section-count">{s.count}</span>
+              <Icon name="arrow" size={16} class="guide__section-arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Mobile-кнопка -->
+      <Button href={guideHref} variant="dark" size="m" icon="arrow" class="guide__cta guide__cta--mobile" data-goal="guide_open">
+        Открыть справочник
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .guide__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== Desktop: полоска вкладок-папок ===== */
+
+  .guide__tabs {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .guide__tabs {
+      display: flex;
+      gap: var(--space-8);
+      padding-left: var(--space-40);
+    }
+  }
+
+  .guide__tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding: var(--space-16) var(--space-24);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-default);
+    border-bottom: none;
+    /* Верхние углы «папки» — вне шкалы --radius-* (там нет значения между
+       sm:8 и md:16), как чекбокс в Calculator.astro. */
+    border-radius: 10px 10px 0 0;
+  }
+
+  .guide__tab-title {
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  .guide__tab-count {
+    color: var(--color-text-secondary);
+  }
+
+  /* ===== Карточка ===== */
+
+  .guide__folder {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+    padding: var(--space-24);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .guide__folder {
+      gap: 0;
+      padding: var(--space-48) var(--space-56);
+      border: 1px solid var(--color-border-default);
+      /* «Папка» продолжает вкладки сверху: левый/правый верхние углы почти
+         острые (стык с полоской вкладок), нижние — обычный radius/lg. Вне
+         шкалы --radius-*, см. комментарий у .guide__tab выше. */
+      border-radius: 4px 4px var(--radius-lg) var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  .guide__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .guide__top {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  .guide__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 1024px) {
+    .guide__intro {
+      max-width: 620px;
+    }
+  }
+
+  .guide__lead {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .guide__lead {
+      max-width: 600px;
+    }
+  }
+
+  .guide__cta--desktop {
+    display: none;
+  }
+
+  .guide__cta--mobile {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .guide__cta--desktop {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .guide__cta--mobile {
+      display: none;
+    }
+  }
+
+  /* ===== Mobile: разделы строками ===== */
+
+  .guide__sections {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .guide__sections {
+      display: none;
+    }
+  }
+
+  .guide__section-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    /* 14px — точное значение из макета (между space-12 и space-16),
+       см. аналогичный приём в Calculator.astro (.calculator__field). */
+    padding-block: 14px;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .guide__sections > li:first-child .guide__section-row {
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .guide__section-title {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .guide__section-count {
+    color: var(--color-text-secondary);
+  }
+
+  :global(.guide__section-arrow) {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+</style>
