@@ -932,6 +932,10 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
     .calculator__field--privileges {
       display: flex;
+      /* На desktop поле стоит в одном ряду с чипами/степпером (--radius-sm,
+         8px) — на mobile же оно в списке других полей-шторок и сохраняет
+         их общий --radius-md (16px), см. .calculator__field выше. */
+      border-radius: var(--radius-sm);
     }
   }
 
