@@ -19,6 +19,7 @@ const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID ?? null;
 // берём явно по id из defaults, а не по индексу массива.
 const defaultBase = calculator.base.find((b) => b.id === calculator.defaults.base) ?? calculator.base[0];
 const defaultCoffin = calculator.coffins.find((c) => c.id === calculator.defaults.coffin) ?? calculator.coffins[0];
+const defaultPrivilege = calculator.privileges.find((p) => p.id === calculator.defaults.privileges) ?? calculator.privileges[0];
 const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от ${item.pricePerKm} ₽/км` : `от ${(item.price ?? 0).toLocaleString('ru-RU')} ₽`;
 ---
 
@@ -162,7 +163,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
           </button>
         </div>
 
-        <!-- Поминки -->
+        <!-- Поминки + Льготы -->
         <div class="calculator__row">
           <div class="calculator__stepper">
             <p class="body-m calculator__stepper-label">Поминки, {calculator.wakePerGuest.toLocaleString('ru-RU')} ₽/гость</p>
@@ -172,25 +173,13 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
               <button type="button" class="calculator__stepper-btn" data-guests-increment aria-label="Увеличить число гостей">+</button>
             </div>
           </div>
-        </div>
 
-        <!-- Льготы -->
-        <div class="calculator__group">
-          <p class="label-m calculator__group-title">Льготы</p>
-          <div class="calculator__privileges-grid" role="radiogroup" aria-label="Льготы">
-            {calculator.privileges.map((privilege) => (
-              <button
-                type="button"
-                role="radio"
-                aria-checked={privilege.id === calculator.defaults.privileges ? 'true' : 'false'}
-                data-privilege-id={privilege.id}
-                class:list={['calculator__privilege-item', { 'calculator__privilege-item--active': privilege.id === calculator.defaults.privileges }]}
-              >
-                <span class="label-m calculator__privilege-title">{privilege.title}</span>
-                <span class="body-s calculator__privilege-discount">{privilege.discount === 0 ? '—' : `−${privilege.discount.toLocaleString('ru-RU')} ₽`}</span>
-              </button>
-            ))}
-          </div>
+          <button type="button" class="calculator__field calculator__field--privileges" data-open-sheet="privileges" aria-haspopup="dialog">
+            <span class="body-m calculator__field-privileges-text" data-privilege-title>
+              Льготы: {defaultPrivilege.discount === 0 ? 'нет' : defaultPrivilege.title}
+            </span>
+            <Icon name="chevron" size={18} class="calculator__field-chevron" />
+          </button>
         </div>
       </div>
 
@@ -297,6 +286,27 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
             <span class="body-s calc-sheet__option-note">{coffin.description}</span>
           </span>
           <span class="body-s-strong calc-sheet__option-price">{coffin.price === 0 ? (coffin.label ?? 'включено') : `+${coffin.price.toLocaleString('ru-RU')} ₽`}</span>
+          <Icon name="check" size={18} class="calc-sheet__option-check" />
+        </button>
+      ))}
+    </div>
+  </dialog>
+
+  <dialog class="calc-sheet" data-sheet="privileges" aria-labelledby="sheet-privileges-title">
+    <div class="calc-sheet__handle" aria-hidden="true"></div>
+    <div class="calc-sheet__head">
+      <p id="sheet-privileges-title" class="h4 calc-sheet__title">Льготы</p>
+      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
+        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
+      </button>
+    </div>
+    <div class="calc-sheet__list" role="radiogroup" aria-label="Льготы">
+      {calculator.privileges.map((privilege) => (
+        <button type="button" role="radio" aria-checked="false" data-sheet-privilege-option={privilege.id} class="calc-sheet__option calc-sheet__option--coffin">
+          <span class="calc-sheet__option-text">
+            <span class="label-m">{privilege.title}</span>
+          </span>
+          <span class="body-s-strong calc-sheet__option-price">{privilege.discount === 0 ? '—' : `−${privilege.discount.toLocaleString('ru-RU')} ₽`}</span>
           <Icon name="check" size={18} class="calc-sheet__option-check" />
         </button>
       ))}
@@ -846,44 +856,20 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     text-align: center;
   }
 
-  /* ===== Льготы ===== */
-
-  .calculator__privileges-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-8);
-    width: 100%;
-  }
-
-  .calculator__privilege-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-4);
+  .calculator__field--privileges {
     padding: var(--space-12) var(--space-16);
-    background: var(--color-bg-surface);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-sm);
-    text-align: left;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
-  .calculator__privilege-item--active {
-    background: var(--color-accent-soft);
-    border-color: var(--color-accent-primary);
-  }
-
-  .calculator__privilege-title {
+  .calculator__field-privileges-text {
+    flex: 1 0 0;
     color: var(--color-text-primary);
   }
 
-  .calculator__privilege-discount {
-    flex-shrink: 0;
-    color: var(--color-text-secondary);
-  }
-
-  .calculator__privilege-item--active .calculator__privilege-discount {
-    color: var(--color-accent-primary);
+  @media (min-width: 1024px) {
+    .calculator__field--privileges {
+      display: flex;
+      flex: 1 0 0;
+    }
   }
 
   /* ===== Смета ===== */
@@ -1058,6 +1044,14 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
   @media (min-width: 1024px) {
     .calc-sheet[open] {
       display: none;
+    }
+
+    /* «Льготы» — единственное поле, у которого нет отдельной desktop-сетки
+       (см. .calculator__field--privileges выше) — на десктопе выбор
+       по-прежнему открывается той же шторкой снизу, а не превращается
+       в карточки, как «Что нужно»/«Гроб»/«Дополнительно». */
+    .calc-sheet[data-sheet="privileges"][open] {
+      display: flex;
     }
   }
 
@@ -1354,13 +1348,10 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         input.checked = checked;
         input.closest('.calculator__chip')?.classList.toggle('calculator__chip--active', checked);
       });
-      root.querySelectorAll('[data-privilege-id]').forEach((btn) => {
-        const active = btn.dataset.privilegeId === state.privileges;
-        btn.setAttribute('aria-checked', String(active));
-        btn.classList.toggle('calculator__privilege-item--active', active);
-      });
-
       // --- Синхронизация mobile-полей ---
+      const privilegeTitleEl = root.querySelector('[data-privilege-title]');
+      if (privilegeTitleEl) privilegeTitleEl.textContent = `Льготы: ${privilegeDiscount === 0 ? 'нет' : privilege?.title ?? ''}`;
+
       const baseTitleEl = root.querySelector('[data-base-title]');
       const baseSubtitleEl = root.querySelector('[data-base-subtitle]');
       const baseIconEl = root.querySelector('[data-base-icon]');
@@ -1400,6 +1391,9 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       });
       root.querySelectorAll('[data-sheet-coffin-option]').forEach((btn) => {
         btn.setAttribute('aria-checked', String(btn.dataset.sheetCoffinOption === state.coffin));
+      });
+      root.querySelectorAll('[data-sheet-privilege-option]').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(btn.dataset.sheetPrivilegeOption === state.privileges));
       });
       root.querySelectorAll('[data-sheet-extra-option]').forEach((input) => {
         input.checked = state.extras.has(input.dataset.sheetExtraOption);
@@ -1448,20 +1442,13 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       trackCalcUsed();
     });
 
-    root.querySelectorAll('[data-privilege-id]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.privileges = btn.dataset.privilegeId;
-        render();
-        trackCalcUsed();
-      });
-    });
-
-    // ===== Обработчики: шторки (mobile) =====
+    // ===== Обработчики: шторки (mobile + «Льготы» на всех шириных) =====
 
     const sheets = {
       base: root.querySelector('[data-sheet="base"]'),
       coffin: root.querySelector('[data-sheet="coffin"]'),
       extras: root.querySelector('[data-sheet="extras"]'),
+      privileges: root.querySelector('[data-sheet="privileges"]'),
     };
 
     const openSheet = (name) => {
@@ -1519,6 +1506,16 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         render();
         trackCalcUsed();
         closeSheet(sheets.coffin);
+      });
+    });
+
+    // "Льготы" — одиночный выбор, закрывается сразу после выбора
+    sheets.privileges?.querySelectorAll('[data-sheet-privilege-option]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.privileges = btn.dataset.sheetPrivilegeOption;
+        render();
+        trackCalcUsed();
+        closeSheet(sheets.privileges);
       });
     });
 
