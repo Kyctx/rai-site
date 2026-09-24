@@ -323,19 +323,19 @@ const telHref = `tel:${site.phone.tel}`;
     box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
-  /* Полноэкранное мобильное меню — вместо сплошного бежевого фона (совпадал
-     с фоном страницы и выглядел «немым») задний план прозрачный: тонкая
-     тёмная вуаль + блюр показывают страницу под меню, читаемость даёт сама
-     белая карточка .mobile-menu__content. Открытие/закрытие — через класс
-     is-open (а не [hidden]), чтобы можно было анимировать: opacity+blur
-     у вуали, opacity+сдвиг у карточки, вложенная задержка у пунктов меню. */
+  /* Полноэкранное мобильное меню — без сплошной заливки и без тёмной вуали:
+     только лёгкий блюр показывает страницу под меню слегка размытой,
+     читаемость даёт сама белая карточка .mobile-menu__content (у неё
+     свой shadow-lg). Открытие/закрытие — через класс is-open (а не
+     [hidden]), чтобы можно было анимировать: opacity у вуали, opacity+
+     сдвиг у карточки, вложенная задержка у пунктов меню (только при
+     открытии — см. is-open ниже, чтобы закрытие было единым и плавным). */
   .mobile-menu {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(38, 41, 44, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     padding: var(--space-12) var(--space-12) var(--space-32);
     display: flex;
     flex-direction: column;
@@ -344,14 +344,14 @@ const telHref = `tel:${site.phone.tel}`;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    transition: opacity 0.4s ease-out, visibility 0s linear 0.4s;
   }
 
   .mobile-menu.is-open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: opacity 0.3s ease, visibility 0s linear 0s;
+    transition: opacity 0.35s ease-in, visibility 0s linear 0s;
   }
 
   @media (min-width: 1024px) {
@@ -452,12 +452,15 @@ const telHref = `tel:${site.phone.tel}`;
     transform: none;
   }
 
-  /* Каскад: каждый следующий пункт появляется чуть позже предыдущего */
-  .mobile-menu__links li:nth-child(1) .mobile-menu__link { transition-delay: 0.12s; }
-  .mobile-menu__links li:nth-child(2) .mobile-menu__link { transition-delay: 0.16s; }
-  .mobile-menu__links li:nth-child(3) .mobile-menu__link { transition-delay: 0.2s; }
-  .mobile-menu__links li:nth-child(4) .mobile-menu__link { transition-delay: 0.24s; }
-  .mobile-menu__links li:nth-child(5) .mobile-menu__link { transition-delay: 0.28s; }
+  /* Каскад — только при открытии (правило под .is-open): каждый следующий
+     пункт появляется чуть позже предыдущего. При закрытии класс is-open
+     снимается, задержка не действует — все пункты гаснут одновременно,
+     закрытие получается одним плавным движением, а не рваным. */
+  .mobile-menu.is-open .mobile-menu__links li:nth-child(1) .mobile-menu__link { transition-delay: 0.12s; }
+  .mobile-menu.is-open .mobile-menu__links li:nth-child(2) .mobile-menu__link { transition-delay: 0.16s; }
+  .mobile-menu.is-open .mobile-menu__links li:nth-child(3) .mobile-menu__link { transition-delay: 0.2s; }
+  .mobile-menu.is-open .mobile-menu__links li:nth-child(4) .mobile-menu__link { transition-delay: 0.24s; }
+  .mobile-menu.is-open .mobile-menu__links li:nth-child(5) .mobile-menu__link { transition-delay: 0.28s; }
 
   .mobile-menu__contact {
     display: flex;
