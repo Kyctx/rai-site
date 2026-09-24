@@ -90,7 +90,7 @@ const services = [
   },
   {
     id: 'monument',
-    tabTitle: 'Памятник и уход',
+    tabTitle: 'Памятник',
     price: priceOf('monument'),
     priceNote: null,
     panelTitle: 'Памятник и уход',
@@ -138,11 +138,11 @@ const services = [
             <span class="h4 services__tab-title">{s.tabTitle}</span>
             {s.id === 'transport' ? (
               <>
-                <span class="body-s services__tab-price services__tab-price--desktop">из другого города — от {transportPerKm} ₽/км</span>
-                <span class="body-s services__tab-price services__tab-price--mobile">от {transportPerKm} ₽/км</span>
+                <span class="body-s-strong services__tab-price services__tab-price--desktop">из другого города — от {transportPerKm} ₽/км</span>
+                <span class="body-s-strong services__tab-price services__tab-price--mobile">от {transportPerKm} ₽/км</span>
               </>
             ) : (
-              <span class="body-s services__tab-price">от {s.price?.toLocaleString('ru-RU')} ₽</span>
+              <span class="body-s-strong services__tab-price">от {s.price?.toLocaleString('ru-RU')} ₽</span>
             )}
           </button>
         ))}
@@ -448,6 +448,30 @@ const services = [
     display: none !important;
   }
 
+  /* Каскад при переключении вкладки — см. .services__summary--enter ниже
+     и <script> внизу файла (remove+reflow+add на каждый activate(),
+     иначе повторный клик по той же вкладке не перезапустил бы анимацию). */
+  @keyframes services-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .services__step--enter {
+    animation: services-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .services__step--enter:nth-child(1) { animation-delay: 0s; }
+  .services__step--enter:nth-child(2) { animation-delay: 0.06s; }
+  .services__step--enter:nth-child(3) { animation-delay: 0.12s; }
+  .services__step--enter:nth-child(4) { animation-delay: 0.18s; }
+  .services__step--enter:nth-child(5) { animation-delay: 0.24s; }
+
   .services__step-body {
     display: flex;
     flex-direction: column;
@@ -480,6 +504,10 @@ const services = [
       /* На desktop карточка-итог — бежевая вставка на фоне белой панели (по макету) */
       background: var(--color-bg-page);
     }
+  }
+
+  .services__summary--enter {
+    animation: services-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
   }
 
   .services__summary-text {
@@ -596,6 +624,11 @@ const services = [
     .services__accordion-icon {
       transition: none;
     }
+
+    .services__step--enter,
+    .services__summary--enter {
+      animation: none;
+    }
   }
 </style>
 
@@ -604,6 +637,19 @@ const services = [
   if (root) {
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    // Каскад таймлайна и карточки-итога — пересоздаём классы на каждый показ
+    // панели (remove + принудительный reflow + add), иначе браузер не всегда
+    // перезапускает CSS-анимацию при повторном hidden→visible того же узла.
+    const animatePanel = (panelEl: HTMLElement) => {
+      const steps = Array.from(panelEl.querySelectorAll<HTMLElement>('.services__step'));
+      const summary = panelEl.querySelector<HTMLElement>('.services__summary');
+      steps.forEach((step) => step.classList.remove('services__step--enter'));
+      summary?.classList.remove('services__summary--enter');
+      void panelEl.offsetWidth;
+      steps.forEach((step) => step.classList.add('services__step--enter'));
+      summary?.classList.add('services__summary--enter');
+    };
 
     const activate = (index: number, focus = false) => {
       tabs.forEach((tab, i) => {
@@ -615,8 +661,12 @@ const services = [
       panels.forEach((p, i) => {
         p.hidden = i !== index;
       });
+      animatePanel(panels[index]);
       if (focus) tabs[index].focus();
     };
+
+    // Первая панель уже показана при рендере — проигрываем каскад и для неё.
+    if (panels[0]) animatePanel(panels[0]);
 
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => activate(index));
