@@ -265,12 +265,32 @@ const items = [
     background: var(--color-bg-surface);
     color: var(--color-text-primary);
     border-radius: var(--radius-pill);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Наведение на всю строку вопроса — кружок чуть увеличивается и темнеет */
+  .faq__item-summary:hover .faq__item-toggle {
+    background: var(--color-border-default);
+    transform: scale(1.08);
   }
 
   .faq__item--open .faq__item-toggle {
     background: var(--color-accent-primary);
     color: var(--color-text-inverse);
+  }
+
+  .faq__item--open .faq__item-summary:hover .faq__item-toggle {
+    background: var(--color-accent-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__item-toggle {
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .faq__item-summary:hover .faq__item-toggle {
+      transform: none;
+    }
   }
 
   :global(.faq__item-icon) {
