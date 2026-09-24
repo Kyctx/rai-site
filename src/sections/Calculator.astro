@@ -174,12 +174,32 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
             </div>
           </div>
 
-          <button type="button" class="calculator__field calculator__field--privileges" data-open-sheet="privileges" aria-haspopup="dialog">
-            <span class="body-m calculator__field-privileges-text" data-privilege-title>
-              Льготы: {defaultPrivilege.discount === 0 ? 'нет' : defaultPrivilege.title}
-            </span>
-            <Icon name="chevron" size={18} class="calculator__field-chevron" />
-          </button>
+          <!-- Mobile — открывает шторку снизу (как «Что нужно»/«Гроб»); desktop —
+               выпадающее меню под полем, см. data-privileges-toggle в <script> -->
+          <div class="calculator__privileges-wrap">
+            <button type="button" class="calculator__field calculator__field--privileges" data-privileges-toggle aria-haspopup="listbox" aria-expanded="false">
+              <span class="body-m calculator__field-privileges-text" data-privilege-title>
+                Льготы: {defaultPrivilege.discount === 0 ? 'нет' : defaultPrivilege.title}
+              </span>
+              <Icon name="chevron" size={18} class="calculator__field-chevron" />
+            </button>
+
+            <div class="calculator__privileges-menu" role="listbox" aria-label="Льготы" data-privileges-menu hidden>
+              {calculator.privileges.map((privilege) => (
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={privilege.id === calculator.defaults.privileges ? 'true' : 'false'}
+                  data-privilege-option={privilege.id}
+                  class="calculator__privileges-option"
+                >
+                  <span class="body-m calculator__privileges-option-title">{privilege.title}</span>
+                  <span class="body-s-strong calculator__privileges-option-price">{privilege.discount === 0 ? '—' : `−${privilege.discount.toLocaleString('ru-RU')} ₽`}</span>
+                  <Icon name="check" size={16} class="calculator__privileges-option-check" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -858,6 +878,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
   .calculator__field--privileges {
     padding: var(--space-12) var(--space-16);
+    width: 100%;
   }
 
   .calculator__field-privileges-text {
@@ -865,11 +886,87 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     color: var(--color-text-primary);
   }
 
+  .calculator__privileges-wrap {
+    position: relative;
+    width: 100%;
+  }
+
   @media (min-width: 1024px) {
-    .calculator__field--privileges {
-      display: flex;
+    .calculator__privileges-wrap {
       flex: 1 0 0;
     }
+
+    .calculator__field--privileges {
+      display: flex;
+    }
+  }
+
+  /* Выпадающее меню «Льготы» — только desktop: на mobile тот же выбор
+     открывается общей шторкой снизу (.calc-sheet[data-sheet="privileges"]),
+     там для него достаточно ширины экрана и не нужен якорный поповер. */
+  .calculator__privileges-menu {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__privileges-menu {
+      position: absolute;
+      z-index: 10;
+      top: calc(100% + var(--space-8));
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 2px;
+      padding: var(--space-8);
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .calculator__privileges-menu:not([hidden]) {
+      display: flex;
+    }
+  }
+
+  .calculator__privileges-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    width: 100%;
+    padding: var(--space-8) var(--space-12);
+    border-radius: var(--radius-sm);
+    text-align: left;
+    transition: background-color 0.15s ease;
+  }
+
+  .calculator__privileges-option:hover {
+    background: var(--color-bg-secondary);
+  }
+
+  .calculator__privileges-option-title {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calculator__privileges-option-price {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__privileges-option[aria-selected="true"] .calculator__privileges-option-price {
+    color: var(--color-accent-primary);
+  }
+
+  :global(.calculator__privileges-option-check) {
+    flex-shrink: 0;
+    color: var(--color-accent-primary);
+    visibility: hidden;
+  }
+
+  .calculator__privileges-option[aria-selected="true"] :global(.calculator__privileges-option-check) {
+    visibility: visible;
   }
 
   /* ===== Смета ===== */
@@ -1044,14 +1141,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
   @media (min-width: 1024px) {
     .calc-sheet[open] {
       display: none;
-    }
-
-    /* «Льготы» — единственное поле, у которого нет отдельной desktop-сетки
-       (см. .calculator__field--privileges выше) — на десктопе выбор
-       по-прежнему открывается той же шторкой снизу, а не превращается
-       в карточки, как «Что нужно»/«Гроб»/«Дополнительно». */
-    .calc-sheet[data-sheet="privileges"][open] {
-      display: flex;
     }
   }
 
@@ -1395,6 +1484,9 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       root.querySelectorAll('[data-sheet-privilege-option]').forEach((btn) => {
         btn.setAttribute('aria-checked', String(btn.dataset.sheetPrivilegeOption === state.privileges));
       });
+      root.querySelectorAll('[data-privilege-option]').forEach((btn) => {
+        btn.setAttribute('aria-selected', String(btn.dataset.privilegeOption === state.privileges));
+      });
       root.querySelectorAll('[data-sheet-extra-option]').forEach((input) => {
         input.checked = state.extras.has(input.dataset.sheetExtraOption);
       });
@@ -1462,6 +1554,49 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       dialog.close();
       document.body.style.overflow = '';
     };
+
+    // "Льготы" — на mobile та же шторка снизу, что у остальных полей;
+    // на desktop (где у поля нет отдельной сетки-альтернативы) — лёгкое
+    // выпадающее меню под полем, а не шторка на всю ширину экрана.
+    const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
+    const privilegesWrap = root.querySelector('.calculator__privileges-wrap');
+    const privilegesToggle = root.querySelector('[data-privileges-toggle]');
+    const privilegesMenu = root.querySelector('[data-privileges-menu]');
+
+    const closePrivilegesMenu = () => {
+      if (privilegesMenu) privilegesMenu.hidden = true;
+      privilegesToggle?.setAttribute('aria-expanded', 'false');
+    };
+
+    privilegesToggle?.addEventListener('click', () => {
+      if (!isDesktop()) {
+        openSheet('privileges');
+        return;
+      }
+      if (!privilegesMenu) return;
+      const willOpen = privilegesMenu.hidden;
+      closePrivilegesMenu();
+      if (willOpen) {
+        privilegesMenu.hidden = false;
+        privilegesToggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (privilegesWrap && !privilegesWrap.contains(event.target)) closePrivilegesMenu();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closePrivilegesMenu();
+    });
+
+    privilegesMenu?.querySelectorAll('[data-privilege-option]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.privileges = btn.dataset.privilegeOption;
+        render();
+        trackCalcUsed();
+        closePrivilegesMenu();
+      });
+    });
 
     root.querySelectorAll('[data-open-sheet]').forEach((btn) => {
       btn.addEventListener('click', () => {
