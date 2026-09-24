@@ -243,3 +243,27 @@ input, textarea, select {
   font-size: var(--fs-label-s);
   line-height: var(--lh-label-s);
 }
+
+/* ===== Плавное появление секций при скролле ===== */
+/* Класс .reveal ставится на <section class="section"> из общего скрипта
+   в Base.astro (один IntersectionObserver на всю страницу). До появления
+   в viewport секция чуть сдвинута вниз и прозрачна, при пересечении
+   получает .is-visible и плавно встаёт на место — один раз, без повторов
+   при обратном скролле. Без JS (or reduced motion) секция видна сразу. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -8,6 +8,8 @@ import Tab from '@components/Tab.astro';
 import prices from '@data/prices.json';
 
 const price = prices.services.find((s) => s.id === 'burial')?.from ?? 0;
+// BASE_URL учитывает /rai-site/ на GitHub Pages (см. astro.config.mjs).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Шаги по ситуациям — данные конкретной секции, в prices/site.json им не место.
 const situations = [
@@ -129,7 +131,7 @@ const facts = [
         </div>
       ))}
 
-      <a href="/guide/pamyatka.pdf" class="hero__memo" data-goal="guide_open">
+      <a href={`${base}/guide/pamyatka.pdf`} class="hero__memo" data-goal="guide_open">
         <span class="hero__memo-left">
           <span class="hero__memo-icon"><Icon name="file" size={20} /></span>
           <span class="hero__memo-text">
@@ -194,11 +196,49 @@ const facts = [
   }
 
   .hero__status-dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--color-accent-primary);
     flex-shrink: 0;
+    animation: hero-status-pulse 2s ease-in-out infinite;
+  }
+
+  .hero__status-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-accent-primary);
+    animation: hero-status-ping 2s ease-out infinite;
+  }
+
+  @keyframes hero-status-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes hero-status-ping {
+    0% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.5);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__status-dot,
+    .hero__status-dot::after {
+      animation: none;
+    }
   }
 
   .hero__lead {
@@ -420,6 +460,16 @@ const facts = [
     border-radius: var(--radius-md);
     padding: var(--space-20);
     color: inherit;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .hero__memo:hover {
+    border-color: var(--color-border-default);
+  }
+
+  .hero__memo:hover .hero__memo-arrow {
+    transform: rotate(90deg) translateX(4px);
   }
 
   .hero__memo-left {
@@ -459,6 +509,13 @@ const facts = [
     flex-shrink: 0;
     transform: rotate(90deg);
     color: var(--color-text-primary);
+    transition: transform 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__memo-arrow {
+      transition: none;
+    }
   }
 </style>
 

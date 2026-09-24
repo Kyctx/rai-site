@@ -6,7 +6,8 @@
   "address": { "text": "Нижний Новгород, улица Лескова, 11", "hours": "ежедневно 9:00–21:00", "yandexMapsUrl": "TODO" },
   "email": { "address": "ray@mail.ru", "note": "ответим в течение часа" },
   "messengers": { "telegram": "TODO", "max": "TODO", "whatsapp": "TODO" },
-  "reviews": { "source": "Яндекс Карты", "rating": 4.9, "count": 212, "url": "TODO" },
+  "reviews": { "source": "Яндекс Карты", "sourcePrepositional": "Яндекс Картах", "rating": 4.9, "count": 212, "url": "TODO" },
+  "contractSampleUrl": "TODO",
   "legal": {
     "company": "ООО «Рай»",
     "inn": "TODO",

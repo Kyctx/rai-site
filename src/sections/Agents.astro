@@ -1,0 +1,393 @@
+---
+// 06 · Agents — Наши агенты. Desktop 198:2927, mobile 214:3989.
+// Клик по имени в списке меняет карточку агента (справа на desktop, под
+// списком на mobile). Список имён и карточка — общий tablist/tabpanel.
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import agents from '@data/agents.json';
+import site from '@data/site.json';
+---
+
+<section id="agents" aria-labelledby="agents-title" class="section agents">
+  <div class="container agents__inner">
+    <div class="agents__header">
+      <div class="agents__heading">
+        <p class="eyebrow">Наши агенты</p>
+        <h2 id="agents-title" class="h2">
+          Люди, которым вы доверите <em>самое важное</em>
+        </h2>
+      </div>
+      <p class="body-m agents__lead">
+        У каждого агента есть табельный номер — его можно проверить до встречи. Так вы защищены от мошенников.
+      </p>
+    </div>
+
+    <div class="agents__body">
+      <div class="agents__names">
+        <div role="tablist" aria-label="Агенты" class="agents__names-list">
+          {agents.list.map((agent, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`agent-tab-${i}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`agent-panel-${i}`}
+              tabindex={i === 0 ? 0 : -1}
+              class:list={['h2', 'agents__name', { 'agents__name--active': i === 0 }]}
+            >
+              {agent.name}
+              {i === 0 && <Icon name="arrow" size={28} class="agents__name-icon" />}
+            </button>
+          ))}
+        </div>
+        <p class="body-m agents__all">Все {agents.totalOnShift} агентов смены</p>
+      </div>
+
+      {agents.list.map((agent, i) => (
+        <div
+          id={`agent-panel-${i}`}
+          role="tabpanel"
+          aria-labelledby={`agent-tab-${i}`}
+          class="agents__card"
+          hidden={i !== 0}
+        >
+          <div class="agents__card-who">
+            <span class="h5 agents__card-monogram" aria-hidden="true">{agent.initials}</span>
+            <div class="agents__card-role">
+              <p class="label-m agents__card-role-title">{agent.role}</p>
+              <p class="body-s agents__card-role-note">{agent.availability}</p>
+            </div>
+          </div>
+
+          <div class="agents__card-facts">
+            <div class="agents__card-fact">
+              <p class="body-s agents__card-fact-label">Стаж</p>
+              <p class="body-s-strong agents__card-fact-value">{agent.experienceYears} {agent.experienceYears === 1 ? 'год' : 'лет'}</p>
+            </div>
+            <div class="agents__card-fact">
+              <p class="body-s agents__card-fact-label">Провела прощаний</p>
+              <p class="body-s-strong agents__card-fact-value">{agent.farewellsCount}</p>
+            </div>
+            <div class="agents__card-fact">
+              <p class="body-s agents__card-fact-label">Табельный номер</p>
+              <p class="body-s-strong agents__card-fact-value">{agent.badgeNumber}</p>
+            </div>
+          </div>
+
+          <p class="quote agents__card-quote">«{agent.quote}»</p>
+
+          <div class="agents__card-actions">
+            <Button href={`tel:${site.phone.tel}`} variant="dark" size="m" icon="phone" iconPosition="start" class="agents__card-call">
+              Позвонить {agent.firstNameDative}
+            </Button>
+            <button type="button" class="label-m agents__card-verify">
+              <Icon name="shield" size={16} />
+              Проверить агента по номеру
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .agents {
+    background: var(--color-bg-surface);
+  }
+
+  .agents__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__inner {
+      gap: var(--space-48);
+    }
+  }
+
+  .agents__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  .agents__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .agents__heading .h2 {
+    max-width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .agents__heading .h2 {
+      max-width: 720px;
+    }
+  }
+
+  .agents__lead {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__lead {
+      max-width: 380px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ===== Тело секции: список имён + карточка ===== */
+
+  .agents__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__body {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  /* ===== Список имён ===== */
+
+  .agents__names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .agents__names {
+      width: 660px;
+      flex-shrink: 0;
+    }
+  }
+
+  .agents__names-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
+  .agents__name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-20);
+    color: var(--color-text-primary);
+    opacity: 0.22;
+    transition: opacity 0.2s ease;
+  }
+
+  .agents__name:hover {
+    opacity: 0.55;
+  }
+
+  .agents__name--active,
+  .agents__name--active:hover {
+    opacity: 1;
+  }
+
+  .agents__name-icon {
+    flex-shrink: 0;
+    color: currentColor;
+  }
+
+  .agents__all {
+    padding-top: var(--space-20);
+    color: var(--color-accent-primary);
+    font-weight: 500;
+  }
+
+  @media (min-width: 1024px) {
+    .agents__all {
+      padding-top: var(--space-32);
+    }
+  }
+
+  /* ===== Карточка агента ===== */
+
+  .agents__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    width: 100%;
+    padding: var(--space-24);
+    background: var(--color-bg-page);
+    border-radius: var(--radius-lg);
+  }
+
+  .agents__card[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .agents__card {
+      width: 460px;
+      flex-shrink: 0;
+      padding: var(--space-40);
+    }
+  }
+
+  .agents__card-who {
+    display: flex;
+    align-items: center;
+    gap: var(--space-20);
+  }
+
+  .agents__card-monogram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-text-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__card-monogram {
+      width: 72px;
+      height: 72px;
+    }
+  }
+
+  .agents__card-role {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .agents__card-role-title {
+    color: var(--color-text-primary);
+  }
+
+  .agents__card-role-note {
+    color: var(--color-accent-primary);
+  }
+
+  .agents__card-facts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .agents__card-fact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+    padding-block: var(--space-12);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .agents__card-fact:last-child {
+    border-bottom: none;
+  }
+
+  .agents__card-fact-label {
+    color: var(--color-text-secondary);
+  }
+
+  .agents__card-fact-value {
+    color: var(--color-text-primary);
+    text-align: right;
+  }
+
+  .agents__card-quote {
+    color: var(--color-text-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .agents__card-quote {
+      max-width: 388px;
+    }
+  }
+
+  .agents__card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .agents__card-call {
+    width: 100%;
+  }
+
+  .agents__card-verify {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    color: var(--color-accent-primary);
+  }
+
+  .agents__card-verify:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+  }
+</style>
+
+<script>
+  const root = document.querySelector('.agents');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    const icon = tabs[0]?.querySelector('.agents__name-icon');
+
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        tab.classList.toggle('agents__name--active', selected);
+        // Иконка-стрелка стоит только у активного имени
+        const existingIcon = tab.querySelector('.agents__name-icon');
+        if (selected && !existingIcon && icon) {
+          tab.append(icon.cloneNode(true));
+        } else if (!selected && existingIcon) {
+          existingIcon.remove();
+        }
+      });
+      panels.forEach((p, i) => {
+        p.hidden = i !== index;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (key === 'ArrowDown' || key === 'ArrowUp') {
+          event.preventDefault();
+          const dir = key === 'ArrowDown' ? 1 : -1;
+          const next = (index + dir + tabs.length) % tabs.length;
+          activate(next, true);
+        }
+      });
+    });
+  }
+</script>

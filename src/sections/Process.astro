@@ -1,0 +1,184 @@
+---
+// 04 · Process — Как всё проходит. Desktop 198:2806, mobile 214:3868.
+// Тёмная секция (.section--dark). Desktop: горизонтальная шкала (точка +
+// градиентная линия) над 5 колонками, разделённых вертикальными линиями.
+// Mobile: шкала скрыта, шаги — вертикальный список с линией слева.
+const steps = [
+  {
+    time: 'Сразу',
+    title: 'Звонок или заявка',
+    text: 'Отвечаем за 40 секунд и говорим, что сделать в первые минуты.',
+  },
+  {
+    time: 'Через 40 минут',
+    title: 'Встреча с агентом',
+    text: 'Агент приезжает домой, в больницу или в морг и берёт документы на себя.',
+  },
+  {
+    time: 'В первый час',
+    title: 'Смета и договор',
+    text: 'Собираем смету при вас. Цена в договоре больше не меняется.',
+  },
+  {
+    time: '1–2 дня',
+    title: 'Подготовка',
+    text: 'Место, транспорт, зал, одежда и цветы — агент докладывает о каждом шаге.',
+  },
+  {
+    time: 'В назначенный день',
+    title: 'Прощание',
+    text: 'Мы рядом от начала до конца, а после — поможем с пособием и памятником.',
+  },
+];
+---
+
+<section id="process" aria-labelledby="process-title" class="section section--dark process">
+  <div class="container process__inner">
+    <div class="process__header">
+      <div class="process__heading">
+        <p class="eyebrow">Как всё проходит</p>
+        <h2 id="process-title" class="h2">
+          Пять спокойных шагов — <em>и ни одного лишнего решения</em>
+        </h2>
+      </div>
+      <p class="body-m process__lead">
+        Большую часть делаем мы. От вас — только согласовать то, что важно именно вам.
+      </p>
+    </div>
+
+    <!-- Desktop: горизонтальная шкала над шагами (скрыта на mobile) -->
+    <div class="process__scale" aria-hidden="true">
+      <span class="process__scale-dot"></span>
+      <span class="process__scale-line"></span>
+    </div>
+
+    <ol class="process__steps">
+      {steps.map((step) => (
+        <li class="process__step">
+          <p class="label-m process__step-time">{step.time}</p>
+          <p class="h4 process__step-title">{step.title}</p>
+          <p class="body-s process__step-text">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section-header-gap);
+  }
+
+  .process__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  @media (min-width: 1024px) {
+    .process__header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  .process__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .process__heading .h2 {
+    max-width: 760px;
+  }
+
+  .process__lead {
+    opacity: 0.65;
+  }
+
+  @media (min-width: 1024px) {
+    .process__lead {
+      max-width: 340px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ===== Шкала (только desktop) ===== */
+
+  .process__scale {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .process__scale {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+  }
+
+  .process__scale-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent-soft);
+  }
+
+  .process__scale-line {
+    flex: 1 0 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--color-accent-soft), rgba(221, 226, 211, 0.08));
+  }
+
+  /* ===== Шаги ===== */
+
+  .process__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .process__steps {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+    }
+  }
+
+  .process__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-left: var(--space-20);
+    border-left: 1px solid color-mix(in srgb, var(--color-text-inverse) 20%, transparent);
+  }
+
+  @media (min-width: 1024px) {
+    .process__step {
+      flex: 1 0 0;
+      min-width: 0;
+      gap: var(--space-12);
+      padding-inline: var(--space-24);
+    }
+
+    .process__step:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+
+  .process__step-time {
+    color: var(--color-accent-soft);
+  }
+
+  .process__step-text {
+    opacity: 0.62;
+  }
+</style>

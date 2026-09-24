@@ -1,0 +1,48 @@
+---
+// Согласие на обработку персональных данных — заглушка (152-ФЗ требует,
+// чтобы страница существовала и на неё вела ссылка из каждой формы).
+// TODO: заменить текст на юридически выверенный вариант перед запуском.
+import Base from '@layouts/Base.astro';
+import Header from '@sections/Header.astro';
+import Footer from '@sections/Footer.astro';
+import site from '@data/site.json';
+---
+
+<Base title="Согласие на обработку персональных данных — Рай" description="Согласие на обработку персональных данных ритуальной компании «Рай».">
+  <Fragment slot="header">
+    <Header />
+  </Fragment>
+
+  <section class="section">
+    <div class="container legal-page">
+      <p class="eyebrow">Юридическая информация</p>
+      <h1 class="h2">Согласие на обработку персональных данных</h1>
+      <p class="body-l legal-page__lead">
+        Здесь будет опубликован полный текст согласия, который вы принимаете, отправляя заявку {site.legal.company}.
+      </p>
+      <p class="body-m legal-page__todo">Страница в разработке — текст будет добавлен перед запуском сайта.</p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .legal-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    max-width: 720px;
+  }
+
+  .legal-page__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .legal-page__todo {
+    padding: var(--space-16);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+  }
+</style>

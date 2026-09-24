@@ -1,0 +1,61 @@
+---
+// Сегментированный переключатель (UI Kit «Рай»): капсула на всю ширину с N
+// равными сегментами, активный залит --color-accent-primary. Используется как
+// role="tablist" — вызывающий код сам меняет aria-selected и переключает
+// контент по клику (см. пример в Trust.astro).
+interface Segment {
+  id: string;
+  label: string;
+  controls: string;
+}
+
+interface Props {
+  segments: Segment[];
+  active?: number;
+  label: string;
+  class?: string;
+}
+
+const { segments, active = 0, label, class: className } = Astro.props;
+---
+
+<div role="tablist" aria-label={label} class:list={['segmented', className]}>
+  {segments.map((s, i) => (
+    <button
+      type="button"
+      role="tab"
+      id={s.id}
+      aria-selected={i === active ? 'true' : 'false'}
+      aria-controls={s.controls}
+      tabindex={i === active ? 0 : -1}
+      class:list={['segmented__item', 'label-m', { 'segmented__item--active': i === active }]}
+    >
+      {s.label}
+    </button>
+  ))}
+</div>
+
+<style>
+  .segmented {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-bg-page);
+    border-radius: var(--radius-pill);
+    width: 100%;
+  }
+
+  .segmented__item {
+    flex: 1 0 0;
+    padding-block: 10px;
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .segmented__item--active {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+</style>

@@ -1,0 +1,1425 @@
+---
+// 08 · Calculator — Калькулятор стоимости. Desktop 198:3056, mobile 214:4118.
+// Desktop: форма (белая, слева) и смета (тёмная, справа) — видны сразу,
+// опции — чипы/карточки в самой форме.
+// Mobile: форма и смета — один блок без зазора (белая часть сверху, тёмная
+// снизу). «Что нужно», «Гроб», «Дополнительно» — поля-селекты, открывают
+// шторку снизу (<dialog>). Шторки see rai-handoff.md 5a (235:4133, 235:4178, 235:4205).
+// Весь пересчёт — на клиенте (<script> в конце файла), данные — только из prices.json.
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import prices from '@data/prices.json';
+
+const { calculator, benefit } = prices;
+// Для цели calc_used (см. CLAUDE.md → Аналитика) — тот же способ подключения,
+// что и в Base.astro.
+const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID ?? null;
+
+// Значения по умолчанию для начального рендера полей-селектов (mobile) —
+// берём явно по id из defaults, а не по индексу массива.
+const defaultBase = calculator.base.find((b) => b.id === calculator.defaults.base) ?? calculator.base[0];
+const defaultCoffin = calculator.coffins.find((c) => c.id === calculator.defaults.coffin) ?? calculator.coffins[0];
+const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от ${item.pricePerKm} ₽/км` : `от ${(item.price ?? 0).toLocaleString('ru-RU')} ₽`;
+---
+
+<section id="calculator" aria-labelledby="calculator-title" class="section calculator">
+  <div class="container calculator__inner">
+    <div class="calculator__header">
+      <div class="calculator__heading">
+        <p class="eyebrow">Калькулятор стоимости</p>
+        <h2 id="calculator-title" class="h2">
+          Рассчитайте стоимость <em>за минуту</em>
+        </h2>
+      </div>
+      <p class="body-m calculator__lead">
+        Нажмите «i», чтобы узнать, что входит в опцию. Пособие учтено автоматически.
+      </p>
+    </div>
+
+    <div class="calculator__body">
+      <!-- ===== Форма ===== -->
+      <div class="calculator__form">
+        <!-- Что нужно -->
+        <div class="calculator__group">
+          <p class="label-m calculator__group-title">Что нужно</p>
+
+          <!-- Desktop: карточки-кнопки в ряд -->
+          <div class="calculator__base-grid" role="radiogroup" aria-label="Что нужно">
+            {calculator.base.map((item) => (
+              <button
+                type="button"
+                role="radio"
+                aria-checked={item.id === calculator.defaults.base ? 'true' : 'false'}
+                data-base-id={item.id}
+                class:list={['calculator__base-item', { 'calculator__base-item--active': item.id === calculator.defaults.base }]}
+              >
+                <span class="calculator__base-icon" aria-hidden="true">
+                  <Icon name={item.icon} size={18} />
+                </span>
+                <span class="calculator__base-text">
+                  <span class="label-m calculator__base-title">{item.title}</span>
+                  <span class="body-s calculator__base-price">{defaultBasePrice(item)}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <!-- Mobile: поле-селект, открывает шторку -->
+          <button type="button" class="calculator__field" data-open-sheet="base" aria-haspopup="dialog">
+            <span class="calculator__field-icon" aria-hidden="true" data-base-icon>
+              <Icon name={defaultBase.icon} size={18} />
+            </span>
+            <span class="calculator__field-text">
+              <span class="label-m calculator__field-title" data-base-title>{defaultBase.title}</span>
+              <span class="body-s calculator__field-subtitle" data-base-subtitle>{defaultBasePrice(defaultBase)}</span>
+            </span>
+            <Icon name="chevron" size={18} class="calculator__field-chevron" />
+          </button>
+        </div>
+
+        <!-- В базе: ... -->
+        <div class="calculator__note">
+          <Icon name="check" size={16} class="calculator__note-icon" />
+          <p class="body-s calculator__note-text">
+            <span class="calculator__note-label" data-base-includes-label>В базе {(defaultBase.price ?? 0).toLocaleString('ru-RU')} ₽:</span>{' '}
+            <span data-base-includes>{defaultBase.includes}</span>
+          </p>
+        </div>
+
+        <!-- Гроб -->
+        <div class="calculator__group">
+          <div class="calculator__group-head">
+            <p class="label-m calculator__group-title">Гроб</p>
+            <a href="#pricing" class="body-s calculator__group-link">выбрать в каталоге →</a>
+          </div>
+
+          <!-- Desktop: три карточки -->
+          <div class="calculator__coffin-grid" role="radiogroup" aria-label="Гроб">
+            {calculator.coffins.map((coffin) => (
+              <button
+                type="button"
+                role="radio"
+                aria-checked={coffin.id === calculator.defaults.coffin ? 'true' : 'false'}
+                data-coffin-id={coffin.id}
+                class:list={['calculator__coffin-item', { 'calculator__coffin-item--active': coffin.id === calculator.defaults.coffin }]}
+              >
+                <span class="calculator__coffin-row">
+                  <span class="label-m calculator__coffin-title">{coffin.title}</span>
+                  <span class="body-s calculator__coffin-price">{coffin.price === 0 ? (coffin.label ?? 'включено') : `+${coffin.price.toLocaleString('ru-RU')} ₽`}</span>
+                </span>
+                <span class="body-s calculator__coffin-desc">{coffin.description}</span>
+              </button>
+            ))}
+          </div>
+
+          <!-- Mobile: поле-селект -->
+          <button type="button" class="calculator__field" data-open-sheet="coffin" aria-haspopup="dialog">
+            <span class="calculator__field-text">
+              <span class="label-m calculator__field-title" data-coffin-title>{defaultCoffin.title}</span>
+              <span class="body-s calculator__field-subtitle" data-coffin-subtitle>{defaultCoffin.description}</span>
+            </span>
+            <span class="body-s-strong calculator__field-price" data-coffin-price></span>
+            <Icon name="chevron" size={18} class="calculator__field-chevron" />
+          </button>
+        </div>
+
+        <!-- Дополнительно -->
+        <div class="calculator__group">
+          <div class="calculator__group-head">
+            <p class="label-m calculator__group-title">Дополнительно</p>
+            <p class="body-s calculator__group-count" data-extras-count>выбрано {calculator.defaults.extras.length}</p>
+          </div>
+
+          <!-- Desktop: чипы 2 в ряд -->
+          <div class="calculator__extras-grid">
+            {calculator.extras.map((extra) => {
+              const checked = calculator.defaults.extras.includes(extra.id);
+              return (
+                <label class:list={['calculator__chip', { 'calculator__chip--active': checked }]}>
+                  <input type="checkbox" class="calculator__chip-input" data-extra-id={extra.id} checked={checked} />
+                  <span class="calculator__chip-box" aria-hidden="true">
+                    <Icon name="check" size={12} class="calculator__chip-check" />
+                  </span>
+                  <span class="body-m calculator__chip-label">{extra.title}</span>
+                  <span class="calculator__chip-info" aria-hidden="true">
+                    <Icon name="info" size={16} />
+                  </span>
+                  <span class="body-s calculator__chip-price">{extra.price === 0 ? '0 ₽' : `+${extra.price.toLocaleString('ru-RU')} ₽`}</span>
+                </label>
+              );
+            })}
+          </div>
+
+          <!-- Mobile: поле-селект -->
+          <button type="button" class="calculator__field" data-open-sheet="extras" aria-haspopup="dialog">
+            <span class="calculator__field-text">
+              <span class="label-m calculator__field-title" data-extras-title>Выбрано {calculator.defaults.extras.length} услуги</span>
+              <span class="body-s calculator__field-subtitle" data-extras-subtitle></span>
+            </span>
+            <span class="body-s-strong calculator__field-price" data-extras-price></span>
+            <Icon name="chevron" size={18} class="calculator__field-chevron" />
+          </button>
+        </div>
+
+        <!-- Поминки + Льготы -->
+        <div class="calculator__row">
+          <div class="calculator__stepper">
+            <p class="body-m calculator__stepper-label">Поминки, {calculator.wakePerGuest.toLocaleString('ru-RU')} ₽/гость</p>
+            <div class="calculator__stepper-control">
+              <button type="button" class="calculator__stepper-btn" data-guests-decrement aria-label="Уменьшить число гостей">−</button>
+              <span class="label-m calculator__stepper-value" data-guests-value aria-live="polite">{calculator.defaults.guests}</span>
+              <button type="button" class="calculator__stepper-btn" data-guests-increment aria-label="Увеличить число гостей">+</button>
+            </div>
+          </div>
+
+          <button type="button" class="calculator__field calculator__field--privileges" data-open-sheet="privileges" aria-haspopup="dialog" disabled>
+            <span class="body-m calculator__field-privileges-text">Льготы: нет</span>
+            <Icon name="chevron" size={18} class="calculator__field-chevron" />
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== Смета ===== -->
+      <div class="calculator__summary">
+        <p class="label-s calculator__summary-eyebrow">Итого с учётом пособия</p>
+        <p class="num-l calculator__summary-total" data-total aria-live="polite">0 ₽</p>
+        <p class="body-s calculator__summary-installment" data-installment>или 0 ₽/мес на {prices.installmentMonths} месяцев</p>
+
+        <div class="calculator__summary-breakdown">
+          <div class="calculator__summary-line">
+            <p>Похороны под ключ</p>
+            <p data-line-base>0 ₽</p>
+          </div>
+          <div class="calculator__summary-line">
+            <p data-line-coffin-label>Гроб и опции</p>
+            <p data-line-coffin>0 ₽</p>
+          </div>
+          <div class="calculator__summary-line calculator__summary-line--wake" data-line-wake-row hidden>
+            <p>Поминки</p>
+            <p data-line-wake>0 ₽</p>
+          </div>
+          <div class="calculator__summary-line calculator__summary-line--benefit">
+            <p>Пособие на погребение</p>
+            <p data-line-benefit>−{benefit.display.toLocaleString('ru-RU')} ₽</p>
+          </div>
+        </div>
+
+        <details class="calculator__summary-details">
+          <summary class="body-s calculator__summary-toggle">
+            Показать всю смету
+            <Icon name="chevron" size={16} class="calculator__summary-toggle-icon" />
+          </summary>
+          <div class="calculator__summary-full" data-full-breakdown></div>
+        </details>
+
+        <div class="calculator__summary-perks">
+          <p class="body-s calculator__summary-perk">
+            <Icon name="check" size={14} />
+            Цена фиксируется в договоре
+          </p>
+          <p class="body-s calculator__summary-perk">
+            <Icon name="check" size={14} />
+            Без предоплаты и доплат
+          </p>
+        </div>
+
+        <div class="calculator__summary-spacer" aria-hidden="true"></div>
+
+        <Button type="button" variant="primary" size="m" icon="arrow" class="calculator__summary-cta" data-fix-estimate>
+          Зафиксировать смету
+        </Button>
+        <button type="button" class="body-s calculator__summary-pdf" data-download-pdf>
+          <Icon name="file" size={16} />
+          Смета в PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Mobile: шторки (bottom sheet) ===== -->
+
+  <dialog class="calc-sheet" data-sheet="base" aria-labelledby="sheet-base-title">
+    <div class="calc-sheet__handle" aria-hidden="true"></div>
+    <div class="calc-sheet__head">
+      <p id="sheet-base-title" class="h4 calc-sheet__title">Что нужно?</p>
+      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
+        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
+      </button>
+    </div>
+    <div class="calc-sheet__list" role="radiogroup" aria-label="Что нужно">
+      {calculator.base.map((item) => (
+        <button type="button" role="radio" aria-checked="false" data-sheet-base-option={item.id} class="calc-sheet__option">
+          <span class="calc-sheet__option-icon" aria-hidden="true">
+            <Icon name={item.icon} size={18} />
+          </span>
+          <span class="calc-sheet__option-text">
+            <span class="label-m">{item.title}</span>
+            <span class="body-s calc-sheet__option-note">{defaultBasePrice(item)}</span>
+          </span>
+          <Icon name="check" size={18} class="calc-sheet__option-check" />
+        </button>
+      ))}
+    </div>
+  </dialog>
+
+  <dialog class="calc-sheet" data-sheet="coffin" aria-labelledby="sheet-coffin-title">
+    <div class="calc-sheet__handle" aria-hidden="true"></div>
+    <div class="calc-sheet__head">
+      <p id="sheet-coffin-title" class="h4 calc-sheet__title">Гроб</p>
+      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
+        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
+      </button>
+    </div>
+    <div class="calc-sheet__list" role="radiogroup" aria-label="Гроб">
+      {calculator.coffins.map((coffin) => (
+        <button type="button" role="radio" aria-checked="false" data-sheet-coffin-option={coffin.id} class="calc-sheet__option calc-sheet__option--coffin">
+          <span class="calc-sheet__option-text">
+            <span class="label-m">{coffin.title}</span>
+            <span class="body-s calc-sheet__option-note">{coffin.description}</span>
+          </span>
+          <span class="body-s-strong calc-sheet__option-price">{coffin.price === 0 ? (coffin.label ?? 'включено') : `+${coffin.price.toLocaleString('ru-RU')} ₽`}</span>
+          <Icon name="check" size={18} class="calc-sheet__option-check" />
+        </button>
+      ))}
+    </div>
+  </dialog>
+
+  <dialog class="calc-sheet" data-sheet="extras" aria-labelledby="sheet-extras-title">
+    <div class="calc-sheet__handle" aria-hidden="true"></div>
+    <div class="calc-sheet__head">
+      <p id="sheet-extras-title" class="h4 calc-sheet__title">Дополнительные услуги</p>
+      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
+        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
+      </button>
+    </div>
+    <div class="calc-sheet__list">
+      {calculator.extras.map((extra) => (
+        <label class="calc-sheet__checkbox">
+          <input type="checkbox" class="calc-sheet__checkbox-input" data-sheet-extra-option={extra.id} />
+          <span class="calc-sheet__checkbox-box" aria-hidden="true">
+            <Icon name="check" size={12} class="calc-sheet__checkbox-check" />
+          </span>
+          <span class="body-m calc-sheet__checkbox-label">{extra.title}</span>
+          <span class="body-s calc-sheet__checkbox-price">{extra.price === 0 ? '0 ₽' : `+${extra.price.toLocaleString('ru-RU')} ₽`}</span>
+        </label>
+      ))}
+    </div>
+    <button type="button" class="label-m calc-sheet__done" data-close-sheet>
+      Готово <span data-sheet-extras-sum></span>
+    </button>
+  </dialog>
+</section>
+
+<style>
+  .calculator__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__inner {
+      gap: var(--space-48);
+    }
+  }
+
+  .calculator__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  .calculator__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .calculator__lead {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__lead {
+      max-width: 360px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ===== Тело: форма + смета ===== */
+
+  .calculator__body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    overflow: clip;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__body {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-24);
+      border-radius: 0;
+      overflow: visible;
+    }
+  }
+
+  .calculator__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    width: 100%;
+    padding: var(--space-24);
+    background: var(--color-bg-surface);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__form {
+      flex: 1 0 0;
+      min-width: 0;
+      gap: var(--space-40);
+      padding: var(--space-40);
+      border-radius: var(--radius-lg);
+    }
+  }
+
+  .calculator__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+  }
+
+  .calculator__group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+  }
+
+  .calculator__group-title {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__group-link,
+  .calculator__group-count {
+    color: var(--color-text-secondary);
+  }
+
+  /* ===== "Что нужно" — desktop grid ===== */
+
+  .calculator__base-grid {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__base-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8);
+      width: 100%;
+    }
+  }
+
+  .calculator__base-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    flex: 1 0 0;
+    min-width: 0;
+    padding: var(--space-12) var(--space-16);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    text-align: left;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .calculator__base-item--active {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calculator__base-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-text-primary);
+  }
+
+  .calculator__base-item--active .calculator__base-icon {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .calculator__base-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .calculator__base-title {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__base-price {
+    color: var(--color-accent-primary);
+  }
+
+  .calculator__base-item:not(.calculator__base-item--active) .calculator__base-price {
+    color: var(--color-text-secondary);
+  }
+
+  /* ===== Поле-селект (mobile) ===== */
+
+  .calculator__field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    width: 100%;
+    padding: 10px var(--space-16) 10px 10px;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__field {
+      display: none;
+    }
+  }
+
+  .calculator__field-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .calculator__field-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  .calculator__field-title {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__field-subtitle {
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__field-price {
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+  }
+
+  :global(.calculator__field-chevron) {
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calculator__field--privileges {
+    padding: var(--space-12) var(--space-16);
+  }
+
+  .calculator__field-privileges-text {
+    flex: 1 0 0;
+    color: var(--color-text-primary);
+  }
+
+  /* ===== "В базе: ..." ===== */
+
+  .calculator__note {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-8);
+    width: 100%;
+    padding: var(--space-12);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+  }
+
+  :global(.calculator__note-icon) {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-text-primary);
+  }
+
+  .calculator__note-text {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__note-label {
+    font-weight: 500;
+  }
+
+  /* ===== "Гроб" — desktop grid ===== */
+
+  .calculator__coffin-grid {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__coffin-grid {
+      display: flex;
+      gap: var(--space-8);
+      width: 100%;
+    }
+  }
+
+  .calculator__coffin-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    flex: 1 0 0;
+    min-width: 0;
+    padding: var(--space-12) var(--space-16);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    text-align: left;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .calculator__coffin-item--active {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calculator__coffin-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
+  .calculator__coffin-title {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__coffin-price {
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__coffin-item--active .calculator__coffin-price {
+    color: var(--color-accent-primary);
+  }
+
+  .calculator__coffin-desc {
+    color: var(--color-text-secondary);
+  }
+
+  /* ===== "Дополнительно" — desktop чипы ===== */
+
+  .calculator__extras-grid {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      width: 100%;
+    }
+  }
+
+  .calculator__chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-12);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .calculator__chip--active {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calculator__chip-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  /* Чекбокс — по UI Kit радиус 6px, вне общей шкалы --radius-* (там нет
+     значения между sm:8 и просто углами) */
+  .calculator__chip-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--color-border-default);
+    border-radius: 6px;
+    color: var(--color-text-inverse);
+  }
+
+  .calculator__chip--active .calculator__chip-box {
+    background: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calculator__chip :global(.calculator__chip-check) {
+    display: none;
+  }
+
+  .calculator__chip--active :global(.calculator__chip-check) {
+    display: block;
+  }
+
+  .calculator__chip-label {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calculator__chip-info {
+    display: flex;
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__chip-price {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__chip--active .calculator__chip-price {
+    color: var(--color-text-primary);
+  }
+
+  /* ===== Поминки + Льготы ===== */
+
+  .calculator__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__row {
+      flex-direction: row;
+    }
+  }
+
+  .calculator__stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    width: 100%;
+    padding: var(--space-8) var(--space-8) var(--space-8) var(--space-16);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__stepper {
+      flex: 1 0 0;
+    }
+  }
+
+  .calculator__stepper-label {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calculator__stepper-control {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+  }
+
+  .calculator__stepper-btn {
+    padding: var(--space-4) var(--space-12);
+    color: var(--color-accent-primary);
+    font-weight: 500;
+  }
+
+  .calculator__stepper-value {
+    min-width: 20px;
+    padding: var(--space-4) var(--space-12);
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__field--privileges {
+      display: flex;
+      flex: 1 0 0;
+    }
+  }
+
+  /* ===== Смета ===== */
+
+  .calculator__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    width: 100%;
+    padding: var(--space-24);
+    background: var(--color-bg-inverse);
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__summary {
+      width: 380px;
+      flex-shrink: 0;
+      min-height: 550px;
+      padding: var(--space-32);
+      border-radius: var(--radius-lg);
+    }
+  }
+
+  .calculator__summary-eyebrow {
+    color: var(--color-accent-soft);
+    text-transform: uppercase;
+  }
+
+  .calculator__summary-total {
+    color: var(--color-text-inverse);
+    line-height: 1;
+  }
+
+  .calculator__summary-installment {
+    margin-top: calc(-1 * var(--space-12));
+    color: var(--color-text-inverse);
+    opacity: 0.7;
+  }
+
+  .calculator__summary-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    width: 100%;
+    padding-top: var(--space-16);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .calculator__summary-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-8);
+    color: var(--color-text-inverse);
+  }
+
+  .calculator__summary-line--benefit p:last-child {
+    color: var(--color-accent-soft);
+  }
+
+  .calculator__summary-line--wake[hidden] {
+    display: none;
+  }
+
+  .calculator__summary-details {
+    width: 100%;
+  }
+
+  .calculator__summary-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--color-accent-soft);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .calculator__summary-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .calculator__summary-details[open] :global(.calculator__summary-toggle-icon) {
+    transform: rotate(180deg);
+  }
+
+  .calculator__summary-full {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-top: var(--space-12);
+  }
+
+  .calculator__summary-full:empty {
+    display: none;
+  }
+
+  .calculator__summary-full .calculator__summary-line {
+    font-size: 14px;
+  }
+
+  .calculator__summary-perks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
+  .calculator__summary-perk {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--color-text-inverse);
+  }
+
+  .calculator__summary-spacer {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .calculator__summary-spacer {
+      display: block;
+      flex: 1 0 0;
+      min-height: 0;
+    }
+  }
+
+  .calculator__summary-cta {
+    width: 100%;
+  }
+
+  .calculator__summary-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    width: 100%;
+    color: var(--color-text-inverse);
+  }
+
+  /* ===== Mobile: шторки (bottom sheet) ===== */
+
+  /* dialog:not([open]) скрыт браузером по умолчанию (display: none) — стили
+     раскладки задаём только для открытого состояния, чтобы не перебить это
+     дефолтное поведение безусловным display */
+  .calc-sheet {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh;
+    margin: 0;
+    padding: var(--space-24) var(--space-20) var(--space-20);
+    background: var(--color-bg-surface);
+    border: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow-y: auto;
+  }
+
+  .calc-sheet[open] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+  }
+
+  @media (min-width: 1024px) {
+    .calc-sheet[open] {
+      display: none;
+    }
+  }
+
+  .calc-sheet::backdrop {
+    background: rgba(38, 41, 44, 0.5);
+  }
+
+  .calc-sheet[open] {
+    animation: calc-sheet-in 0.25s ease-out;
+  }
+
+  @keyframes calc-sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calc-sheet[open] {
+      animation: none;
+    }
+  }
+
+  .calc-sheet__handle {
+    align-self: center;
+    width: 40px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--color-border-default);
+  }
+
+  .calc-sheet__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+  }
+
+  .calc-sheet__title {
+    color: var(--color-text-primary);
+  }
+
+  .calc-sheet__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+
+  :global(.calc-sheet__close-icon) {
+    transform: rotate(45deg);
+  }
+
+  .calc-sheet__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calc-sheet__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+    text-align: left;
+  }
+
+  .calc-sheet__list > .calc-sheet__option:last-child {
+    border-bottom: none;
+  }
+
+  .calc-sheet__option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-text-primary);
+  }
+
+  .calc-sheet__option[aria-checked="true"] .calc-sheet__option-icon {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .calc-sheet__option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calc-sheet__option-note {
+    color: var(--color-text-secondary);
+  }
+
+  .calc-sheet__option-price {
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+  }
+
+  /* :global — Icon.astro вставляет SVG через set:html, у него нет scoped
+     атрибута Astro, обычный селектор компонента его не достанет (см.
+     похожий комментарий в Trust.astro/Reviews.astro) */
+  .calc-sheet__option :global(.calc-sheet__option-check) {
+    flex-shrink: 0;
+    color: var(--color-accent-primary);
+    visibility: hidden;
+  }
+
+  .calc-sheet__option[aria-checked="true"] :global(.calc-sheet__option-check) {
+    visibility: visible;
+  }
+
+  .calc-sheet__checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding-block: var(--space-12);
+    border-bottom: 1px solid var(--color-border-default);
+    cursor: pointer;
+  }
+
+  .calc-sheet__list > .calc-sheet__checkbox:last-child {
+    border-bottom: none;
+  }
+
+  .calc-sheet__checkbox-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .calc-sheet__checkbox-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--color-border-default);
+    border-radius: 6px;
+    color: var(--color-text-inverse);
+  }
+
+  .calc-sheet__checkbox-box :global(.calc-sheet__checkbox-check) {
+    display: none;
+  }
+
+  .calc-sheet__checkbox-input:checked + .calc-sheet__checkbox-box {
+    background: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calc-sheet__checkbox-input:checked + .calc-sheet__checkbox-box :global(.calc-sheet__checkbox-check) {
+    display: block;
+  }
+
+  .calc-sheet__checkbox-label {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .calc-sheet__checkbox-price {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .calc-sheet__done {
+    width: 100%;
+    padding: var(--space-16) var(--space-24);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-pill);
+    text-align: center;
+  }
+</style>
+
+<script define:vars={{ calculatorData: calculator, benefitAmount: benefit.display, installmentMonths: prices.installmentMonths, metrikaId }}>
+  // Данные калькулятора приходят из prices.json через define:vars — тот же
+  // источник, что и разметка выше, никаких чисел не хардкодим в JS.
+  const root = document.querySelector('.calculator');
+  if (root) {
+    const fmt = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+
+    const state = {
+      base: calculatorData.defaults.base,
+      coffin: calculatorData.defaults.coffin,
+      extras: new Set(calculatorData.defaults.extras),
+      guests: calculatorData.defaults.guests,
+    };
+
+    const findBase = (id) => calculatorData.base.find((b) => b.id === id);
+    const findCoffin = (id) => calculatorData.coffins.find((c) => c.id === id);
+    const basePrice = (item) => item.pricePerKm ?? item.price ?? 0;
+
+    // ===== Пересчёт и рендер сметы =====
+
+    const render = () => {
+      const base = findBase(state.base);
+      const coffin = findCoffin(state.coffin);
+      const extrasList = calculatorData.extras.filter((e) => state.extras.has(e.id));
+      const extrasSum = extrasList.reduce((sum, e) => sum + e.price, 0);
+      const coffinAndExtras = coffin.price + extrasSum;
+      const wakeSum = state.guests * calculatorData.wakePerGuest;
+      const basePriceValue = basePrice(base);
+      const rawTotal = basePriceValue + coffinAndExtras + wakeSum - benefitAmount;
+      const total = Math.max(0, rawTotal);
+      const installment = Math.round(total / installmentMonths);
+
+      // --- Итог ---
+      const totalEl = root.querySelector('[data-total]');
+      if (totalEl) totalEl.textContent = fmt(total);
+      const installmentEl = root.querySelector('[data-installment]');
+      if (installmentEl) installmentEl.textContent = `или ${fmt(installment)}/мес на ${installmentMonths} месяцев`;
+
+      // --- Краткая смета ---
+      const lineBase = root.querySelector('[data-line-base]');
+      if (lineBase) lineBase.textContent = fmt(basePriceValue);
+
+      const coffinLabel = root.querySelector('[data-line-coffin-label]');
+      if (coffinLabel) coffinLabel.textContent = `Гроб и ${extrasList.length} ${extrasList.length === 1 ? 'опция' : extrasList.length < 5 ? 'опции' : 'опций'}`;
+      const lineCoffin = root.querySelector('[data-line-coffin]');
+      if (lineCoffin) lineCoffin.textContent = fmt(coffinAndExtras);
+
+      const wakeRow = root.querySelector('[data-line-wake-row]');
+      const lineWake = root.querySelector('[data-line-wake]');
+      if (wakeRow) wakeRow.hidden = state.guests === 0;
+      if (lineWake) lineWake.textContent = fmt(wakeSum);
+
+      // --- Полная смета (details) ---
+      const fullEl = root.querySelector('[data-full-breakdown]');
+      if (fullEl) {
+        const rows = [
+          [base.title, fmt(basePriceValue)],
+          [`Гроб «${coffin.title}»`, coffin.price === 0 ? (coffin.label ?? 'включено') : fmt(coffin.price)],
+          ...extrasList.map((e) => [e.title, fmt(e.price)]),
+        ];
+        if (state.guests > 0) rows.push([`Поминки, ${state.guests} гостей`, fmt(wakeSum)]);
+        fullEl.innerHTML = rows
+          .map(([label, value]) => `<div class="calculator__summary-line"><p>${label}</p><p>${value}</p></div>`)
+          .join('');
+      }
+
+      // --- Синхронизация desktop-контролов ---
+      root.querySelectorAll('[data-base-id]').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(btn.dataset.baseId === state.base));
+        btn.classList.toggle('calculator__base-item--active', btn.dataset.baseId === state.base);
+      });
+      root.querySelectorAll('[data-coffin-id]').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(btn.dataset.coffinId === state.coffin));
+        btn.classList.toggle('calculator__coffin-item--active', btn.dataset.coffinId === state.coffin);
+      });
+      root.querySelectorAll('[data-extra-id]').forEach((input) => {
+        const checked = state.extras.has(input.dataset.extraId);
+        input.checked = checked;
+        input.closest('.calculator__chip')?.classList.toggle('calculator__chip--active', checked);
+      });
+
+      // --- Синхронизация mobile-полей ---
+      const baseTitleEl = root.querySelector('[data-base-title]');
+      const baseSubtitleEl = root.querySelector('[data-base-subtitle]');
+      const baseIconEl = root.querySelector('[data-base-icon]');
+      if (baseTitleEl) baseTitleEl.textContent = base.title;
+      if (baseSubtitleEl) baseSubtitleEl.textContent = base.pricePerKm ? `от ${base.pricePerKm} ₽/км` : `от ${fmt(base.price)}`;
+      if (baseIconEl) baseIconEl.innerHTML = document.querySelector(`[data-sheet-base-option="${base.id}"] .calc-sheet__option-icon`)?.innerHTML ?? baseIconEl.innerHTML;
+
+      const baseIncludesLabel = root.querySelector('[data-base-includes-label]');
+      const baseIncludes = root.querySelector('[data-base-includes]');
+      if (baseIncludesLabel) baseIncludesLabel.textContent = `В базе ${fmt(basePriceValue)}:`;
+      if (baseIncludes) baseIncludes.textContent = base.includes ?? '';
+      const noteEl = root.querySelector('.calculator__note');
+      if (noteEl) noteEl.style.display = base.includes ? '' : 'none';
+
+      const coffinTitleEl = root.querySelector('[data-coffin-title]');
+      const coffinSubtitleEl = root.querySelector('[data-coffin-subtitle]');
+      const coffinPriceEl = root.querySelector('[data-coffin-price]');
+      if (coffinTitleEl) coffinTitleEl.textContent = coffin.title;
+      if (coffinSubtitleEl) coffinSubtitleEl.textContent = coffin.description;
+      if (coffinPriceEl) coffinPriceEl.textContent = coffin.price === 0 ? (coffin.label ?? 'включено') : `+${fmt(coffin.price)}`;
+
+      const extrasTitleEl = root.querySelector('[data-extras-title]');
+      const extrasSubtitleEl = root.querySelector('[data-extras-subtitle]');
+      const extrasPriceEl = root.querySelector('[data-extras-price]');
+      const extrasCountEl = root.querySelector('[data-extras-count]');
+      if (extrasTitleEl) extrasTitleEl.textContent = extrasList.length ? `Выбрано ${extrasList.length} ${extrasList.length === 1 ? 'услуга' : 'услуги'}` : 'Ничего не выбрано';
+      if (extrasSubtitleEl) extrasSubtitleEl.textContent = extrasList.map((e) => e.title).join(', ');
+      if (extrasPriceEl) extrasPriceEl.textContent = extrasSum ? `+${fmt(extrasSum)}` : '';
+      if (extrasCountEl) extrasCountEl.textContent = `выбрано ${extrasList.length}`;
+
+      const guestsValueEl = root.querySelector('[data-guests-value]');
+      if (guestsValueEl) guestsValueEl.textContent = String(state.guests);
+
+      // --- Синхронизация шторок ---
+      root.querySelectorAll('[data-sheet-base-option]').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(btn.dataset.sheetBaseOption === state.base));
+      });
+      root.querySelectorAll('[data-sheet-coffin-option]').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(btn.dataset.sheetCoffinOption === state.coffin));
+      });
+      root.querySelectorAll('[data-sheet-extra-option]').forEach((input) => {
+        input.checked = state.extras.has(input.dataset.sheetExtraOption);
+      });
+      const sheetExtrasSum = root.querySelector('[data-sheet-extras-sum]');
+      if (sheetExtrasSum) sheetExtrasSum.textContent = extrasSum ? `· +${fmt(extrasSum)}` : '';
+    };
+
+    // ===== Обработчики: desktop =====
+
+    root.querySelectorAll('[data-base-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.base = btn.dataset.baseId;
+        render();
+        trackCalcUsed();
+      });
+    });
+
+    root.querySelectorAll('[data-coffin-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.coffin = btn.dataset.coffinId;
+        render();
+        trackCalcUsed();
+      });
+    });
+
+    root.querySelectorAll('[data-extra-id]').forEach((input) => {
+      input.addEventListener('change', () => {
+        if (input.checked) state.extras.add(input.dataset.extraId);
+        else state.extras.delete(input.dataset.extraId);
+        render();
+        trackCalcUsed();
+      });
+    });
+
+    const guestsDecrement = root.querySelector('[data-guests-decrement]');
+    const guestsIncrement = root.querySelector('[data-guests-increment]');
+    guestsDecrement?.addEventListener('click', () => {
+      state.guests = Math.max(0, state.guests - 1);
+      render();
+      trackCalcUsed();
+    });
+    guestsIncrement?.addEventListener('click', () => {
+      state.guests = state.guests + 1;
+      render();
+      trackCalcUsed();
+    });
+
+    // ===== Обработчики: шторки (mobile) =====
+
+    const sheets = {
+      base: root.querySelector('[data-sheet="base"]'),
+      coffin: root.querySelector('[data-sheet="coffin"]'),
+      extras: root.querySelector('[data-sheet="extras"]'),
+    };
+
+    const openSheet = (name) => {
+      const dialog = sheets[name];
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSheet = (dialog) => {
+      dialog.close();
+      document.body.style.overflow = '';
+    };
+
+    root.querySelectorAll('[data-open-sheet]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        openSheet(btn.dataset.openSheet);
+      });
+    });
+
+    Object.values(sheets).forEach((dialog) => {
+      if (!dialog) return;
+
+      // Крестик / кнопка "Готово"
+      dialog.querySelectorAll('[data-close-sheet]').forEach((btn) => {
+        btn.addEventListener('click', () => closeSheet(dialog));
+      });
+
+      // Клик по backdrop (тап вне контента шторки закрывает её)
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) closeSheet(dialog);
+      });
+
+      // Esc и любой способ закрытия <dialog> — снимаем блокировку скролла
+      dialog.addEventListener('close', () => {
+        document.body.style.overflow = '';
+      });
+    });
+
+    // "Что нужно" — одиночный выбор, закрывается сразу после выбора
+    sheets.base?.querySelectorAll('[data-sheet-base-option]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.base = btn.dataset.sheetBaseOption;
+        render();
+        trackCalcUsed();
+        closeSheet(sheets.base);
+      });
+    });
+
+    // "Гроб" — одиночный выбор, закрывается сразу после выбора
+    sheets.coffin?.querySelectorAll('[data-sheet-coffin-option]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.coffin = btn.dataset.sheetCoffinOption;
+        render();
+        trackCalcUsed();
+        closeSheet(sheets.coffin);
+      });
+    });
+
+    // "Дополнительно" — чекбоксы, закрывается только по "Готово"/крестику
+    sheets.extras?.querySelectorAll('[data-sheet-extra-option]').forEach((input) => {
+      input.addEventListener('change', () => {
+        if (input.checked) state.extras.add(input.dataset.sheetExtraOption);
+        else state.extras.delete(input.dataset.sheetExtraOption);
+        render();
+        trackCalcUsed();
+      });
+    });
+
+    // ===== Метрика (цель calc_used — не чаще раза в сессии) =====
+
+    let calcUsedTracked = false;
+    function trackCalcUsed() {
+      if (calcUsedTracked || !metrikaId) return;
+      calcUsedTracked = true;
+      window.ym?.(metrikaId, 'reachGoal', 'calc_used');
+    }
+
+    // ===== Кнопка "Зафиксировать смету" =====
+    // TODO: секция Contact (заявка) ещё не сверстана — по правилу
+    // "форма заявки со сметой" пока временная заглушка. Когда появится
+    // форма, заменить на открытие модалки/скролл к #contact с передачей
+    // сметы (base/coffin/extras/guests/total из state выше).
+    const fixButton = root.querySelector('[data-fix-estimate]');
+    fixButton?.addEventListener('click', () => {
+      window.alert('Форма заявки скоро появится здесь. Пока позвоните нам — смету обсудим по телефону.');
+    });
+
+    // ===== PDF (заглушка) =====
+    const pdfButton = root.querySelector('[data-download-pdf]');
+    pdfButton?.addEventListener('click', () => {
+      window.alert('Формирование сметы в PDF — скоро будет доступно. Пока смету можно передать агенту по телефону.');
+    });
+
+    render();
+  }
+</script>

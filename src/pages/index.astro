@@ -4,6 +4,13 @@ import Base from '@layouts/Base.astro';
 import Header from '@sections/Header.astro';
 import Hero from '@sections/Hero.astro';
 import Services from '@sections/Services.astro';
+import Trust from '@sections/Trust.astro';
+import Process from '@sections/Process.astro';
+import Pricing from '@sections/Pricing.astro';
+import Agents from '@sections/Agents.astro';
+import Reviews from '@sections/Reviews.astro';
+import Calculator from '@sections/Calculator.astro';
+import Footer from '@sections/Footer.astro';
 ---
 
 <Base title="Рай — ритуальные услуги в Нижнем Новгороде" description="Круглосуточная ритуальная служба: организация похорон, кремация, перевозка, памятники. Приедем в течение часа.">
@@ -14,7 +21,12 @@ import Services from '@sections/Services.astro';
   <div id="top"></div>
   <Hero />
   <Services />
-  <p class="container body-m" style="padding-block: var(--space-96);">
-    Остальные секции главной страницы будут добавлены по одной (см. таблицу секций в CLAUDE.md).
-  </p>
+  <Trust />
+  <Process />
+  <Pricing />
+  <Agents />
+  <Reviews />
+  <Calculator />
+
+  <Footer slot="footer" />
 </Base>

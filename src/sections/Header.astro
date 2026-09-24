@@ -66,30 +66,11 @@ const telHref = `tel:${site.phone.tel}`;
     </div>
   </div>
 
-  <!-- Мобильное меню на весь экран (214:4722) -->
+  <!-- Мобильное меню на весь экран (214:4722). Пилюля с логотипом и кнопками
+       (звонок + переключатель) не дублируется здесь — остаётся видна поверх
+       оверлея та же самая из .header__pill--mobile (z-index хедера выше). -->
   <div class="mobile-menu" id="mobile-menu" hidden>
-    <div class="mobile-menu__bar">
-      <a href="#top" class="header__logo" aria-label={`${site.brand} — на главную`}>
-        <Logo width={53} />
-      </a>
-      <div class="header__actions">
-        <a href={telHref} class="header__icon-btn header__icon-btn--accent pill-hover" aria-label="Позвонить" data-goal="call_click">
-          <Icon name="phone" size={20} />
-        </a>
-        <button
-          type="button"
-          class="header__icon-btn pill-hover"
-          id="menu-close"
-          aria-label="Закрыть меню"
-        >
-          <svg class="menu-icon is-open" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-            <line class="menu-icon__line menu-icon__line--top" x1="2.5" y1="6" x2="17.5" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line class="menu-icon__line menu-icon__line--mid" x1="2.5" y1="10" x2="17.5" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line class="menu-icon__line menu-icon__line--bottom" x1="2.5" y1="14" x2="17.5" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <div class="mobile-menu__spacer" aria-hidden="true"></div>
 
     <div class="mobile-menu__content">
       <ul class="mobile-menu__links">
@@ -143,6 +124,8 @@ const telHref = `tel:${site.phone.tel}`;
     width: 100%;
     max-width: var(--container-max);
     margin-inline: auto;
+    position: relative;
+    z-index: 201;
   }
 
   @media (min-width: 1024px) {
@@ -363,15 +346,10 @@ const telHref = `tel:${site.phone.tel}`;
     }
   }
 
-  .mobile-menu__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--color-bg-surface);
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-sm);
-    padding: var(--space-8);
-    padding-left: var(--space-20);
+  /* Место под реальную пилюлю хедера — она не дублируется в разметке,
+     а остаётся на месте (z-index хедера выше .mobile-menu). */
+  .mobile-menu__spacer {
+    height: 60px;
     flex-shrink: 0;
   }
 
@@ -379,12 +357,18 @@ const telHref = `tel:${site.phone.tel}`;
      Верхняя и нижняя поворачиваются на 45°/-45° и сходятся в центр
      (на позицию средней линии, y=10), средняя тем временем исчезает. */
   .menu-icon__line {
-    transform-origin: 10px 10px;
+    transform-box: fill-box;
+    transform-origin: center;
     transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
   }
 
+  /* CSS transform применяется справа налево: сначала translateY (сдвиг
+     линии к центру, в её исходной системе координат), потом rotate
+     (поворот уже сдвинутой линии вокруг её собственного center).
+     Обратный порядок (rotate затем translateY) давал перекошенный крест —
+     сдвиг применялся бы в повёрнутых, а не в исходных вертикальных осях. */
   .menu-icon.is-open .menu-icon__line--top {
-    transform: translateY(4px) rotate(45deg);
+    transform: rotate(45deg) translateY(4px);
   }
 
   .menu-icon.is-open .menu-icon__line--mid {
@@ -392,7 +376,7 @@ const telHref = `tel:${site.phone.tel}`;
   }
 
   .menu-icon.is-open .menu-icon__line--bottom {
-    transform: translateY(-4px) rotate(-45deg);
+    transform: rotate(-45deg) translateY(-4px);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -405,7 +389,9 @@ const telHref = `tel:${site.phone.tel}`;
     display: flex;
     flex-direction: column;
     gap: var(--space-32);
-    padding-inline: var(--space-8);
+    padding: var(--space-24) var(--space-16);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
     flex: 1;
   }
 
@@ -508,30 +494,31 @@ const telHref = `tel:${site.phone.tel}`;
 
 <script>
   const toggle = document.getElementById('menu-toggle');
-  const closeBtn = document.getElementById('menu-close');
   const menu = document.getElementById('mobile-menu');
 
-  if (toggle && closeBtn && menu) {
+  if (toggle && menu) {
     const toggleIcon = toggle.querySelector('.menu-icon');
 
     const open = () => {
       menu.hidden = false;
       document.body.style.overflow = 'hidden';
       toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Закрыть меню');
       toggleIcon?.classList.add('is-open');
-      closeBtn.focus();
     };
 
     const close = () => {
       menu.hidden = true;
       document.body.style.overflow = '';
       toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Открыть меню');
       toggleIcon?.classList.remove('is-open');
-      toggle.focus();
     };
 
-    toggle.addEventListener('click', open);
-    closeBtn.addEventListener('click', close);
+    toggle.addEventListener('click', () => {
+      if (menu.hidden) open();
+      else close();
+    });
 
     menu.addEventListener('click', (event) => {
       if (event.target instanceof HTMLElement && event.target.closest('a')) {
@@ -542,6 +529,7 @@ const telHref = `tel:${site.phone.tel}`;
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && !menu.hidden) {
         close();
+        toggle.focus();
       }
     });
   }

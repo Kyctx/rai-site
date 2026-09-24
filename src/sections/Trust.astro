@@ -1,0 +1,531 @@
+---
+// 03 · Trust — Почему нам доверяют. Desktop 198:2740, mobile 214:3802.
+// Desktop: две колонки рядом («Как принято» / «Как у нас»), обе видны сразу.
+// Mobile: одна карточка с переключателем «Как у нас / Как принято» (по
+// умолчанию «Как у нас») — вторая колонка скрыта, пока не выбрана вкладка.
+import Icon from '@components/Icon.astro';
+import Segmented from '@components/Segmented.astro';
+import site from '@data/site.json';
+
+// Пять пунктов сравнения — привычная практика рынка vs как делаем мы.
+// Порядок и тексты — из макета Figma (198:2740 / 214:3802).
+const rows = [
+  {
+    label: 'Цена',
+    common: 'Называют по телефону, итог — после похорон',
+    ours: 'Смета при вас, цена в договоре не меняется',
+  },
+  {
+    label: 'Оплата',
+    common: 'Просят предоплату до договора',
+    ours: 'Платите, когда всё сделано, можно из пособия',
+  },
+  {
+    label: 'Кто ведёт',
+    common: 'Каждый раз новый человек',
+    ours: 'Один агент — от звонка до поминок',
+  },
+  {
+    label: 'Допродажи',
+    common: '«Это обязательно» — и счёт растёт',
+    ours: 'Только то, что вы выбрали сами',
+  },
+  {
+    label: 'Кто пришёл',
+    common: 'Непонятно, откуда этот человек',
+    ours: 'Табельный номер — проверите за минуту',
+  },
+];
+---
+
+<section id="trust" aria-labelledby="trust-title" class="section trust">
+  <div class="container trust__inner">
+    <div class="trust__header">
+      <div class="trust__heading">
+        <p class="eyebrow">Почему нам доверяют</p>
+        <h2 id="trust-title" class="h2">
+          Те же похороны — <em>другое отношение</em>
+        </h2>
+      </div>
+      <p class="body-m trust__lead">
+        Мы знаем, чего боятся семьи, когда звонят в ритуальную службу. Поэтому убрали это из своей работы — и записали в договор.
+      </p>
+    </div>
+
+    <!-- Mobile: карточка (переключатель+список) и подвал-договор — два блока
+         без зазора, друг под другом. Desktop: другая структура, см. .trust__compare -->
+    <div class="trust__card">
+      <div class="trust__card-top">
+        <Segmented
+          class="trust__switch"
+          label="Сравнение с рынком"
+          active={0}
+          segments={[
+            { id: 'trust-tab-ours', label: 'Как у нас', controls: 'trust-panel-ours' },
+            { id: 'trust-tab-common', label: 'Как принято', controls: 'trust-panel-common' },
+          ]}
+        />
+
+        <div class="trust__compare">
+          <div
+            id="trust-panel-common"
+            role="tabpanel"
+            aria-labelledby="trust-tab-common"
+            class="trust__col trust__col--common"
+            hidden
+          >
+            <p class="label-s trust__col-eyebrow">Как часто бывает</p>
+            <p class="h3 trust__col-title">Как принято</p>
+            <ul class="trust__rows">
+              {rows.map((row) => (
+                <li class="trust__row">
+                  <div class="trust__row-body">
+                    <p class="body-s trust__row-label">{row.label}</p>
+                    <p class="body-l trust__row-text">{row.common}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div
+            id="trust-panel-ours"
+            role="tabpanel"
+            aria-labelledby="trust-tab-ours"
+            class="trust__col trust__col--ours"
+          >
+            <p class="label-s trust__col-eyebrow">Как у нас</p>
+            <p class="h3 trust__col-title">«Рай»</p>
+            <ul class="trust__rows">
+              {rows.map((row) => (
+                <li class="trust__row">
+                  <span class="trust__row-marker" aria-hidden="true">
+                    <Icon name="check" size={18} class="trust__row-icon" />
+                  </span>
+                  <div class="trust__row-body">
+                    <p class="body-s trust__row-label">{row.label}</p>
+                    <p class="body-l-strong trust__row-text">{row.ours}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile: подвал — прижат к карточке снизу без зазора. Desktop: скрыт, см. .trust__contract--desktop -->
+      <div class="trust__contract">
+        <div class="trust__contract-head">
+          <Icon name="doc" size={20} class="trust__contract-icon" />
+          <p class="label-m trust__contract-text">Все 5 пунктов прописаны в договоре</p>
+        </div>
+        <a href={site.contractSampleUrl} class="body-s-strong trust__contract-link">
+          Открыть образец договора · PDF
+          <Icon name="arrow" size={16} />
+        </a>
+      </div>
+    </div>
+
+    <!-- Desktop: подвал — отдельная строка под карточкой (по макету) -->
+    <div class="trust__contract trust__contract--desktop">
+      <Icon name="doc" size={18} class="trust__contract-icon" />
+      <p class="body-m trust__contract-text">
+        Всё это записано в договоре — <a href={site.contractSampleUrl} class="trust__contract-link">посмотреть образец заранее</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section-header-gap);
+  }
+
+  .trust__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  .trust__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .trust__heading .h2 {
+    max-width: 760px;
+  }
+
+  .trust__lead {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__lead {
+      max-width: 380px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ===== Переключатель (mobile) ===== */
+  /* :global — Segmented.astro рендерит свой корневой элемент в собственном
+     scoped-контексте, обычный класс из Trust.astro его не достанет.
+     Специфичность самого компонента — .segmented[data-astro-cid] (класс +
+     атрибут), поэтому на desktop скрываем через ту же составную запись. */
+
+  @media (min-width: 1024px) {
+    :global(.trust__switch.segmented) {
+      display: none !important;
+    }
+  }
+
+  /* ===== Карточка (mobile) ===== */
+  /* На mobile всё — одна белая карточка: переключатель + список + подвал
+     договора внутри неё. На desktop это распадается на отдельные блоки
+     (см. .trust__compare и .trust__contract--desktop ниже). */
+
+  .trust__card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__card {
+      display: contents;
+    }
+  }
+
+  .trust__card-top {
+    padding: var(--space-8);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__card-top {
+      display: contents;
+    }
+  }
+
+  /* ===== Сравнение ===== */
+
+  .trust__compare {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__compare {
+      flex-direction: row;
+      align-items: stretch;
+      border-radius: var(--radius-lg);
+      overflow: clip;
+    }
+  }
+
+  .trust__col {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4) var(--space-12);
+  }
+
+  .trust__col[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__col {
+      flex: 1 0 0;
+      min-width: 0;
+      padding: var(--space-40) var(--space-48) var(--space-20);
+    }
+  }
+
+  /* На mobile обе колонки — на белом фоне карточки, цвет различается
+     только акцентом (маркер/переключатель). Заливка на всю колонку —
+     только на desktop. */
+  @media (min-width: 1024px) {
+    .trust__col--common {
+      background: var(--color-bg-secondary);
+      display: flex !important;
+    }
+
+    .trust__col--ours {
+      background: var(--color-accent-primary);
+      color: var(--color-text-inverse);
+    }
+  }
+
+  .trust__col-eyebrow {
+    display: none;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__col-eyebrow {
+      display: block;
+      margin-bottom: var(--space-8);
+    }
+
+    .trust__col--ours .trust__col-eyebrow {
+      color: var(--color-text-inverse);
+      opacity: 0.7;
+    }
+  }
+
+  .trust__col-title {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__col-title {
+      display: block;
+    }
+
+    .trust__col--common .trust__col-title {
+      color: var(--color-text-primary);
+      opacity: 0.55;
+    }
+
+    .trust__col--ours .trust__col-title {
+      color: var(--color-text-inverse);
+    }
+  }
+
+  .trust__rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__rows {
+      margin-top: var(--space-24);
+    }
+  }
+
+  .trust__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-12);
+    padding-block: 14px;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__col--ours .trust__row {
+      border-bottom-color: var(--color-text-inverse);
+    }
+  }
+
+  .trust__row:last-child {
+    border-bottom: none;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__row {
+      padding-block: var(--space-20);
+    }
+  }
+
+  /* Маркер-галочка — только у колонки «Как у нас»: залитый кружок на
+     mobile и на desktop одинаковый по смыслу, но на desktop без фона
+     (по макету — там просто иконка на зелёном фоне колонки). */
+  .trust__row-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-primary);
+  }
+
+  .trust__row-marker :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__row-marker {
+      width: 18px;
+      height: 18px;
+      background: none;
+      color: var(--color-text-inverse);
+    }
+
+    .trust__row-marker :global(svg) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .trust__row-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__row-body {
+      gap: var(--space-4);
+    }
+  }
+
+  /* Подпись (label) — сверху на mobile, снизу на desktop (по макету) */
+  .trust__row-label {
+    order: -1;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__row-label {
+      order: 0;
+    }
+  }
+
+  .trust__row-text {
+    color: var(--color-text-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .trust__col--common .trust__row-text {
+      opacity: 0.6;
+    }
+
+    .trust__col--ours .trust__row-text {
+      color: var(--color-text-inverse);
+    }
+
+    .trust__col--ours .trust__row-label {
+      color: var(--color-text-inverse);
+      opacity: 0.7;
+    }
+  }
+
+  /* ===== Подвал — ссылка на договор ===== */
+
+  /* Mobile: зелёная плашка прижата к карточке снизу, без зазора —
+     скругление только у нижних углов (по макету) */
+  .trust__contract {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding: var(--space-20);
+    background: var(--color-accent-soft);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .trust__contract-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .trust__contract-icon {
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+  }
+
+  .trust__contract-text {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .trust__contract-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--color-accent-primary);
+  }
+
+  .trust__contract-link:hover {
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Desktop: скрываем mobile-подвал, показываем отдельную строку под карточкой */
+  @media (min-width: 1024px) {
+    .trust__card > .trust__contract {
+      display: none;
+    }
+  }
+
+  .trust__contract--desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .trust__contract--desktop {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-12);
+      background: none;
+      padding: 0;
+      color: var(--color-text-secondary);
+    }
+
+    .trust__contract--desktop .trust__contract-icon {
+      color: var(--color-text-secondary);
+    }
+
+    .trust__contract--desktop .trust__contract-text {
+      width: auto;
+      color: var(--color-text-secondary);
+    }
+
+    .trust__contract--desktop .trust__contract-link {
+      font-weight: 500;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector('.trust');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        tab.classList.toggle('segmented__item--active', selected);
+      });
+      const activeControls = tabs[index].getAttribute('aria-controls');
+      panels.forEach((p) => {
+        p.hidden = p.id !== activeControls;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (key === 'ArrowRight' || key === 'ArrowLeft') {
+          event.preventDefault();
+          const dir = key === 'ArrowRight' ? 1 : -1;
+          const next = (index + dir + tabs.length) % tabs.length;
+          activate(next, true);
+        }
+      });
+    });
+  }
+</script>

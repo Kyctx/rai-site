@@ -1,0 +1,590 @@
+---
+// 05 · Pricing — Тарифы. Desktop 198:2836, mobile 214:3898.
+// Переключатель «Захоронение / Кремация» меняет цены в 3 карточках.
+// Desktop: карточки видны все сразу, «Оптимальный» — приподнят (тёмный фон).
+// Mobile: карточки — аккордеон, «Оптимальный» развёрнут по умолчанию.
+import Icon from '@components/Icon.astro';
+import Button from '@components/Button.astro';
+import prices from '@data/prices.json';
+
+const groups = [
+  { id: 'burial', label: 'Захоронение', tariffs: prices.tariffs.burial },
+  { id: 'cremation', label: 'Кремация', tariffs: prices.tariffs.cremation },
+];
+---
+
+<section id="pricing" aria-labelledby="pricing-title" class="section pricing">
+  <div class="container pricing__inner">
+    <div class="pricing__header">
+      <p class="eyebrow">Стоимость</p>
+      <h2 id="pricing-title" class="h2">
+        Честные цены — <em>без доплат в процессе</em>
+      </h2>
+      <p class="body-l pricing__lead">
+        Цена фиксируется в договоре. Пособие на погребение {prices.benefit.display.toLocaleString('ru-RU')} ₽ учтём сразу и оформим за вас.
+      </p>
+    </div>
+
+    <div role="tablist" aria-label="Вид услуги" class="pricing__toggle">
+      {groups.map((g, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`pricing-tab-${g.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`pricing-panel-${g.id}`}
+          tabindex={i === 0 ? 0 : -1}
+          class:list={['pricing__toggle-item', 'label-m', { 'pricing__toggle-item--active': i === 0 }]}
+        >
+          {g.label}
+        </button>
+      ))}
+    </div>
+
+    {groups.map((g, i) => (
+      <div
+        id={`pricing-panel-${g.id}`}
+        role="tabpanel"
+        aria-labelledby={`pricing-tab-${g.id}`}
+        class="pricing__cards"
+        hidden={i !== 0}
+      >
+        {g.tariffs.map((t) => (
+          <Fragment>
+            {/* Desktop: карточки всегда развёрнуты — обычный <div>. Внутри
+                <details> Chromium не даёт flex-grow/height:100% работать
+                на прямых детях (проверено изолированно, это не «схлопнутый»
+                отступ — дочерний spacer физически не растёт), поэтому для
+                desktop используем не аккордеон, а простой блок. */}
+            <div class:list={['pricing__card', 'pricing__card--desktop', { 'pricing__card--featured': t.featured }]}>
+              <div class="pricing__card-head">
+                <p class="title pricing__card-title">{t.title}</p>
+                {t.badge && <span class="body-s pricing__card-badge">{t.badge}</span>}
+              </div>
+
+              <p class="body-m pricing__card-subtitle">{t.subtitle}</p>
+
+              <div class="pricing__card-price">
+                <p class="num-l pricing__card-price-value">от {t.from.toLocaleString('ru-RU')} ₽</p>
+                <p class="body-s pricing__card-price-note">или {t.perMonth.toLocaleString('ru-RU')} ₽/мес без переплат</p>
+              </div>
+
+              <ul class="pricing__card-includes">
+                {t.includes.map((item) => (
+                  <li class="pricing__card-include">
+                    <Icon name="check" size={18} class="pricing__card-include-icon" />
+                    <span class="body-m">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="pricing__card-spacer" aria-hidden="true"></div>
+
+              <Button variant={t.featured ? 'primary' : 'outline'} size="m" icon="arrow" class="pricing__card-cta">
+                Выбрать тариф
+              </Button>
+            </div>
+
+            {/* Mobile: те же карточки — аккордеон. Цена — в summary, поэтому
+                видна и в свёрнутом виде; строка «или …/мес» показывается
+                только в раскрытом состоянии (управляется через [open]) */}
+            <details class:list={['pricing__card', 'pricing__card--mobile', { 'pricing__card--featured': t.featured }]} open>
+              <summary class="pricing__card-summary">
+                <div class="pricing__card-head">
+                  <p class="title pricing__card-title">{t.title}</p>
+                  {t.badge && <span class="body-s pricing__card-badge">{t.badge}</span>}
+                  <span class="pricing__card-chevron" aria-hidden="true"><Icon name="chevron" size={16} /></span>
+                </div>
+
+                <p class="body-m pricing__card-subtitle">{t.subtitle}</p>
+
+                <div class="pricing__card-price">
+                  <p class="num-l pricing__card-price-value">от {t.from.toLocaleString('ru-RU')} ₽</p>
+                  <p class="body-s pricing__card-price-note">или {t.perMonth.toLocaleString('ru-RU')} ₽/мес без переплат</p>
+                </div>
+              </summary>
+
+              {/* Браузер оборачивает весь контент после <summary> в анонимный
+                  flex-item — gap контейнера .pricing__card считает его одним
+                  блоком, а не отдельно <ul> и <Button> (проверено: без этой
+                  обёртки зазор между списком и кнопкой пропадает). Поэтому
+                  отступ summary→body задаём явным margin-top этой обёртки. */}
+              <div class="pricing__card-body">
+                <ul class="pricing__card-includes">
+                  {t.includes.map((item) => (
+                    <li class="pricing__card-include">
+                      <Icon name="check" size={18} class="pricing__card-include-icon" />
+                      <span class="body-m">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button variant={t.featured ? 'primary' : 'outline'} size="m" icon="arrow" class="pricing__card-cta">
+                  Выбрать тариф
+                </Button>
+              </div>
+            </details>
+          </Fragment>
+        ))}
+      </div>
+    ))}
+
+    <div class="pricing__guarantee">
+      <Icon name="doc" size={20} class="pricing__guarantee-icon" />
+      <p class="pricing__guarantee-text">
+        <span class="pricing__guarantee-desktop">
+          Похороны по гарантированному перечню — 0 ₽. Вместо пособия государство оплачивает базовые услуги: документы, гроб, перевозку и погребение. Организуем всё в этих рамках.
+        </span>
+        <span class="pricing__guarantee-mobile">
+          Можно бесплатно — по гарантированному перечню услуг вместо пособия.
+        </span>
+        {' '}
+        <a href="#guide" class="pricing__guarantee-link">Условия →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-32);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__inner {
+      gap: var(--space-48);
+    }
+  }
+
+  .pricing__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-16);
+    text-align: center;
+  }
+
+  .pricing__header .h2 {
+    max-width: 100%;
+  }
+
+  .pricing__lead {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__lead {
+      max-width: 640px;
+    }
+  }
+
+  /* ===== Переключатель ===== */
+
+  .pricing__toggle {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-pill);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__toggle {
+      width: auto;
+    }
+  }
+
+  .pricing__toggle-item {
+    flex: 1 0 0;
+    padding: 10px var(--space-24);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__toggle-item {
+      flex: none;
+      padding: var(--space-12) var(--space-24);
+    }
+  }
+
+  .pricing__toggle-item--active {
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+  }
+
+  /* ===== Карточки ===== */
+
+  .pricing__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+  }
+
+  .pricing__cards[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__cards {
+      flex-direction: row;
+      align-items: stretch;
+      gap: var(--space-24);
+    }
+  }
+
+  .pricing__card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-20);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Desktop-карточка (обычный <div>) — здесь gap на прямых детях работает
+     как обычно, задаём его прямо на .pricing__card--desktop ниже */
+
+  /* Mobile-карточка (<details>): всё, что после <summary>, браузер
+     оборачивает в анонимный flex-item, поэтому отступ summary→body
+     задаём margin-top у самой обёртки .pricing__card-body */
+  .pricing__card-body {
+    margin-top: var(--space-20);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-body {
+      margin-top: 0;
+    }
+  }
+
+  /* Desktop и mobile — разные элементы (div/details), см. комментарий
+     в разметке; показываем нужный по брейкпоинту */
+  .pricing__card--desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card--desktop {
+      display: flex;
+      flex: 1 0 0;
+      min-width: 0;
+      height: 640px;
+      gap: var(--space-24);
+      padding: var(--space-40);
+    }
+
+    .pricing__card--mobile {
+      display: none;
+    }
+  }
+
+  .pricing__card--featured {
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .pricing__card-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .pricing__card-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pricing__card-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  /* Mobile: шеврон — справа в том же ряду, что заголовок, на одной с ним
+     линии (а не по центру всей высоты summary, где вместе с ним ещё цена) */
+  .pricing__card--mobile .pricing__card-chevron {
+    margin-left: auto;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-head {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .pricing__card-badge {
+    padding: var(--space-8) var(--space-12);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+
+  .pricing__card-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .pricing__card--featured .pricing__card-chevron {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .pricing__card[open] .pricing__card-chevron {
+    transform: rotate(180deg);
+  }
+
+  .pricing__card-subtitle {
+    display: none;
+    color: var(--color-text-secondary);
+  }
+
+  .pricing__card--featured .pricing__card-subtitle {
+    color: var(--color-text-inverse);
+  }
+
+  /* Mobile: подзаголовок виден только в раскрытой карточке */
+  .pricing__card--mobile[open] .pricing__card-subtitle {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-subtitle {
+      display: block;
+    }
+  }
+
+  .pricing__card-price {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pricing__card-price-note {
+    display: none;
+    color: var(--color-text-secondary);
+  }
+
+  .pricing__card--featured .pricing__card-price-note {
+    color: var(--color-text-inverse);
+  }
+
+  /* Mobile: «или …/мес» видно только в раскрытой карточке */
+  .pricing__card--mobile[open] .pricing__card-price-note {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-price-note {
+      display: block;
+    }
+  }
+
+  .pricing__card-includes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    padding-top: var(--space-20);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .pricing__card--featured .pricing__card-includes {
+    border-top-color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-includes {
+      gap: var(--space-12);
+      padding-top: var(--space-24);
+    }
+  }
+
+  .pricing__card-include {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  .pricing__card-include-icon {
+    flex-shrink: 0;
+    color: var(--color-accent-primary);
+  }
+
+  .pricing__card--featured .pricing__card-include-icon {
+    color: var(--color-accent-soft);
+  }
+
+  .pricing__card-cta {
+    width: 100%;
+    margin-top: var(--space-20);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-cta {
+      margin-top: 0;
+    }
+  }
+
+  /* Заполняет всё лишнее место в карточке фиксированной высоты (640px),
+     прижимая кнопку к низу с ровным gap:24px, как и у остальных блоков
+     (по макету — узел «Spacer», flex-[1_0_0]) */
+  .pricing__card-spacer {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__card-spacer {
+      display: block;
+      flex: 1 0 0;
+      min-height: 0;
+    }
+  }
+
+  /* ===== Сноска про гарантированный перечень ===== */
+
+  .pricing__guarantee {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-12);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__guarantee {
+      align-items: center;
+      gap: var(--space-16);
+      padding: var(--space-20) var(--space-32);
+      background: var(--color-accent-soft);
+      border-radius: var(--radius-md);
+    }
+  }
+
+  .pricing__guarantee-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__guarantee-icon {
+      margin-top: 0;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .pricing__guarantee-text {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__guarantee-text {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .pricing__guarantee-desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .pricing__guarantee-desktop {
+      display: inline;
+    }
+    .pricing__guarantee-mobile {
+      display: none;
+    }
+  }
+
+  .pricing__guarantee-link {
+    font-weight: 500;
+    color: var(--color-accent-primary);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing__toggle-item,
+    .pricing__card-chevron {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector('.pricing');
+  if (root) {
+    // Переключатель «Захоронение / Кремация»
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+
+    const activate = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        tab.classList.toggle('pricing__toggle-item--active', selected);
+      });
+      panels.forEach((p, i) => {
+        p.hidden = i !== index;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (key === 'ArrowRight' || key === 'ArrowLeft') {
+          event.preventDefault();
+          const dir = key === 'ArrowRight' ? 1 : -1;
+          const next = (index + dir + tabs.length) % tabs.length;
+          activate(next, true);
+        }
+      });
+    });
+
+    // Аккордеон карточек (только mobile-разметка, .pricing__card--mobile —
+    // desktop-версия карточек это обычный <div>, всегда развёрнутый через CSS)
+    root.querySelectorAll<HTMLElement>('.pricing__cards').forEach((group) => {
+      const cards = Array.from(group.querySelectorAll<HTMLDetailsElement>('.pricing__card--mobile'));
+
+      // Изначально сворачиваем все, кроме карточки с featured-классом
+      cards.forEach((card) => {
+        card.open = card.classList.contains('pricing__card--featured');
+      });
+
+      cards.forEach((card) => {
+        card.addEventListener('toggle', () => {
+          if (card.open) {
+            cards.forEach((other) => {
+              if (other !== card) other.open = false;
+            });
+          }
+        });
+      });
+    });
+  }
+</script>

@@ -160,8 +160,8 @@ const services = [
             <div class="services__timeline">
               <p class="label-m services__timeline-title">{s.timelineTitle}</p>
               <ol class="services__steps">
-                {s.steps.map((step) => (
-                  <li class="services__step">
+                {s.steps.map((step, stepIndex) => (
+                  <li class:list={['services__step', { 'services__step--last': stepIndex === s.steps.length - 1 }]}>
                     <span class="services__step-rail" aria-hidden="true"></span>
                     <div class="services__step-body">
                       <p class="label-m">{step.title}</p>
@@ -205,8 +205,8 @@ const services = [
                 <span class="services__accordion-icon" aria-hidden="true"><Icon name="chevron" size={16} /></span>
               </summary>
               <ol class="services__steps services__steps--accordion">
-                {s.steps.map((step) => (
-                  <li class="services__step">
+                {s.steps.map((step, stepIndex) => (
+                  <li class:list={['services__step', { 'services__step--last': stepIndex === s.steps.length - 1 }]}>
                     <span class="services__step-rail" aria-hidden="true"></span>
                     <div class="services__step-body">
                       <p class="label-m">{step.title}</p>
@@ -238,6 +238,18 @@ const services = [
 
   .services__header .h2 {
     max-width: 820px;
+  }
+
+  .services__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 1024px) {
+    .services__body {
+      gap: 0;
+    }
   }
 
   /* ===== Вкладки ===== */
@@ -341,13 +353,16 @@ const services = [
   /* ===== Панель ===== */
 
   .services__panels {
-    background: var(--color-bg-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
     border-radius: var(--radius-lg);
   }
 
   @media (min-width: 1024px) {
     .services__panels {
-      border-radius: 0 20px 20px 20px;
+      background: var(--color-bg-surface);
+      border-radius: 0 0 20px 20px;
     }
   }
 
@@ -429,8 +444,8 @@ const services = [
     background: var(--color-border-default);
   }
 
-  .services__step:last-child .services__step-rail::after {
-    display: none;
+  .services__step--last .services__step-rail::after {
+    display: none !important;
   }
 
   .services__step-body {
@@ -452,7 +467,8 @@ const services = [
     align-items: flex-start;
     gap: var(--space-20);
     padding: var(--space-20);
-    background: var(--color-bg-page);
+    /* На mobile «Итог» — самостоятельная белая карточка (по макету) */
+    background: var(--color-bg-surface);
     border-radius: var(--radius-lg);
   }
 
@@ -461,6 +477,8 @@ const services = [
       padding: var(--space-32);
       width: 420px;
       flex-shrink: 0;
+      /* На desktop карточка-итог — бежевая вставка на фоне белой панели (по макету) */
+      background: var(--color-bg-page);
     }
   }
 
@@ -470,9 +488,22 @@ const services = [
 
   .services__price {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: var(--space-16);
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 1024px) {
+    .services__price {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: flex-end;
+      gap: var(--space-16);
+    }
+
+    .services__price-value,
+    .services__price-note {
+      flex-shrink: 0;
+    }
   }
 
   .services__price-note {
@@ -505,6 +536,8 @@ const services = [
 
   .services__accordion {
     padding: var(--space-16) var(--space-20);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
   }
 
   @media (min-width: 1024px) {
