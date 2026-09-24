@@ -1,0 +1,295 @@
+---
+// 10 · Faq — Вопросы. Desktop 198:3216, mobile 214:4278.
+// Слева — заголовок, лид и телефон (desktop — строкой, mobile — карточка
+// «Бесплатная консультация 24/7» с кнопкой звонка). Справа/снизу — список
+// вопросов на <details>/<summary>, открыт первый пункт (правило 6 в CLAUDE.md).
+import Icon from '@components/Icon.astro';
+import site from '@data/site.json';
+
+const telHref = `tel:${site.phone.tel}`;
+
+// В макете (198:3216 / 214:4278) текст ответа есть только у первого
+// вопроса — у остальных шести слоя с ответом нет вообще (не проработано в
+// Figma). Ответы ниже — демонстрационные (используют факты, уже принятые
+// в других секциях: время приезда агента — Process/Hero, табельный номер —
+// Trust, перевозка из другого города — Calculator/prices.json), заменить
+// на согласованные с заказчиком перед запуском (см. CLAUDE.md → «Заглушки»).
+const items = [
+  {
+    question: 'Сколько стоят похороны и из чего складывается цена?',
+    answer: 'Стоимость зависит от выбора кладбища или крематория, гроба и дополнительных услуг. Мы составляем подробную смету и фиксируем её в договоре — итоговая сумма не меняется.',
+  },
+  {
+    question: 'Какие документы нужны?',
+    answer: 'Для начала — паспорт того, кто организует похороны, и медицинское свидетельство о смерти. Остальные документы агент оформит вместе с вами или получит сам по доверенности.',
+  },
+  {
+    question: 'Можно ли оплатить после похорон или в рассрочку?',
+    answer: 'Да. Платить можно после того, как всё сделано, — в том числе из пособия на погребение. Если суммы не хватает, остаток можно оформить в рассрочку без переплаты.',
+  },
+  {
+    question: 'Как получить пособие на погребение?',
+    answer: 'Агент поможет собрать документы и подать заявление в Соцфонд в день обращения — решение приходит за 1 рабочий день, деньги — в течение 3.',
+  },
+  {
+    question: 'Как быстро приедет агент?',
+    answer: 'Агент выезжает сразу после звонка и обычно приезжает в течение 40–60 минут — по Нижнему Новгороду и области.',
+  },
+  {
+    question: 'Как проверить, что агент из вашей службы?',
+    answer: 'У каждого агента — табельный номер и удостоверение с фото. Позвоните на общий номер и продиктуйте его — оператор подтвердит, что агент наш.',
+  },
+  {
+    question: 'Работаете ли вы с другими городами?',
+    answer: 'Да, организуем перевозку из другого города и региона — стоимость считаем по километражу, документы оформляем на месте.',
+  },
+];
+---
+
+<section id="faq" aria-labelledby="faq-title" class="section faq">
+  <div class="container faq__inner">
+    <div class="faq__intro">
+      <p class="eyebrow faq__eyebrow">Вопросы и ответы</p>
+      <h2 id="faq-title" class="h2">
+        Отвечаем на то,<br /> <em>о чём спрашивают чаще всего</em>
+      </h2>
+      <p class="body-l faq__lead">
+        Не нашли ответ? Позвоните — консультация бесплатна и ни к чему не обязывает.
+      </p>
+
+      <!-- Desktop: строка иконка + номер -->
+      <a href={telHref} class="faq__phone faq__phone--desktop" data-goal="call_click">
+        <Icon name="phone" size={22} />
+        <span class="title">{site.phone.display}</span>
+      </a>
+
+      <!-- Mobile: карточка с кнопкой звонка -->
+      <div class="faq__phone-card">
+        <div class="faq__phone-card-text">
+          <p class="body-s faq__phone-card-label">Бесплатная консультация 24/7</p>
+          <p class="h4 faq__phone-card-number">{site.phone.display}</p>
+        </div>
+        <a href={telHref} class="faq__phone-card-btn" aria-label="Позвонить" data-goal="call_click">
+          <Icon name="phone" size={22} />
+        </a>
+      </div>
+    </div>
+
+    <ul class="faq__list">
+      {items.map((item, index) => (
+        <li>
+          <details class="faq__item" open={index === 0}>
+            <summary class="faq__item-summary">
+              <span class="title faq__item-question">{item.question}</span>
+              <span class="faq__item-toggle" aria-hidden="true">
+                <Icon name="plus" size={20} class="faq__item-icon faq__item-icon--plus" />
+                <Icon name="chevron" size={20} class="faq__item-icon faq__item-icon--chevron" />
+              </span>
+            </summary>
+            <p class="body-m faq__item-answer">{item.answer}</p>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .faq__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+
+  @media (min-width: 1024px) {
+    .faq__inner {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-96);
+    }
+  }
+
+  /* ===== Слева: заголовок, лид, телефон ===== */
+
+  .faq__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .faq__intro {
+      width: 400px;
+      flex-shrink: 0;
+    }
+  }
+
+  .faq__eyebrow {
+    color: var(--color-accent-primary);
+  }
+
+  .faq__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .faq__phone {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .faq__phone--desktop {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-12);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .faq__phone-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    width: 100%;
+    padding: var(--space-20);
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .faq__phone-card {
+      display: none;
+    }
+  }
+
+  .faq__phone-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  .faq__phone-card-label {
+    color: var(--color-text-secondary);
+  }
+
+  .faq__phone-card-number {
+    color: var(--color-text-primary);
+  }
+
+  .faq__phone-card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-pill);
+    transition: background-color 0.2s ease;
+  }
+
+  .faq__phone-card-btn:hover {
+    background: var(--color-accent-hover);
+  }
+
+  /* ===== Справа: список вопросов ===== */
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .faq__list {
+      flex: 1 1 0;
+    }
+  }
+
+  .faq__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    width: 100%;
+    padding-block: var(--space-20);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  @media (min-width: 1024px) {
+    .faq__item {
+      padding-block: var(--space-32);
+    }
+  }
+
+  .faq__list > li:first-child .faq__item {
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .faq__item-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    width: 100%;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__item-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item-question {
+    flex: 1 0 0;
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+
+  .faq__item-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+    border-radius: var(--radius-pill);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .faq__item[open] .faq__item-toggle {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  :global(.faq__item-icon) {
+    flex-shrink: 0;
+  }
+
+  :global(.faq__item-icon--chevron) {
+    display: none;
+  }
+
+  .faq__item[open] :global(.faq__item-icon--plus) {
+    display: none;
+  }
+
+  .faq__item[open] :global(.faq__item-icon--chevron) {
+    display: block;
+  }
+
+  .faq__item-answer {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .faq__item-answer {
+      max-width: 620px;
+    }
+  }
+</style>
