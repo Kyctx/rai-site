@@ -125,13 +125,30 @@ const legalDocs = [
 </footer>
 
 <style>
+  /* padding-top — var(--space-section-y), как у обычных .section: иначе
+     отступ до футера получается вдвое меньше, чем между остальными
+     секциями (снизу у Contact — тот же токен, а сверху у футера
+     раньше было 0). Это же поле — тот самый видимый «отступ» перед
+     тёмной карточкой в эффекте ниже. */
+  /* position: fixed — футер всегда стоит внизу вьюпорта, под <main>
+     (у которого z-index выше и свой фон, см. base.css). Скролл всё
+     это время просто двигает <main>: пока внизу main есть контент,
+     футер им перекрыт, а когда контент кончается и открывается
+     .footer-spacer (его высоту синхронизирует со высотой футера скрипт
+     в Base.astro), футер оказывается «раскрыт» — визуально выезжает
+     снизу вверх и перекрывает предыдущую секцию, потому что сам никуда
+     не двигается, а уходит вверх именно контент над ним. */
   .footer {
-    padding: 0 var(--space-8) var(--space-8);
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 0;
+    padding: var(--space-section-y) var(--space-8) var(--space-8);
   }
 
   @media (min-width: 1024px) {
     .footer {
-      padding: 0 var(--space-24) var(--space-24);
+      padding: var(--space-section-y) var(--space-24) var(--space-24);
     }
   }
 
@@ -490,57 +507,12 @@ const legalDocs = [
     .footer__legal-link::before {
       transition: none;
     }
-  }
 
-  /* ===== Появление футера при скролле ===== */
-  /* До пересечения с viewport футер сдвинут вниз и прозрачен — при
-     появлении «выезжает» снизу вверх. Класс .reveal ставит скрипт ниже,
-     чтобы без JS (или при disabled JS) футер был виден сразу. */
-  .footer.reveal {
-    opacity: 0;
-    transform: translateY(72px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .footer.reveal.is-visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .footer.reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
+    /* Без эффекта «футер под контентом» — обычный футер в конце потока
+       (скрипт в Base.astro для reduced-motion не выставляет .footer-spacer,
+       так что лишнего пустого места под ним не остаётся) */
+    .footer {
+      position: static;
     }
   }
 </style>
-
-<script>
-  // Футер «выезжает» снизу вверх при скролле — так же, как секции главной
-  // в Base.astro, но отдельным наблюдателем: футер лежит вне <main>
-  // (свой слот в Base.astro) и не попадает под общий селектор main > section.
-  (function () {
-    var footer = document.querySelector('.footer');
-    if (!footer) return;
-
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reducedMotion || !('IntersectionObserver' in window)) return;
-
-    footer.classList.add('reveal');
-
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
-    );
-
-    observer.observe(footer);
-  })();
-</script>
