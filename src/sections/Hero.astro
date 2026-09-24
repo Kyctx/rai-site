@@ -499,6 +499,28 @@ const facts = [
     border-top: none;
   }
 
+  /* Каскад шагов при переключении вкладки «Дома/В больнице/В другом городе».
+     Без класса — шаги просто видны (безопасный фолбэк без JS). Класс
+     hero__step--enter добавляет JS (см. <script> ниже) на панель, которая
+     становится активной, всякий раз пересоздавая его через remove+reflow+
+     add — иначе повторный клик по той же вкладке не перезапустил бы
+     анимацию, а рассчитывать, что CSS-анимация сама перезапускается при
+     hidden→visible, ненадёжно в разных браузерах. */
+  .hero__step--enter {
+    animation: hero-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .hero__step--enter:nth-child(1) { animation-delay: 0s; }
+  .hero__step--enter:nth-child(2) { animation-delay: 0.08s; }
+  .hero__step--enter:nth-child(3) { animation-delay: 0.16s; }
+  .hero__step--enter:nth-child(4) { animation-delay: 0.24s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__step--enter {
+      animation: none;
+    }
+  }
+
   .hero__step-number {
     color: var(--color-accent-primary);
     width: 24px;
@@ -590,6 +612,16 @@ const facts = [
     const tabs = Array.from(panel.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
     const panels = Array.from(panel.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
 
+    // Каскад шагов 1-2-3 — пересоздаём класс на каждый показ панели (remove
+    // + принудительный reflow + add), иначе браузер не всегда перезапускает
+    // CSS-анимацию при повторном hidden→visible того же элемента.
+    const animateSteps = (panelEl: HTMLElement) => {
+      const steps = Array.from(panelEl.querySelectorAll<HTMLElement>('.hero__step'));
+      steps.forEach((step) => step.classList.remove('hero__step--enter'));
+      void panelEl.offsetWidth;
+      steps.forEach((step) => step.classList.add('hero__step--enter'));
+    };
+
     const activate = (index: number, focus = false) => {
       tabs.forEach((tab, i) => {
         const selected = i === index;
@@ -600,8 +632,14 @@ const facts = [
       panels.forEach((p, i) => {
         p.hidden = i !== index;
       });
+      animateSteps(panels[index]);
       if (focus) tabs[index].focus();
     };
+
+    // Первая панель уже показана при рендере (server-side active state) —
+    // проигрываем каскад и для неё, чтобы шаги оживали сразу на загрузке,
+    // а не только начиная со второго переключения.
+    if (panels[0]) animateSteps(panels[0]);
 
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => activate(index));
