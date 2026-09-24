@@ -1,0 +1,78 @@
+---
+// Поле ввода (UI Kit «Рай»): State Default/Filled/Focus.
+// Подпись Body/S над полем, само поле — bg/page, radius/md, паддинг 20,
+// текст Body/L; focus — обводка 1.5 accent/primary (без сдвига layout:
+// граница прозрачная по умолчанию, красится только цвет).
+interface Props {
+  label: string;
+  type?: 'text' | 'tel' | 'email';
+  name: string;
+  id?: string;
+  placeholder?: string;
+  autocomplete?: string;
+  required?: boolean;
+  inputmode?: 'text' | 'tel' | 'email' | 'numeric' | 'search' | 'url' | 'none' | 'decimal';
+  class?: string;
+  [key: `data-${string}`]: string | undefined;
+}
+
+const {
+  label,
+  type = 'text',
+  name,
+  id = name,
+  placeholder,
+  autocomplete,
+  required = false,
+  inputmode,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div class:list={['input-field', className]}>
+  <label class="body-s input-field__label" for={id}>{label}</label>
+  <input
+    class="body-l input-field__control"
+    type={type}
+    name={name}
+    id={id}
+    placeholder={placeholder}
+    autocomplete={autocomplete}
+    required={required}
+    inputmode={inputmode}
+    {...rest}
+  />
+</div>
+
+<style>
+  .input-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
+  .input-field__label {
+    color: var(--color-text-secondary);
+  }
+
+  .input-field__control {
+    width: 100%;
+    padding: var(--space-20);
+    background: var(--color-bg-page);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    transition: border-color 0.2s ease;
+  }
+
+  .input-field__control::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .input-field__control:focus-visible {
+    outline: none;
+    border-color: var(--color-accent-primary);
+  }
+</style>

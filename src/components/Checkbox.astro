@@ -1,0 +1,85 @@
+---
+// Чекбокс (UI Kit «Рай»): Checked On/Off, 20×20, радиус 6 (вне шкалы
+// --radius-* — там нет значения между sm:8 и просто углами, см. похожий
+// комментарий в Calculator.astro). Текст подписи — через <slot>, чтобы
+// внутри можно было вставить ссылки (согласие на обработку ПДн и т.п.).
+import Icon from '@components/Icon.astro';
+
+interface Props {
+  id: string;
+  name: string;
+  required?: boolean;
+  checked?: boolean;
+  class?: string;
+}
+
+const { id, name, required = false, checked = false, class: className } = Astro.props;
+---
+
+<label class:list={['checkbox', className]} for={id}>
+  <input type="checkbox" id={id} name={name} required={required} checked={checked} class="checkbox__input" />
+  <span class="checkbox__box" aria-hidden="true">
+    <Icon name="check" size={14} class="checkbox__check" />
+  </span>
+  <span class="body-s checkbox__label"><slot /></span>
+</label>
+
+<style>
+  .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-12);
+    cursor: pointer;
+  }
+
+  .checkbox__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .checkbox__box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border: 1.5px solid var(--color-border-default);
+    border-radius: 6px;
+    color: var(--color-text-inverse);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .checkbox__input:checked + .checkbox__box {
+    background: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+  }
+
+  .checkbox :global(.checkbox__check) {
+    display: none;
+  }
+
+  .checkbox__input:checked + .checkbox__box :global(.checkbox__check) {
+    display: block;
+  }
+
+  .checkbox__input:focus-visible + .checkbox__box {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  .checkbox__label {
+    color: var(--color-text-secondary);
+  }
+
+  .checkbox__label :global(a) {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
