@@ -191,6 +191,21 @@ import site from '@data/site.json';
     width: 100%;
   }
 
+  /* Каскадное появление списка при скролле — сдвиг, не opacity: непрозрачность
+     имени и так задаётся ниже (0.22/0.55/1 по состоянию активности), если
+     животный туда же вплести ещё и анимацию, при её завершении будет
+     заметный «скачок» к дежурному значению. Запуск — через animation-
+     play-state, переключаемый общим reveal-классом is-visible (тем же,
+     что ставит Base.astro на всю секцию), без отдельного наблюдателя. */
+  @keyframes agents-name-in {
+    from {
+      transform: translateX(-16px);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
   .agents__name {
     display: flex;
     align-items: center;
@@ -198,7 +213,19 @@ import site from '@data/site.json';
     color: var(--color-text-primary);
     opacity: 0.22;
     transition: opacity 0.2s ease;
+    animation: agents-name-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-play-state: paused;
   }
+
+  .agents.is-visible .agents__name {
+    animation-play-state: running;
+  }
+
+  .agents__name:nth-child(1) { animation-delay: 0s; }
+  .agents__name:nth-child(2) { animation-delay: 0.08s; }
+  .agents__name:nth-child(3) { animation-delay: 0.16s; }
+  .agents__name:nth-child(4) { animation-delay: 0.24s; }
+  .agents__name:nth-child(5) { animation-delay: 0.32s; }
 
   .agents__name:hover {
     opacity: 0.55;
@@ -209,12 +236,33 @@ import site from '@data/site.json';
     opacity: 1;
   }
 
-  .agents__name-icon {
+  /* :global — Icon.astro вставляет SVG через set:html без scoped-атрибута
+     Astro, обычный селектор его не достанет (см. похожий комментарий в
+     Calculator.astro/Benefits.astro). Анимация — стрелка каждый раз новый
+     DOM-узел (JS клонирует и добавляет заново при выборе агента, см.
+     <script> внизу), поэтому анимация проигрывается сама при каждой
+     вставке — дополнительный класс-триггер не нужен. */
+  :global(.agents__name-icon) {
     flex-shrink: 0;
     color: currentColor;
+    animation: agents-icon-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes agents-icon-in {
+    from {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .agents__all {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
     padding-top: var(--space-20);
     color: var(--color-accent-primary);
     font-weight: 500;
@@ -223,6 +271,39 @@ import site from '@data/site.json';
   @media (min-width: 1024px) {
     .agents__all {
       padding-top: var(--space-32);
+    }
+  }
+
+  /* Подчёркивание при наведении — та же анимация, что у ссылок в хедере
+     (.header__link): полоска растёт из центра, а не просто text-decoration. */
+  .agents__all::before {
+    content: '';
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-primary);
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .agents__all:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agents__all::before {
+      transition: none;
+    }
+
+    .agents__name {
+      animation: none;
+    }
+
+    :global(.agents__name-icon) {
+      animation: none;
     }
   }
 
