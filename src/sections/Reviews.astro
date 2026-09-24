@@ -182,7 +182,6 @@ const ratingDisplay = site.reviews.rating.toFixed(1).replace('.', ',');
     display: flex;
     align-items: center;
     gap: var(--space-12);
-    margin-top: var(--space-8);
   }
 
   .reviews__platform-value {
@@ -280,13 +279,35 @@ const ratingDisplay = site.reviews.rating.toFixed(1).replace('.', ',');
   }
 
   .reviews__all-link {
-    padding-top: var(--space-8);
+    position: relative;
+    width: fit-content;
+    padding-top: var(--space-20);
     color: var(--color-accent-primary);
   }
 
-  .reviews__all-link:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
+  /* Подчёркивание — та же анимация, что у ссылок в хедере (.header__link):
+     полоска растёт из центра при наведении, а не просто text-decoration. */
+  .reviews__all-link::before {
+    content: '';
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-primary);
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .reviews__all-link:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reviews__all-link::before {
+      transition: none;
+    }
   }
 
   /* ===== Mobile: карточка со слайдером ===== */
