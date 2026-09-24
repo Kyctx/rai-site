@@ -69,7 +69,7 @@ const telHref = `tel:${site.phone.tel}`;
   <!-- Мобильное меню на весь экран (214:4722). Пилюля с логотипом и кнопками
        (звонок + переключатель) не дублируется здесь — остаётся видна поверх
        оверлея та же самая из .header__pill--mobile (z-index хедера выше). -->
-  <div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <div class="mobile-menu__spacer" aria-hidden="true"></div>
 
     <div class="mobile-menu__content">
@@ -323,21 +323,35 @@ const telHref = `tel:${site.phone.tel}`;
     box-shadow: 0 0 20px rgba(86, 99, 75, 0.4);
   }
 
-  /* Полноэкранное мобильное меню */
+  /* Полноэкранное мобильное меню — вместо сплошного бежевого фона (совпадал
+     с фоном страницы и выглядел «немым») задний план прозрачный: тонкая
+     тёмная вуаль + блюр показывают страницу под меню, читаемость даёт сама
+     белая карточка .mobile-menu__content. Открытие/закрытие — через класс
+     is-open (а не [hidden]), чтобы можно было анимировать: opacity+blur
+     у вуали, opacity+сдвиг у карточки, вложенная задержка у пунктов меню. */
   .mobile-menu {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: var(--color-bg-page);
+    background: rgba(38, 41, 44, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: var(--space-12) var(--space-12) var(--space-32);
     display: flex;
     flex-direction: column;
     gap: var(--space-32);
     overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
   }
 
-  .mobile-menu[hidden] {
-    display: none;
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
   }
 
   @media (min-width: 1024px) {
@@ -355,9 +369,13 @@ const telHref = `tel:${site.phone.tel}`;
 
   /* Иконка меню: три линии бургера, анимированно складывающиеся в крестик.
      Верхняя и нижняя поворачиваются на 45°/-45° и сходятся в центр
-     (на позицию средней линии, y=10), средняя тем временем исчезает. */
+     (на позицию средней линии, y=10), средняя тем временем исчезает.
+     transform-box: view-box (а не fill-box) — важно: иначе точка поворота
+     у каждой линии своя (центр её собственного бокса, т.е. y=6 и y=14
+     вместо общего y=10), и после translate+rotate крест получается
+     смещённым от центра кнопки — сам крестик выглядит «кривым». */
   .menu-icon__line {
-    transform-box: fill-box;
+    transform-box: view-box;
     transform-origin: center;
     transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
   }
@@ -383,6 +401,13 @@ const telHref = `tel:${site.phone.tel}`;
     .menu-icon__line {
       transition: none;
     }
+    /* Глобальное правило в base.css обнуляет transition-duration, но не
+       transition-delay — без этого каскад пунктов меню всё равно ждал бы
+       свою задержку перед мгновенным появлением */
+    .mobile-menu__content,
+    .mobile-menu__link {
+      transition-delay: 0s;
+    }
   }
 
   .mobile-menu__content {
@@ -392,7 +417,17 @@ const telHref = `tel:${site.phone.tel}`;
     padding: var(--space-24) var(--space-16);
     background: var(--color-bg-surface);
     border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
     flex: 1;
+    opacity: 0;
+    transform: translateY(-16px) scale(0.98);
+    transition: opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1), transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .mobile-menu.is-open .mobile-menu__content {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.05s;
   }
 
   .mobile-menu__links {
@@ -407,7 +442,22 @@ const telHref = `tel:${site.phone.tel}`;
     padding-block: var(--space-16);
     border-bottom: 1px solid var(--color-border-default);
     color: var(--color-text-primary);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
+
+  .mobile-menu.is-open .mobile-menu__link {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Каскад: каждый следующий пункт появляется чуть позже предыдущего */
+  .mobile-menu__links li:nth-child(1) .mobile-menu__link { transition-delay: 0.12s; }
+  .mobile-menu__links li:nth-child(2) .mobile-menu__link { transition-delay: 0.16s; }
+  .mobile-menu__links li:nth-child(3) .mobile-menu__link { transition-delay: 0.2s; }
+  .mobile-menu__links li:nth-child(4) .mobile-menu__link { transition-delay: 0.24s; }
+  .mobile-menu__links li:nth-child(5) .mobile-menu__link { transition-delay: 0.28s; }
 
   .mobile-menu__contact {
     display: flex;
@@ -500,7 +550,8 @@ const telHref = `tel:${site.phone.tel}`;
     const toggleIcon = toggle.querySelector('.menu-icon');
 
     const open = () => {
-      menu.hidden = false;
+      menu.classList.add('is-open');
+      menu.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Закрыть меню');
@@ -508,7 +559,8 @@ const telHref = `tel:${site.phone.tel}`;
     };
 
     const close = () => {
-      menu.hidden = true;
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Открыть меню');
@@ -516,7 +568,7 @@ const telHref = `tel:${site.phone.tel}`;
     };
 
     toggle.addEventListener('click', () => {
-      if (menu.hidden) open();
+      if (!menu.classList.contains('is-open')) open();
       else close();
     });
 
@@ -527,7 +579,7 @@ const telHref = `tel:${site.phone.tel}`;
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !menu.hidden) {
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) {
         close();
         toggle.focus();
       }
