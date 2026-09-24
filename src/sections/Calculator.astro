@@ -270,9 +270,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     <div class="calc-sheet__handle" aria-hidden="true"></div>
     <div class="calc-sheet__head">
       <p id="sheet-base-title" class="h4 calc-sheet__title">Что нужно?</p>
-      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
-        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
-      </button>
     </div>
     <div class="calc-sheet__list" role="radiogroup" aria-label="Что нужно">
       {calculator.base.map((item) => (
@@ -294,9 +291,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     <div class="calc-sheet__handle" aria-hidden="true"></div>
     <div class="calc-sheet__head">
       <p id="sheet-coffin-title" class="h4 calc-sheet__title">Гроб</p>
-      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
-        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
-      </button>
     </div>
     <div class="calc-sheet__list" role="radiogroup" aria-label="Гроб">
       {calculator.coffins.map((coffin) => (
@@ -316,9 +310,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     <div class="calc-sheet__handle" aria-hidden="true"></div>
     <div class="calc-sheet__head">
       <p id="sheet-privileges-title" class="h4 calc-sheet__title">Льготы</p>
-      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
-        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
-      </button>
     </div>
     <div class="calc-sheet__list" role="radiogroup" aria-label="Льготы">
       {calculator.privileges.map((privilege) => (
@@ -337,9 +328,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     <div class="calc-sheet__handle" aria-hidden="true"></div>
     <div class="calc-sheet__head">
       <p id="sheet-extras-title" class="h4 calc-sheet__title">Дополнительные услуги</p>
-      <button type="button" class="calc-sheet__close" data-close-sheet aria-label="Закрыть">
-        <Icon name="plus" size={20} class="calc-sheet__close-icon" />
-      </button>
     </div>
     <div class="calc-sheet__list">
       {calculator.extras.map((extra) => (
@@ -1211,39 +1199,27 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     }
   }
 
+  /* touch-action: none — чтобы браузер не пытался скроллить/тянуть
+     страницу вместо перетаскивания шторки (см. <script> внизу, свайп
+     вниз для закрытия) */
   .calc-sheet__handle {
     align-self: center;
     width: 40px;
     height: 4px;
     border-radius: var(--radius-pill);
     background: var(--color-border-default);
+    touch-action: none;
   }
 
   .calc-sheet__head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-12);
+    touch-action: none;
   }
 
   .calc-sheet__title {
     color: var(--color-text-primary);
-  }
-
-  .calc-sheet__close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    border-radius: var(--radius-pill);
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-  }
-
-  :global(.calc-sheet__close-icon) {
-    transform: rotate(45deg);
   }
 
   .calc-sheet__list {
@@ -1652,7 +1628,9 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     Object.values(sheets).forEach((dialog) => {
       if (!dialog) return;
 
-      // Крестик / кнопка "Готово"
+      // Кнопка "Готово" (есть только у шторки "Дополнительно" — у
+      // остальных крестика/кнопки закрытия нет, закрываются свайпом,
+      // выбором опции, тапом по фону или Esc)
       dialog.querySelectorAll('[data-close-sheet]').forEach((btn) => {
         btn.addEventListener('click', () => closeSheet(dialog));
       });
@@ -1666,6 +1644,68 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       dialog.addEventListener('close', () => {
         document.body.style.overflow = '';
       });
+    });
+
+    // Свайп вниз за ручку или заголовок шторки — плавно закрывает её.
+    // Тянуть можно только за .calc-sheet__handle/__head, а не за список:
+    // там нужен обычный скролл контента. Дальше трети высоты шторки —
+    // доезжает вниз и закрывается, иначе пружинит обратно на место.
+    // prefers-reduced-motion учтён глобально в base.css
+    // (transition-duration: 0.01ms !important для всех элементов).
+    const enableSwipeToClose = (dialog) => {
+      const dragSources = [dialog.querySelector('.calc-sheet__handle'), dialog.querySelector('.calc-sheet__head')].filter(Boolean);
+      if (!dragSources.length) return;
+
+      let startY = 0;
+      let offset = 0;
+      let dragging = false;
+
+      const onPointerMove = (event) => {
+        if (!dragging) return;
+        offset = Math.max(0, event.clientY - startY);
+        dialog.style.transform = `translateY(${offset}px)`;
+      };
+
+      const onPointerUp = () => {
+        if (!dragging) return;
+        dragging = false;
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUp);
+
+        if (offset > dialog.offsetHeight * 0.25) {
+          dialog.style.transition = 'transform 0.25s ease';
+          dialog.style.transform = 'translateY(100%)';
+          dialog.addEventListener('transitionend', function onEnd() {
+            dialog.removeEventListener('transitionend', onEnd);
+            dialog.style.transition = '';
+            dialog.style.transform = '';
+            closeSheet(dialog);
+          }, { once: true });
+        } else if (offset > 0) {
+          dialog.style.transition = 'transform 0.2s ease';
+          dialog.style.transform = '';
+          dialog.addEventListener('transitionend', function onEnd() {
+            dialog.removeEventListener('transitionend', onEnd);
+            dialog.style.transition = '';
+          }, { once: true });
+        }
+      };
+
+      dragSources.forEach((source) => {
+        source.addEventListener('pointerdown', (event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          dragging = true;
+          startY = event.clientY;
+          offset = 0;
+          dialog.style.transition = '';
+          window.addEventListener('pointermove', onPointerMove);
+          window.addEventListener('pointerup', onPointerUp);
+        });
+      });
+    };
+
+    Object.values(sheets).forEach((dialog) => {
+      if (dialog) enableSwipeToClose(dialog);
     });
 
     // "Что нужно" — одиночный выбор, закрывается сразу после выбора
