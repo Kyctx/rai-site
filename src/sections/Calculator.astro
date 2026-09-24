@@ -33,7 +33,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         </h2>
       </div>
       <p class="body-m calculator__lead">
-        Нажмите «i», чтобы узнать, что входит в опцию. Пособие учтено автоматически.
+        Наведите на «i», чтобы узнать, что входит в опцию. Пособие учтено автоматически.
       </p>
     </div>
 
@@ -468,9 +468,43 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     display: none;
   }
 
-  .calculator__group-link,
   .calculator__group-count {
     color: var(--color-text-secondary);
+  }
+
+  /* Подчёркивание при наведении — как у ссылок в хедере: полоска растёт
+     из центра. */
+  .calculator__group-link {
+    position: relative;
+    color: var(--color-text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .calculator__group-link::before {
+    content: '';
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-primary);
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .calculator__group-link:hover {
+    color: var(--color-accent-primary);
+  }
+
+  .calculator__group-link:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calculator__group-link::before {
+      transition: none;
+    }
   }
 
   /* ===== "Что нужно" — desktop grid ===== */
