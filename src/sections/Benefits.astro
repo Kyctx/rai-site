@@ -84,10 +84,11 @@ const warnings = [
               id={`benefits-desc-${way.id}`}
               role="region"
               aria-labelledby={`benefits-toggle-${way.id}`}
-              class="body-m benefits__item-desc"
-              hidden={index !== 0}
+              class="benefits__item-panel"
             >
-              <p>{way.description}</p>
+              <div class="benefits__item-panel-inner">
+                <p class="body-m benefits__item-desc">{way.description}</p>
+              </div>
             </div>
           </li>
         ))}
@@ -176,19 +177,32 @@ const warnings = [
     width: 100%;
   }
 
+  /* Каскадное появление при скролле — тот же приём, что в Process.astro:
+     сдвиг+прозрачность, включается общим reveal-классом is-visible из
+     Base.astro, задержка растёт по порядку пунктов. */
   .benefits__item {
     display: flex;
     flex-direction: column;
-    gap: var(--space-12);
     width: 100%;
     padding: var(--space-20) 0 var(--space-20) var(--space-24);
-    border-left: 1px solid var(--color-text-inverse);
-    transition: border-color 0.2s ease;
+    border-left: 2px solid color-mix(in srgb, var(--color-text-inverse) 22%, transparent);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: border-color 0.2s ease, opacity 0.6s ease, transform 0.6s ease;
   }
 
+  .benefits.is-visible .benefits__item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .benefits.is-visible .benefits__item:nth-child(1) { transition-delay: 0.05s; }
+  .benefits.is-visible .benefits__item:nth-child(2) { transition-delay: 0.2s; }
+  .benefits.is-visible .benefits__item:nth-child(3) { transition-delay: 0.35s; }
+  .benefits.is-visible .benefits__item:nth-child(4) { transition-delay: 0.5s; }
+
   .benefits__item--open {
-    border-left: 2px solid var(--color-accent-soft);
-    padding-left: calc(var(--space-24) - 1px);
+    border-left-color: var(--color-accent-soft);
   }
 
   /* Свёрнутый пункт кликабелен целиком — при наведении полоса слева и
@@ -217,13 +231,40 @@ const warnings = [
     opacity: 1;
   }
 
+  /* ===== Плавное раскрытие описания ===== */
+  /* grid-rows 0fr → 1fr — тот же приём, что в Faq.astro: анимируется как
+     обычная высота, без измерения scrollHeight в JS. */
+  .benefits__item-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .benefits__item--open .benefits__item-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .benefits__item-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   .benefits__item-desc {
+    padding-top: var(--space-12);
     color: var(--color-text-inverse);
     opacity: 0.7;
   }
 
-  .benefits__item-desc[hidden] {
-    display: none;
+  @media (prefers-reduced-motion: reduce) {
+    .benefits__item {
+      opacity: 1;
+      transform: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .benefits__item-panel {
+      transition: none;
+    }
   }
 
   /* ===== Справа: карточка суммы + предупреждение ===== */
@@ -359,10 +400,8 @@ const warnings = [
       items.forEach((item, i) => {
         const open = i === index;
         const toggle = item.querySelector<HTMLButtonElement>('.benefits__item-toggle');
-        const panel = item.querySelector<HTMLElement>('.benefits__item-desc');
         item.classList.toggle('benefits__item--open', open);
         toggle?.setAttribute('aria-expanded', String(open));
-        if (panel) panel.hidden = !open;
       });
     };
 
