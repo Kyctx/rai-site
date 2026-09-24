@@ -150,6 +150,71 @@ const facts = [
     padding-block: var(--space-section-y);
   }
 
+  /* ===== Появление при загрузке страницы ===== */
+  /* Hero — единственная секция без анимации в общем reveal-скрипте
+     (Base.astro нарочно её пропускает, чтобы не мигать пустым первым
+     экраном пока не сработал IntersectionObserver, см. комментарий там).
+     Здесь — чистый CSS: элементы стартуют с opacity:0 внутри самого
+     keyframe (animation-fill-mode: backwards), поэтому браузер ни разу
+     не рисует «готовый» кадр до начала анимации — мигания нет и без JS. */
+  @keyframes hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(28px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .hero__status,
+  .hero__content h1,
+  .hero__lead,
+  .hero__buttons,
+  .hero__facts {
+    animation: hero-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .hero__status { animation-delay: 0.02s; }
+  .hero__content h1 { animation-delay: 0.1s; }
+  .hero__lead { animation-delay: 0.2s; }
+  .hero__buttons { animation-delay: 0.3s; }
+  .hero__facts { animation-delay: 0.4s; }
+
+  /* Панель справа «прилетает» отдельным, чуть более весомым движением
+     (сдвиг + лёгкий scale) — не просто синхронно с текстом слева */
+  .hero__panel {
+    animation: hero-panel-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
+  }
+
+  .hero__memo {
+    animation: hero-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__status,
+    .hero__content h1,
+    .hero__lead,
+    .hero__buttons,
+    .hero__facts,
+    .hero__panel,
+    .hero__memo {
+      animation: none;
+    }
+  }
+
   .hero__grid {
     display: flex;
     flex-direction: column;
