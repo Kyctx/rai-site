@@ -127,12 +127,32 @@ const steps = [
     height: 10px;
     border-radius: 50%;
     background: var(--color-accent-soft);
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
 
   .process__scale-line {
     flex: 1 0 0;
     height: 2px;
     background: linear-gradient(to right, var(--color-accent-soft), rgba(221, 226, 211, 0.08));
+    /* «Заполнение» слева направо: масштаб по X, а не width — не трогает
+       раскладку (flex:1 сохраняет итоговую ширину с самого начала),
+       анимируется только отрисовка. */
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Класс is-visible ставит общий reveal-скрипт в Base.astro (IntersectionObserver
+     на все секции, см. комментарий там) — используем то же событие, чтобы
+     шкала и шаги ниже запускались синхронно с появлением секции, без
+     отдельного наблюдателя. */
+  .process.is-visible .process__scale-dot {
+    opacity: 1;
+  }
+
+  .process.is-visible .process__scale-line {
+    transform: scaleX(1);
   }
 
   /* ===== Шаги ===== */
@@ -172,6 +192,27 @@ const steps = [
       padding-left: 0;
       border-left: none;
     }
+
+    /* Появление колонок — тот же тайминг, что у заполнения шкалы выше
+       (1.1s): задержка каждой следующей колонки растёт так, чтобы конец
+       анимации последней (0.65s + 0.6s = 1.25s) примерно совпадал с
+       моментом, когда линия дорисовывается до её позиции. */
+    .process__step {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .process.is-visible .process__step {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .process.is-visible .process__step:nth-child(1) { transition-delay: 0.05s; }
+    .process.is-visible .process__step:nth-child(2) { transition-delay: 0.2s; }
+    .process.is-visible .process__step:nth-child(3) { transition-delay: 0.35s; }
+    .process.is-visible .process__step:nth-child(4) { transition-delay: 0.5s; }
+    .process.is-visible .process__step:nth-child(5) { transition-delay: 0.65s; }
   }
 
   .process__step-time {
@@ -180,5 +221,19 @@ const steps = [
 
   .process__step-text {
     opacity: 0.62;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process__scale-line,
+    .process__scale-dot {
+      transition: none;
+    }
+
+    @media (min-width: 1024px) {
+      .process__step {
+        transition: none;
+        transition-delay: 0s;
+      }
+    }
   }
 </style>
