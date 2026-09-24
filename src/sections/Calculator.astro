@@ -1570,6 +1570,23 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       document.body.style.overflow = '';
     };
 
+    // Плавное закрытие — шторка уезжает вниз тем же переходом, что и при
+    // отпущенном свайпе за порогом (см. enableSwipeToClose ниже). Нужно
+    // везде, где шторку закрывает не палец пользователя, а клик: выбор
+    // опции, кнопка «Готово», тап по фону, Esc — иначе dialog.close()
+    // скрывает её мгновенно, без анимации.
+    const closeSheetAnimated = (dialog) => {
+      if (!dialog.open) return;
+      dialog.style.transition = 'transform 0.25s ease';
+      dialog.style.transform = 'translateY(100%)';
+      dialog.addEventListener('transitionend', function onEnd() {
+        dialog.removeEventListener('transitionend', onEnd);
+        dialog.style.transition = '';
+        dialog.style.transform = '';
+        closeSheet(dialog);
+      }, { once: true });
+    };
+
     // "Льготы" — на mobile та же шторка снизу, что у остальных полей;
     // на desktop (где у поля нет отдельной сетки-альтернативы) — лёгкое
     // выпадающее меню под полем, а не шторка на всю ширину экрана.
@@ -1627,15 +1644,21 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       // остальных крестика/кнопки закрытия нет, закрываются свайпом,
       // выбором опции, тапом по фону или Esc)
       dialog.querySelectorAll('[data-close-sheet]').forEach((btn) => {
-        btn.addEventListener('click', () => closeSheet(dialog));
+        btn.addEventListener('click', () => closeSheetAnimated(dialog));
       });
 
       // Клик по backdrop (тап вне контента шторки закрывает её)
       dialog.addEventListener('click', (event) => {
-        if (event.target === dialog) closeSheet(dialog);
+        if (event.target === dialog) closeSheetAnimated(dialog);
       });
 
-      // Esc и любой способ закрытия <dialog> — снимаем блокировку скролла
+      // Esc — тоже плавно, вместо мгновенного нативного закрытия
+      dialog.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeSheetAnimated(dialog);
+      });
+
+      // Любой способ закрытия <dialog> — снимаем блокировку скролла
       dialog.addEventListener('close', () => {
         document.body.style.overflow = '';
       });
@@ -1678,14 +1701,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         window.removeEventListener('mouseup', endDrag);
 
         if (offset > dialog.offsetHeight * 0.25) {
-          dialog.style.transition = 'transform 0.25s ease';
-          dialog.style.transform = 'translateY(100%)';
-          dialog.addEventListener('transitionend', function onEnd() {
-            dialog.removeEventListener('transitionend', onEnd);
-            dialog.style.transition = '';
-            dialog.style.transform = '';
-            closeSheet(dialog);
-          }, { once: true });
+          closeSheetAnimated(dialog);
         } else if (offset > 0) {
           dialog.style.transition = 'transform 0.2s ease';
           dialog.style.transform = '';
@@ -1728,7 +1744,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         state.base = btn.dataset.sheetBaseOption;
         render();
         trackCalcUsed();
-        closeSheet(sheets.base);
+        closeSheetAnimated(sheets.base);
       });
     });
 
@@ -1738,7 +1754,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         state.coffin = btn.dataset.sheetCoffinOption;
         render();
         trackCalcUsed();
-        closeSheet(sheets.coffin);
+        closeSheetAnimated(sheets.coffin);
       });
     });
 
@@ -1748,7 +1764,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         state.privileges = btn.dataset.sheetPrivilegeOption;
         render();
         trackCalcUsed();
-        closeSheet(sheets.privileges);
+        closeSheetAnimated(sheets.privileges);
       });
     });
 
