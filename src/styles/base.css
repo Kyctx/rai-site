@@ -211,6 +211,11 @@ input, textarea, select {
   line-height: var(--lh-eyebrow);
   letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
+  color: var(--color-accent-primary);
+}
+
+.section--dark .eyebrow {
+  color: var(--color-accent-soft);
 }
 
 .title {
