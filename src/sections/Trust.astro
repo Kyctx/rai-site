@@ -489,8 +489,35 @@ const rows = [
       color: var(--color-text-secondary);
     }
 
+    /* Подчёркивание — та же анимация, что у ссылок в хедере (.header__link)
+       и у номера в Contact: полоска растёт из центра при наведении, а не
+       просто text-decoration (его тут и не было — только жирный акцент). */
     .trust__contract--desktop .trust__contract-link {
+      position: relative;
       font-weight: 500;
+    }
+
+    .trust__contract--desktop .trust__contract-link::before {
+      content: '';
+      width: 0;
+      height: 1.5px;
+      border-radius: 2px;
+      background-color: var(--color-accent-primary);
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .trust__contract--desktop .trust__contract-link:hover::before {
+      width: 100%;
+      left: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .trust__contract--desktop .trust__contract-link::before {
+        transition: none;
+      }
     }
   }
 </style>
