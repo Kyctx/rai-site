@@ -2,7 +2,9 @@
 // 10 · Faq — Вопросы. Desktop 198:3216, mobile 214:4278.
 // Слева — заголовок, лид и телефон (desktop — строкой, mobile — карточка
 // «Бесплатная консультация 24/7» с кнопкой звонка). Справа/снизу — список
-// вопросов на <details>/<summary>, открыт первый пункт (правило 6 в CLAUDE.md).
+// вопросов: кнопка + aria-expanded (правило 6 в CLAUDE.md), открыт первый
+// пункт; клик раскрывает один вопрос и закрывает остальные (аккордеон,
+// а не независимые переключатели), анимация — через <script> ниже.
 import Icon from '@components/Icon.astro';
 import site from '@data/site.json';
 
@@ -75,19 +77,29 @@ const items = [
       </div>
     </div>
 
-    <ul class="faq__list">
+    <ul class="faq__list" data-faq-list>
       {items.map((item, index) => (
         <li>
-          <details class="faq__item" open={index === 0}>
-            <summary class="faq__item-summary">
+          <div class:list={['faq__item', { 'faq__item--open': index === 0 }]} data-faq-item>
+            <button
+              type="button"
+              class="faq__item-summary"
+              id={`faq-toggle-${index}`}
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              aria-controls={`faq-panel-${index}`}
+            >
               <span class="title faq__item-question">{item.question}</span>
               <span class="faq__item-toggle" aria-hidden="true">
                 <Icon name="plus" size={20} class="faq__item-icon faq__item-icon--plus" />
                 <Icon name="chevron" size={20} class="faq__item-icon faq__item-icon--chevron" />
               </span>
-            </summary>
-            <p class="body-m faq__item-answer">{item.answer}</p>
-          </details>
+            </button>
+            <div id={`faq-panel-${index}`} role="region" aria-labelledby={`faq-toggle-${index}`} class="faq__item-panel">
+              <div class="faq__item-panel-inner">
+                <p class="body-m faq__item-answer">{item.answer}</p>
+              </div>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
@@ -213,7 +225,6 @@ const items = [
   .faq__item {
     display: flex;
     flex-direction: column;
-    gap: var(--space-16);
     width: 100%;
     padding-block: var(--space-20);
     border-bottom: 1px solid var(--color-border-default);
@@ -235,12 +246,7 @@ const items = [
     justify-content: space-between;
     gap: var(--space-16);
     width: 100%;
-    cursor: pointer;
-    list-style: none;
-  }
-
-  .faq__item-summary::-webkit-details-marker {
-    display: none;
+    text-align: left;
   }
 
   .faq__item-question {
@@ -262,7 +268,7 @@ const items = [
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  .faq__item[open] .faq__item-toggle {
+  .faq__item--open .faq__item-toggle {
     background: var(--color-accent-primary);
     color: var(--color-text-inverse);
   }
@@ -275,15 +281,35 @@ const items = [
     display: none;
   }
 
-  .faq__item[open] :global(.faq__item-icon--plus) {
+  .faq__item--open :global(.faq__item-icon--plus) {
     display: none;
   }
 
-  .faq__item[open] :global(.faq__item-icon--chevron) {
+  .faq__item--open :global(.faq__item-icon--chevron) {
     display: block;
   }
 
+  /* ===== Плавное раскрытие ответа ===== */
+  /* Классический grid-rows-трюк: трек 0fr → 1fr анимируется как обычная
+     высота, без измерения scrollHeight в JS. overflow:hidden на вложенном
+     div нужен, чтобы контент не «протекал» наружу, пока трек ещё узкий. */
+  .faq__item-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .faq__item--open .faq__item-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .faq__item-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   .faq__item-answer {
+    padding-top: var(--space-16);
     color: var(--color-text-secondary);
   }
 
@@ -293,3 +319,25 @@ const items = [
     }
   }
 </style>
+
+<script>
+  // Аккордеон-эксклюзив: раскрыт максимум один пункт — клик по закрытому
+  // раскрывает его и закрывает остальные; клик по открытому закрывает его.
+  const root = document.querySelector('.faq');
+  if (root) {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-item]'));
+
+    const setOpen = (item: HTMLElement, open: boolean) => {
+      const toggle = item.querySelector<HTMLButtonElement>('.faq__item-summary');
+      item.classList.toggle('faq__item--open', open);
+      toggle?.setAttribute('aria-expanded', String(open));
+    };
+
+    items.forEach((item) => {
+      item.querySelector('.faq__item-summary')?.addEventListener('click', () => {
+        const willOpen = !item.classList.contains('faq__item--open');
+        items.forEach((other) => setOpen(other, other === item ? willOpen : false));
+      });
+    });
+  }
+</script>
