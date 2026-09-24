@@ -80,10 +80,9 @@ import site from '@data/site.json';
             <Button href={`tel:${site.phone.tel}`} variant="dark" size="m" icon="phone" iconPosition="start" class="agents__card-call">
               Позвонить {agent.firstNameDative}
             </Button>
-            <button type="button" class="label-m agents__card-verify">
-              <Icon name="shield" size={16} />
+            <Button type="button" variant="outline" size="m" icon="shield" iconPosition="start" class="agents__card-verify">
               Проверить агента по номеру
-            </button>
+            </Button>
           </div>
         </div>
       ))}
@@ -417,17 +416,8 @@ import site from '@data/site.json';
     width: 100%;
   }
 
-  .agents__card-verify {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-8);
-    color: var(--color-accent-primary);
-  }
-
-  .agents__card-verify:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
+  :global(.agents__card-verify) {
+    width: 100%;
   }
 </style>
 
