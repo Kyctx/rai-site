@@ -26,7 +26,7 @@ const channels = [
 
 const contactBlocks = [
   { title: 'Круглосуточная линия', value: site.phone.display, note: 'отвечаем за 40 секунд', href: telHref },
-  { title: 'Написать', value: 'Telegram, MAX, WhatsApp', note: 'если сейчас тяжело говорить' },
+  { title: 'Написать', value: 'Telegram, MAX', note: 'если сейчас тяжело говорить' },
   { title: 'Офис', value: site.address.text, note: site.address.hours },
 ];
 ---
@@ -213,9 +213,36 @@ const contactBlocks = [
     color: var(--color-text-inverse);
   }
 
-  a.contact__block-value:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  /* Подчёркивание — та же анимация, что у ссылок в хедере (.header__link):
+     полоска растёт из центра при наведении, а не просто text-decoration */
+  a.contact__block-value {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    transition: color 0.15s ease;
+  }
+
+  a.contact__block-value::before {
+    content: '';
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-soft);
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  a.contact__block-value:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.contact__block-value::before {
+      transition: none;
+    }
   }
 
   .contact__block-note {
