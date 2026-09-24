@@ -86,8 +86,8 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
           </p>
         </div>
 
-        <!-- Гроб -->
-        <div class="calculator__group">
+        <!-- Гроб — только для «Похороны», см. <script> внизу -->
+        <div class="calculator__group" data-coffin-group>
           <div class="calculator__group-head">
             <p class="label-m calculator__group-title">Гроб</p>
             <a href="#pricing" class="body-s calculator__group-link">выбрать в каталоге →</a>
@@ -141,8 +141,9 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
                     <Icon name="check" size={12} class="calculator__chip-check" />
                   </span>
                   <span class="body-m calculator__chip-label">{extra.title}</span>
-                  <span class="calculator__chip-info" aria-hidden="true">
+                  <span class="calculator__chip-info" tabindex="0" aria-label={extra.hint}>
                     <Icon name="info" size={16} />
+                    <span class="calculator__chip-tooltip" role="tooltip" aria-hidden="true">{extra.hint}</span>
                   </span>
                   <span class="body-s calculator__chip-price">{extra.price === 0 ? '0 ₽' : `+${extra.price.toLocaleString('ru-RU')} ₽`}</span>
                 </label>
@@ -161,7 +162,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
           </button>
         </div>
 
-        <!-- Поминки + Льготы -->
+        <!-- Поминки -->
         <div class="calculator__row">
           <div class="calculator__stepper">
             <p class="body-m calculator__stepper-label">Поминки, {calculator.wakePerGuest.toLocaleString('ru-RU')} ₽/гость</p>
@@ -171,11 +172,25 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
               <button type="button" class="calculator__stepper-btn" data-guests-increment aria-label="Увеличить число гостей">+</button>
             </div>
           </div>
+        </div>
 
-          <button type="button" class="calculator__field calculator__field--privileges" data-open-sheet="privileges" aria-haspopup="dialog" disabled>
-            <span class="body-m calculator__field-privileges-text">Льготы: нет</span>
-            <Icon name="chevron" size={18} class="calculator__field-chevron" />
-          </button>
+        <!-- Льготы -->
+        <div class="calculator__group">
+          <p class="label-m calculator__group-title">Льготы</p>
+          <div class="calculator__privileges-grid" role="radiogroup" aria-label="Льготы">
+            {calculator.privileges.map((privilege) => (
+              <button
+                type="button"
+                role="radio"
+                aria-checked={privilege.id === calculator.defaults.privileges ? 'true' : 'false'}
+                data-privilege-id={privilege.id}
+                class:list={['calculator__privilege-item', { 'calculator__privilege-item--active': privilege.id === calculator.defaults.privileges }]}
+              >
+                <span class="label-m calculator__privilege-title">{privilege.title}</span>
+                <span class="body-s calculator__privilege-discount">{privilege.discount === 0 ? '—' : `−${privilege.discount.toLocaleString('ru-RU')} ₽`}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -197,6 +212,10 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
           <div class="calculator__summary-line calculator__summary-line--wake" data-line-wake-row hidden>
             <p>Поминки</p>
             <p data-line-wake>0 ₽</p>
+          </div>
+          <div class="calculator__summary-line calculator__summary-line--privilege" data-line-privilege-row hidden>
+            <p data-line-privilege-label>Льгота</p>
+            <p data-line-privilege>0 ₽</p>
           </div>
           <div class="calculator__summary-line calculator__summary-line--benefit">
             <p>Пособие на погребение</p>
@@ -412,6 +431,13 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     color: var(--color-text-primary);
   }
 
+  /* [hidden] сам по себе проигрывает по специфичности display:flex выше —
+     нужен явный оверрайд (группа «Гроб» скрывается для не-«Похороны»,
+     см. <script> внизу) */
+  .calculator__group[hidden] {
+    display: none;
+  }
+
   .calculator__group-link,
   .calculator__group-count {
     color: var(--color-text-secondary);
@@ -541,15 +567,6 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
 
   :global(.calculator__field-chevron) {
     flex-shrink: 0;
-    color: var(--color-text-primary);
-  }
-
-  .calculator__field--privileges {
-    padding: var(--space-12) var(--space-16);
-  }
-
-  .calculator__field-privileges-text {
-    flex: 1 0 0;
     color: var(--color-text-primary);
   }
 
@@ -711,9 +728,55 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
   }
 
   .calculator__chip-info {
+    position: relative;
     display: flex;
     flex-shrink: 0;
     color: var(--color-text-secondary);
+  }
+
+  /* Тултип с описанием опции по наведению/фокусу на "i" */
+  .calculator__chip-tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--space-8));
+    left: 50%;
+    z-index: 5;
+    width: max-content;
+    max-width: 220px;
+    padding: var(--space-8) var(--space-12);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .calculator__chip-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    border: 5px solid transparent;
+    border-top-color: var(--color-bg-inverse);
+    transform: translateX(-50%);
+  }
+
+  .calculator__chip-info:hover .calculator__chip-tooltip,
+  .calculator__chip-info:focus-visible .calculator__chip-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calculator__chip-tooltip {
+      transition: none;
+    }
   }
 
   .calculator__chip-price {
@@ -783,11 +846,44 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     text-align: center;
   }
 
-  @media (min-width: 1024px) {
-    .calculator__field--privileges {
-      display: flex;
-      flex: 1 0 0;
-    }
+  /* ===== Льготы ===== */
+
+  .calculator__privileges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
+  .calculator__privilege-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-12) var(--space-16);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    text-align: left;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .calculator__privilege-item--active {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-primary);
+  }
+
+  .calculator__privilege-title {
+    color: var(--color-text-primary);
+  }
+
+  .calculator__privilege-discount {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .calculator__privilege-item--active .calculator__privilege-discount {
+    color: var(--color-accent-primary);
   }
 
   /* ===== Смета ===== */
@@ -836,7 +932,12 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  .calculator__summary-line {
+  /* :global — строки полной сметы (.calculator__summary-full) вставляются
+     в рантайме через innerHTML (см. <script> внизу), поэтому не получают
+     scoped-атрибут Astro и обычный селектор их не достанет: без :global()
+     текст наследовал глобальный (тёмный) цвет и был не виден на тёмном
+     фоне карточки — баг «не отображается вся смета». */
+  :global(.calculator__summary-line) {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -844,11 +945,13 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     color: var(--color-text-inverse);
   }
 
-  .calculator__summary-line--benefit p:last-child {
+  .calculator__summary-line--benefit p:last-child,
+  .calculator__summary-line--privilege p:last-child {
     color: var(--color-accent-soft);
   }
 
-  .calculator__summary-line--wake[hidden] {
+  .calculator__summary-line--wake[hidden],
+  .calculator__summary-line--privilege[hidden] {
     display: none;
   }
 
@@ -884,7 +987,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
     display: none;
   }
 
-  .calculator__summary-full .calculator__summary-line {
+  .calculator__summary-full :global(.calculator__summary-line) {
     font-size: 14px;
   }
 
@@ -1162,25 +1265,36 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       coffin: calculatorData.defaults.coffin,
       extras: new Set(calculatorData.defaults.extras),
       guests: calculatorData.defaults.guests,
+      privileges: calculatorData.defaults.privileges,
     };
 
     const findBase = (id) => calculatorData.base.find((b) => b.id === id);
     const findCoffin = (id) => calculatorData.coffins.find((c) => c.id === id);
+    const findPrivilege = (id) => calculatorData.privileges.find((p) => p.id === id);
     const basePrice = (item) => item.pricePerKm ?? item.price ?? 0;
+    const optionsWord = (n) => (n === 1 ? 'опция' : n < 5 ? 'опции' : 'опций');
 
     // ===== Пересчёт и рендер сметы =====
 
     const render = () => {
       const base = findBase(state.base);
       const coffin = findCoffin(state.coffin);
+      const isFuneral = state.base === 'funeral';
       const extrasList = calculatorData.extras.filter((e) => state.extras.has(e.id));
       const extrasSum = extrasList.reduce((sum, e) => sum + e.price, 0);
-      const coffinAndExtras = coffin.price + extrasSum;
+      const coffinPrice = isFuneral ? coffin.price : 0;
+      const coffinAndExtras = coffinPrice + extrasSum;
       const wakeSum = state.guests * calculatorData.wakePerGuest;
       const basePriceValue = basePrice(base);
-      const rawTotal = basePriceValue + coffinAndExtras + wakeSum - benefitAmount;
+      const privilege = findPrivilege(state.privileges);
+      const privilegeDiscount = privilege?.discount ?? 0;
+      const rawTotal = basePriceValue + coffinAndExtras + wakeSum - benefitAmount - privilegeDiscount;
       const total = Math.max(0, rawTotal);
       const installment = Math.round(total / installmentMonths);
+
+      // --- Гроб только для «Похороны» ---
+      const coffinGroup = root.querySelector('[data-coffin-group]');
+      if (coffinGroup) coffinGroup.hidden = !isFuneral;
 
       // --- Итог ---
       const totalEl = root.querySelector('[data-total]');
@@ -1193,7 +1307,11 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       if (lineBase) lineBase.textContent = fmt(basePriceValue);
 
       const coffinLabel = root.querySelector('[data-line-coffin-label]');
-      if (coffinLabel) coffinLabel.textContent = `Гроб и ${extrasList.length} ${extrasList.length === 1 ? 'опция' : extrasList.length < 5 ? 'опции' : 'опций'}`;
+      if (coffinLabel) {
+        coffinLabel.textContent = isFuneral
+          ? `Гроб и ${extrasList.length} ${optionsWord(extrasList.length)}`
+          : `${extrasList.length} ${optionsWord(extrasList.length)}`;
+      }
       const lineCoffin = root.querySelector('[data-line-coffin]');
       if (lineCoffin) lineCoffin.textContent = fmt(coffinAndExtras);
 
@@ -1202,15 +1320,21 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       if (wakeRow) wakeRow.hidden = state.guests === 0;
       if (lineWake) lineWake.textContent = fmt(wakeSum);
 
+      const privilegeRow = root.querySelector('[data-line-privilege-row]');
+      const privilegeLabel = root.querySelector('[data-line-privilege-label]');
+      const linePrivilege = root.querySelector('[data-line-privilege]');
+      if (privilegeRow) privilegeRow.hidden = privilegeDiscount === 0;
+      if (privilegeLabel) privilegeLabel.textContent = `Льгота «${privilege?.title ?? ''}»`;
+      if (linePrivilege) linePrivilege.textContent = `−${fmt(privilegeDiscount)}`;
+
       // --- Полная смета (details) ---
       const fullEl = root.querySelector('[data-full-breakdown]');
       if (fullEl) {
-        const rows = [
-          [base.title, fmt(basePriceValue)],
-          [`Гроб «${coffin.title}»`, coffin.price === 0 ? (coffin.label ?? 'включено') : fmt(coffin.price)],
-          ...extrasList.map((e) => [e.title, fmt(e.price)]),
-        ];
+        const rows = [[base.title, fmt(basePriceValue)]];
+        if (isFuneral) rows.push([`Гроб «${coffin.title}»`, coffin.price === 0 ? (coffin.label ?? 'включено') : fmt(coffin.price)]);
+        rows.push(...extrasList.map((e) => [e.title, fmt(e.price)]));
         if (state.guests > 0) rows.push([`Поминки, ${state.guests} гостей`, fmt(wakeSum)]);
+        if (privilegeDiscount > 0) rows.push([`Льгота «${privilege?.title ?? ''}»`, `−${fmt(privilegeDiscount)}`]);
         fullEl.innerHTML = rows
           .map(([label, value]) => `<div class="calculator__summary-line"><p>${label}</p><p>${value}</p></div>`)
           .join('');
@@ -1229,6 +1353,11 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         const checked = state.extras.has(input.dataset.extraId);
         input.checked = checked;
         input.closest('.calculator__chip')?.classList.toggle('calculator__chip--active', checked);
+      });
+      root.querySelectorAll('[data-privilege-id]').forEach((btn) => {
+        const active = btn.dataset.privilegeId === state.privileges;
+        btn.setAttribute('aria-checked', String(active));
+        btn.classList.toggle('calculator__privilege-item--active', active);
       });
 
       // --- Синхронизация mobile-полей ---
@@ -1317,6 +1446,14 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
       state.guests = state.guests + 1;
       render();
       trackCalcUsed();
+    });
+
+    root.querySelectorAll('[data-privilege-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.privileges = btn.dataset.privilegeId;
+        render();
+        trackCalcUsed();
+      });
     });
 
     // ===== Обработчики: шторки (mobile) =====
