@@ -58,12 +58,11 @@ const groups = [
                 desktop используем не аккордеон, а простой блок.
                 data-card-index — для каскада появления (см. <script> внизу):
                 desktop- и mobile-версия одной карточки идут в разметке не
-                подряд (Fragment чередует div/details), поэтому порядковый
-                nth-child не даёт одной и той же задержки обеим версиям. */}
+                подряд (Fragment чередует их), поэтому порядковый nth-child
+                не даёт одной и той же задержки обеим версиям. */}
             <div data-card-index={cardIndex} class:list={['pricing__card', 'pricing__card--desktop', { 'pricing__card--featured': t.featured }]}>
               <div class="pricing__card-head">
                 <p class="title pricing__card-title">{t.title}</p>
-                {t.badge && <span class="body-s pricing__card-badge">{t.badge}</span>}
               </div>
 
               <p class="body-m pricing__card-subtitle">{t.subtitle}</p>
@@ -89,14 +88,22 @@ const groups = [
               </Button>
             </div>
 
-            {/* Mobile: те же карточки — аккордеон. Цена — в summary, поэтому
-                видна и в свёрнутом виде; строка «или …/мес» показывается
-                только в раскрытом состоянии (управляется через [open]) */}
-            <details data-card-index={cardIndex} class:list={['pricing__card', 'pricing__card--mobile', { 'pricing__card--featured': t.featured }]} open>
-              <summary class="pricing__card-summary">
+            {/* Mobile: те же карточки — аккордеон. Раньше был нативный
+                <details>, но его открытие/закрытие браузер переключает
+                мгновенно, без анимации; заменили на кнопку + панель с
+                grid-template-rows 0fr→1fr (тот же приём, что в Faq.astro) —
+                переход получается плавным. Подзаголовок и цена — в кнопке,
+                видны и в свёрнутом виде. */}
+            <div data-card-index={cardIndex} class:list={['pricing__card', 'pricing__card--mobile', { 'pricing__card--featured': t.featured, 'pricing__card--open': t.featured }]}>
+              <button
+                type="button"
+                class="pricing__card-summary"
+                id={`pricing-summary-${g.id}-${t.id}`}
+                aria-expanded={t.featured ? 'true' : 'false'}
+                aria-controls={`pricing-panel-${g.id}-${t.id}`}
+              >
                 <div class="pricing__card-head">
                   <p class="title pricing__card-title">{t.title}</p>
-                  {t.badge && <span class="body-s pricing__card-badge">{t.badge}</span>}
                   <span class="pricing__card-chevron" aria-hidden="true"><Icon name="chevron" size={16} /></span>
                 </div>
 
@@ -106,28 +113,27 @@ const groups = [
                   <p class="num-l pricing__card-price-value">от {t.from.toLocaleString('ru-RU')} ₽</p>
                   <p class="body-s pricing__card-price-note">или {t.perMonth.toLocaleString('ru-RU')} ₽/мес без переплат</p>
                 </div>
-              </summary>
+              </button>
 
-              {/* Браузер оборачивает весь контент после <summary> в анонимный
-                  flex-item — gap контейнера .pricing__card считает его одним
-                  блоком, а не отдельно <ul> и <Button> (проверено: без этой
-                  обёртки зазор между списком и кнопкой пропадает). Поэтому
-                  отступ summary→body задаём явным margin-top этой обёртки. */}
-              <div class="pricing__card-body">
-                <ul class="pricing__card-includes">
-                  {t.includes.map((item) => (
-                    <li class="pricing__card-include">
-                      <Icon name="check" size={18} class="pricing__card-include-icon" />
-                      <span class="body-m">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div id={`pricing-panel-${g.id}-${t.id}`} role="region" aria-labelledby={`pricing-summary-${g.id}-${t.id}`} class="pricing__card-collapse">
+                <div class="pricing__card-collapse-inner">
+                  <div class="pricing__card-body">
+                    <ul class="pricing__card-includes">
+                      {t.includes.map((item) => (
+                        <li class="pricing__card-include">
+                          <Icon name="check" size={18} class="pricing__card-include-icon" />
+                          <span class="body-m">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                <Button variant={t.featured ? 'primary' : 'outline'} size="m" icon="arrow" class="pricing__card-cta">
-                  Выбрать тариф
-                </Button>
+                    <Button variant={t.featured ? 'primary' : 'outline'} size="m" icon="arrow" class="pricing__card-cta">
+                      Выбрать тариф
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </details>
+            </div>
           </Fragment>
         ))}
       </div>
@@ -285,16 +291,33 @@ const groups = [
   /* Desktop-карточка (обычный <div>) — здесь gap на прямых детях работает
      как обычно, задаём его прямо на .pricing__card--desktop ниже */
 
-  /* Mobile-карточка (<details>): всё, что после <summary>, браузер
-     оборачивает в анонимный flex-item, поэтому отступ summary→body
-     задаём margin-top у самой обёртки .pricing__card-body */
+  /* Mobile-карточка: отступ между блоком кнопки (заголовок/подзаголовок/
+     цена) и раскрывающимся содержимым (список + CTA) */
   .pricing__card-body {
     margin-top: var(--space-20);
   }
 
-  @media (min-width: 1024px) {
-    .pricing__card-body {
-      margin-top: 0;
+  /* ===== Плавное раскрытие карточки (mobile) ===== */
+  /* Тот же приём, что у .faq__item-panel в Faq.astro: трек 0fr → 1fr
+     анимируется как обычная высота, без измерения scrollHeight в JS. */
+  .pricing__card-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .pricing__card--open .pricing__card-collapse {
+    grid-template-rows: 1fr;
+  }
+
+  .pricing__card-collapse-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing__card-collapse {
+      transition: none;
     }
   }
 
@@ -329,12 +352,8 @@ const groups = [
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
-    cursor: pointer;
-    list-style: none;
-  }
-
-  .pricing__card-summary::-webkit-details-marker {
-    display: none;
+    width: 100%;
+    text-align: left;
   }
 
   .pricing__card-head {
@@ -356,14 +375,6 @@ const groups = [
     }
   }
 
-  .pricing__card-badge {
-    padding: var(--space-8) var(--space-12);
-    background: var(--color-accent-primary);
-    color: var(--color-text-inverse);
-    border-radius: var(--radius-pill);
-    white-space: nowrap;
-  }
-
   .pricing__card-chevron {
     display: flex;
     align-items: center;
@@ -382,28 +393,16 @@ const groups = [
     color: var(--color-text-inverse);
   }
 
-  .pricing__card[open] .pricing__card-chevron {
+  .pricing__card--open .pricing__card-chevron {
     transform: rotate(180deg);
   }
 
   .pricing__card-subtitle {
-    display: none;
     color: var(--color-text-secondary);
   }
 
   .pricing__card--featured .pricing__card-subtitle {
     color: var(--color-text-inverse);
-  }
-
-  /* Mobile: подзаголовок виден только в раскрытой карточке */
-  .pricing__card--mobile[open] .pricing__card-subtitle {
-    display: block;
-  }
-
-  @media (min-width: 1024px) {
-    .pricing__card-subtitle {
-      display: block;
-    }
   }
 
   .pricing__card-price {
@@ -422,7 +421,7 @@ const groups = [
   }
 
   /* Mobile: «или …/мес» видно только в раскрытой карточке */
-  .pricing__card--mobile[open] .pricing__card-price-note {
+  .pricing__card--mobile.pricing__card--open .pricing__card-price-note {
     display: block;
   }
 
@@ -632,22 +631,22 @@ const groups = [
     });
 
     // Аккордеон карточек (только mobile-разметка, .pricing__card--mobile —
-    // desktop-версия карточек это обычный <div>, всегда развёрнутый через CSS)
+    // desktop-версия карточек это обычный <div>, всегда развёрнутый через CSS).
+    // Изначально раскрыта карточка с featured-классом (задано в разметке),
+    // раскрытие — плавное, через CSS grid-rows (см. .pricing__card-collapse).
     root.querySelectorAll<HTMLElement>('.pricing__cards').forEach((group) => {
-      const cards = Array.from(group.querySelectorAll<HTMLDetailsElement>('.pricing__card--mobile'));
+      const cards = Array.from(group.querySelectorAll<HTMLElement>('.pricing__card--mobile'));
 
-      // Изначально сворачиваем все, кроме карточки с featured-классом
-      cards.forEach((card) => {
-        card.open = card.classList.contains('pricing__card--featured');
-      });
+      const setOpen = (card: HTMLElement, open: boolean) => {
+        const summary = card.querySelector<HTMLButtonElement>('.pricing__card-summary');
+        card.classList.toggle('pricing__card--open', open);
+        summary?.setAttribute('aria-expanded', String(open));
+      };
 
       cards.forEach((card) => {
-        card.addEventListener('toggle', () => {
-          if (card.open) {
-            cards.forEach((other) => {
-              if (other !== card) other.open = false;
-            });
-          }
+        card.querySelector('.pricing__card-summary')?.addEventListener('click', () => {
+          const willOpen = !card.classList.contains('pricing__card--open');
+          cards.forEach((other) => setOpen(other, other === card ? willOpen : false));
         });
       });
     });
