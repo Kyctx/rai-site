@@ -183,11 +183,18 @@ const warnings = [
     width: 100%;
     padding: var(--space-20) 0 var(--space-20) var(--space-24);
     border-left: 1px solid var(--color-text-inverse);
+    transition: border-color 0.2s ease;
   }
 
   .benefits__item--open {
     border-left: 2px solid var(--color-accent-soft);
     padding-left: calc(var(--space-24) - 1px);
+  }
+
+  /* Свёрнутый пункт кликабелен целиком — при наведении полоса слева и
+     заголовок чуть светлеют, как подсказка, что можно раскрыть */
+  .benefits__item:not(.benefits__item--open):hover {
+    border-left-color: var(--color-accent-soft);
   }
 
   .benefits__item-toggle {
@@ -199,6 +206,11 @@ const warnings = [
   .benefits__item-title {
     color: var(--color-text-inverse);
     opacity: 0.45;
+    transition: opacity 0.2s ease;
+  }
+
+  .benefits__item:not(.benefits__item--open):hover .benefits__item-title {
+    opacity: 0.75;
   }
 
   .benefits__item--open .benefits__item-title {
