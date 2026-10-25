@@ -124,7 +124,7 @@ const jsonLd = {
           );
         })}
       </ul>
-      <a class="label-m related__all related__all--bottom" href={catalogUrl(category.slug)}>{forms.all} · {siblings.length}</a>
+      <a class="label-m related__all related__all--bottom" href={catalogUrl(category.slug)}>{forms.all}</a>
     </div>
   </section>
 
@@ -173,7 +173,7 @@ const jsonLd = {
 
       {tabs.map((tab, index) => (
         <a class="label-m extra__all extra__all--bottom" href={catalogUrl(tab.slug)} data-tab-link hidden={index !== 0}>
-          {categoryForms[tab.slug].all} · {tab.count}
+          {categoryForms[tab.slug].all}
         </a>
       ))}
     </div>
