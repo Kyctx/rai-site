@@ -147,11 +147,18 @@ const telHref = `tel:${site.phone.tel}`;
     gap: var(--space-16);
   }
 
+  /* Mobile: окно закрывается свайпом вниз, тапом по фону и Esc — крестик не показываем,
+     но оставляем для скринридеров и клавиатуры (визуально скрыт) */
   .lead__close {
     display: grid;
     place-items: center;
     flex-shrink: 0;
     color: var(--color-text-secondary);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
   }
 
   .lead__lead,
@@ -310,6 +317,15 @@ const telHref = `tel:${site.phone.tel}`;
 
   /* Desktop 426:702 — модальное окно 560 px по центру */
   @media (min-width: 768px) {
+    /* Планшет и desktop: крестик виден */
+    .lead__close {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+    }
+
     .lead__panel {
       top: 50%;
       left: 50%;
