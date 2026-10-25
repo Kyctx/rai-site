@@ -214,7 +214,10 @@ const price = formatPrice(product.price);
       background: var(--color-bg-inverse);
       color: var(--color-text-inverse);
       transform: translateY(100%);
-      transition: transform 0.22s ease;
+      /* visibility: при дробном масштабе экрана translateY(100%) округляется, и снизу ячейки
+         остаётся тёмная полоска шторки — скрываем её целиком, когда она не выдвинута */
+      visibility: hidden;
+      transition: transform 0.22s ease, visibility 0s linear 0.22s;
     }
 
     .cell__drawer-name {
@@ -247,6 +250,8 @@ const price = formatPrice(product.price);
     .cell:hover .cell__drawer,
     .cell:focus-within .cell__drawer {
       transform: none;
+      visibility: visible;
+      transition: transform 0.22s ease, visibility 0s;
     }
 
     .cell:hover .cell__photo,
