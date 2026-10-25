@@ -61,10 +61,24 @@ import { catalogUrl } from '@lib/catalog';
     border: 0;
     background: transparent;
     color: var(--color-text-primary);
+    /* clip, а не hidden/auto: иначе браузер прокручивает само окно к автофокусу за краем экрана,
+       пока шторка ещё выезжает снизу, — отсюда рывок при открытии */
+    overflow: clip;
   }
 
   .saved::backdrop {
     background: color-mix(in srgb, var(--color-bg-inverse) 50%, transparent);
+  }
+
+  /* Затемнение появляется плавно, вместе с выезжающей шторкой */
+  .saved[open]::backdrop {
+    animation: saved-backdrop 0.28s ease;
+  }
+
+  @keyframes saved-backdrop {
+    from {
+      opacity: 0;
+    }
   }
 
   /* Mobile 384:892 — шторка снизу с ручкой */
