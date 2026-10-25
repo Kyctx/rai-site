@@ -3,6 +3,7 @@
 // 434:915 (mobile, шторка снизу с ручкой). Четыре состояния: заполнение, отправка, успех, ошибка.
 // Логика и отправка в /api/lead.php — catalog.js; источники заявки: catalog-bar | product | saved-list.
 import Button from '@components/Button.astro';
+import Checkbox from '@components/Checkbox.astro';
 import Icon from '@components/Icon.astro';
 import site from '@data/site.json';
 import { base } from '@lib/catalog';
@@ -50,13 +51,10 @@ const telHref = `tel:${site.phone.tel}`;
       </div>
 
       <div class="lead__consent-wrap">
-        <label class="lead__consent">
-          <input class="lead__check" type="checkbox" name="consent" />
-          <span class="body-s">
-            Согласен на <a href={`${base}/consent`} target="_blank" rel="noopener">обработку персональных данных</a>, с
-            <a href={`${base}/privacy`} target="_blank" rel="noopener">политикой</a> ознакомлен
-          </span>
-        </label>
+        <Checkbox id="lead-consent" name="consent" required>
+          Согласен на <a href={`${base}/consent`} target="_blank" rel="noopener">обработку персональных данных</a>, с
+          <a href={`${base}/privacy`} target="_blank" rel="noopener">политикой</a> ознакомлен
+        </Checkbox>
         <span class="body-s lead__error" data-field-error="consent"></span>
       </div>
 
@@ -264,38 +262,9 @@ const telHref = `tel:${site.phone.tel}`;
     gap: var(--space-8);
   }
 
-  .lead__consent {
-    display: flex;
-    align-items: center;
-    gap: var(--space-12);
-    color: var(--color-text-secondary);
-    cursor: pointer;
-  }
-
-  .lead__consent a {
+  .lead__consent-wrap :global(a) {
     text-decoration: underline;
     text-underline-offset: 2px;
-  }
-
-  .lead__check {
-    appearance: none;
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-surface);
-    cursor: pointer;
-  }
-
-  .lead__check:checked {
-    border-color: var(--color-accent-primary);
-    background: var(--color-accent-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' stroke='%23F5F1EA' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
-  }
-
-  .lead__check[aria-invalid='true'] {
-    border-color: var(--color-feedback-error);
   }
 
   .lead__form :global([data-lead-submit]) {

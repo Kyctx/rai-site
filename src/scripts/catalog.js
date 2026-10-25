@@ -217,7 +217,11 @@ if (leadDialog && leadForm) {
     const consent = $('[name="consent"]', leadDialog);
     let firstInvalid = null;
     if (digits.length !== 11) firstInvalid = fail('phone', 'Введите номер полностью');
-    if (!consent.checked) firstInvalid ??= fail('consent', 'Нужно согласие на обработку данных');
+    if (!consent.checked) {
+      // fail() вызываем всегда — сообщение под чекбоксом нужно, даже если телефон тоже не прошёл
+      const invalid = fail('consent', 'Нужно согласие на обработку данных');
+      firstInvalid ??= invalid;
+    }
     if (firstInvalid) {
       firstInvalid.focus();
       return;
