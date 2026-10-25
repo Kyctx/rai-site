@@ -69,12 +69,18 @@ const items = [
   .index__item--active .index__name {
     font-style: italic;
     font-weight: 400;
-    color: var(--color-hover-beige);
+    color: var(--color-accent-primary);
     opacity: 1;
   }
 
+  /* Выбранный раздел остаётся тёмно-зелёным и при наведении (общий ховер — тёмно-бежевый) */
+  .index__item--active:hover .index__name,
+  .index__item--active:focus-visible .index__name {
+    color: var(--color-accent-primary);
+  }
+
   .index__item--active .index__count {
-    color: var(--color-hover-beige);
+    color: var(--color-accent-primary);
     opacity: 1;
   }
 
