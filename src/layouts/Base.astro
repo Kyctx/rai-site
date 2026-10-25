@@ -8,9 +8,11 @@ interface Props {
   description?: string;
   // Если задан — используется как есть, без добавления « · Рай» (карточки товаров, SEO по спецификации)
   fullTitle?: string;
+  // Мягкое появление содержимого страницы (страницы каталога): без резкого «выскакивания» при переходе
+  pageEnter?: boolean;
 }
 
-const { title, description, fullTitle } = Astro.props;
+const { title, description, fullTitle, pageEnter = false } = Astro.props;
 const isProd = import.meta.env.PROD;
 const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID;
 
@@ -122,7 +124,7 @@ const fontFaceCss = `
   </head>
   <body>
     <slot name="header" />
-    <main>
+    <main class:list={{ 'page-enter': pageEnter }}>
       <slot />
     </main>
     <slot name="footer" />

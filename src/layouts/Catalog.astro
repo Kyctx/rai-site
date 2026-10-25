@@ -12,7 +12,7 @@ interface Props {
 }
 ---
 
-<Base {...Astro.props}>
+<Base {...Astro.props} pageEnter>
   <Fragment slot="head"><slot name="head" /></Fragment>
   <Fragment slot="header">
     <Header />

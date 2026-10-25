@@ -340,3 +340,17 @@ input, textarea, select {
     transform: none;
   }
 }
+
+/* ===== Мягкое появление страницы (страницы каталога, <main class="page-enter">) ===== */
+/* Начинаем не с нуля, а с 40 % непрозрачности: содержимое сразу считается отрисованным (LCP не страдает),
+   но не «выскакивает» резко. При prefers-reduced-motion длительность обнуляется общим правилом выше. */
+.page-enter {
+  animation: page-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0.4;
+    transform: translateY(10px);
+  }
+}
