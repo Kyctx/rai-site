@@ -14,6 +14,8 @@ const { calculator, benefit } = prices;
 // Для цели calc_used (см. CLAUDE.md → Аналитика) — тот же способ подключения,
 // что и в Base.astro.
 const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID ?? null;
+// Гробы в каталоге — через BASE_URL (на GitHub Pages сайт лежит в подпути /rai-site/)
+const coffinsCatalogHref = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/catalog/coffins/`;
 
 // Значения по умолчанию для начального рендера полей-селектов (mobile) —
 // берём явно по id из defaults, а не по индексу массива.
@@ -91,7 +93,7 @@ const defaultBasePrice = (item: typeof defaultBase) => item.pricePerKm ? `от $
         <div class="calculator__group" data-coffin-group>
           <div class="calculator__group-head">
             <p class="label-m calculator__group-title">Гроб</p>
-            <a href="#pricing" class="body-s calculator__group-link">выбрать в каталоге →</a>
+            <a href={coffinsCatalogHref} class="body-s calculator__group-link">выбрать в каталоге →</a>
           </div>
 
           <!-- Desktop: три карточки -->
