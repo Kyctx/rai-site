@@ -24,9 +24,9 @@ const perks = ['Оплата после, без предоплаты', 'Аген
     </div>
     <ul class="panel__perks">
       {perks.map((perk) => (
-        <li class="body-s">
-          <Icon name="check" size={16} />
-          {perk}
+        <li>
+          <Icon name="check" size={16} strokeWidth={1.6} />
+          <span class="body-s panel__perk-text">{perk}</span>
         </li>
       ))}
     </ul>
@@ -83,11 +83,16 @@ const perks = ['Оплата после, без предоплаты', 'Аген
     display: flex;
     align-items: center;
     gap: var(--space-8);
+  }
+
+  /* Прозрачность — только у текста, галка остаётся зелёной, как в макете (426:3887) */
+  .panel__perk-text {
     opacity: 0.75;
   }
 
   .panel__perks :global(svg) {
     flex-shrink: 0;
+    color: var(--color-accent-on-inverse);
   }
 
   .panel__line {
