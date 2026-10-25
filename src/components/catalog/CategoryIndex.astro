@@ -47,12 +47,13 @@ const items = [
 
   .index__name {
     opacity: 0.32;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, color 0.2s ease;
   }
 
   .index__item:hover .index__name,
   .index__item:focus-visible .index__name {
     opacity: 1;
+    color: var(--color-hover-beige);
   }
 
   /* Счётчики: mobile — 10/12 px (исключение из правила 2, см. CLAUDE.md), desktop — Label S */

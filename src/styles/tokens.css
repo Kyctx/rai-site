@@ -23,6 +23,9 @@
   --color-accent-on-inverse: #A9BA98;
   --color-feedback-error: #9C4A3A;
   --color-feedback-error-soft: #F3E4DC;
+  /* Ховер у крупных ссылок-указателей каталога: тёмно-бежевый, собран из токенов (текст + граница).
+     Точного значения в макете нет — при появлении заменить здесь, одно место на весь каталог. */
+  --color-hover-beige: color-mix(in srgb, var(--color-text-primary) 40%, var(--color-border-default));
 
   /* Отступы (шкала space/*) */
   --space-4: 4px;

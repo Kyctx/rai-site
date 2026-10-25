@@ -564,11 +564,10 @@ const jsonLd = {
       opacity: 0.32;
     }
 
-    /* Ховер — тёмно-бежевый. Готового токена нет, цвет собран из токенов (текст + граница);
-       если у дизайнера есть точное значение — заменить здесь. */
+    /* Ховер — тёмно-бежевый (токен --color-hover-beige) */
     .related__item:not(.related__item--current):hover .related__name {
       opacity: 1;
-      color: color-mix(in srgb, var(--color-text-primary) 40%, var(--color-border-default));
+      color: var(--color-hover-beige);
     }
 
     .related__price {
