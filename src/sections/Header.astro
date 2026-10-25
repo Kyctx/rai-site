@@ -60,6 +60,11 @@ const telHref = `tel:${site.phone.tel}`;
         <Logo width={53} />
       </a>
       <div class="header__actions">
+        <!-- Появляется, когда отмечен хотя бы один товар («Отметить для агента»); ведёт к списку отмеченного -->
+        <a href={savedHref} class="header__icon-btn header__icon-btn--saved pill-hover" data-saved-link data-open-saved hidden>
+          <Icon name="bookmark-filled" size={20} />
+          <span class="sr-only">Отмечено для агента: <span data-saved-count></span></span>
+        </a>
         <a href={telHref} class="header__icon-btn header__icon-btn--accent pill-hover" aria-label="Позвонить" data-goal="call_click">
           <Icon name="phone" size={20} />
         </a>
@@ -339,6 +344,14 @@ const telHref = `tel:${site.phone.tel}`;
 
   .header__icon-btn:hover {
     box-shadow: 0 0 16px rgba(86, 99, 75, 0.25);
+  }
+
+  .header__icon-btn[hidden] {
+    display: none;
+  }
+
+  .header__icon-btn--saved {
+    color: var(--color-accent-primary);
   }
 
   .header__icon-btn--accent {
