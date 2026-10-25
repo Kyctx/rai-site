@@ -85,17 +85,26 @@ const price = formatPrice(product.price);
     right: var(--space-12);
     display: flex;
     flex-direction: column;
-    gap: var(--space-8);
+    gap: var(--space-4);
   }
 
-  .cell__name {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+  /* Название и описание — по одной строке с многоточием */
+  .cell__name,
+  .cell__short {
+    display: block;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
-  .cell__short,
+  .cell__short {
+    color: var(--color-text-secondary);
+  }
+
+  .cell__price {
+    padding-top: var(--space-8);
+  }
+
   .cell__drawer,
   .cell__tip {
     display: none;
