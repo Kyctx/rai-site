@@ -10,17 +10,14 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const perks = ['Оплата после, без предоплаты', 'Агента можно проверить по номеру'];
+const perks = ['Цена фиксируется в договоре', 'Оплата после, без предоплаты', 'Агента можно проверить по номеру'];
 ---
 
 <div class="panel">
   <div class="panel__info">
     <div class="panel__head">
       <h1 class="h2 panel__title" id="product-title">{product.name}</h1>
-      <div class="panel__price">
-        <p class="num-l">{formatPrice(product.price)}</p>
-        <p class="body-s panel__note">Цена фиксируется в договоре</p>
-      </div>
+      <p class="num-l">{formatPrice(product.price)}</p>
     </div>
     <ul class="panel__perks">
       {perks.map((perk) => (
@@ -67,10 +64,6 @@ const perks = ['Оплата после, без предоплаты', 'Аген
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-  }
-
-  .panel__note {
-    opacity: 0.6;
   }
 
   .panel__perks {
