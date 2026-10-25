@@ -131,10 +131,7 @@ const jsonLd = {
   <section class="extra" aria-labelledby="extra-title">
     <div class="extra__inner">
       <div class="extra__head">
-        <div class="extra__text">
-          <p class="eyebrow extra__eyebrow">Вместе с {forms.with} <span>обычно выбирают</span></p>
-          <h2 class="h3" id="extra-title">Что ещё понадобится</h2>
-        </div>
+        <h2 class="h3" id="extra-title">Что ещё понадобится</h2>
         {tabs.map((tab, index) => (
           <a class="label-m extra__all extra__all--top" id={`link-${tab.slug}`} href={catalogUrl(tab.slug)} data-tab-link hidden={index !== 0}>
             {categoryForms[tab.slug].all}
@@ -322,7 +319,8 @@ const jsonLd = {
     left: 50%;
     bottom: -4px;
     width: 0;
-    height: 1.5px;
+    /* Целые 2 px: дробная толщина браузер округляет по-разному (1 или 2 px) в зависимости от позиции строки */
+    height: 2px;
     border-radius: 2px;
     background-color: var(--color-accent-primary);
     transition: width 0.3s ease, left 0.3s ease;
@@ -356,17 +354,6 @@ const jsonLd = {
     padding-inline: var(--space-16);
   }
 
-  .extra__text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .extra__eyebrow {
-    color: var(--color-text-secondary);
-  }
-
-  .extra__eyebrow span,
   .related__eyebrow span {
     color: var(--color-accent-primary);
   }

@@ -35,12 +35,12 @@ export const categories = data.categories as Category[];
 export const products = (data.products as unknown as Product[]).filter((p) => p.inStock !== false);
 
 // Падежные формы названий разделов для подписей в макете
-export const categoryForms: Record<string, { singular: string; with: string; all: string }> = {
-  coffins: { singular: 'Гроб', with: 'гробом', all: 'Все гробы' },
-  wreaths: { singular: 'Венок', with: 'венком', all: 'Все венки и цветы' },
-  crosses: { singular: 'Крест', with: 'крестом', all: 'Все кресты' },
-  clothing: { singular: 'Одежда', with: 'одеждой', all: 'Вся одежда' },
-  accessories: { singular: 'Принадлежность', with: 'принадлежностями', all: 'Все принадлежности' },
+export const categoryForms: Record<string, { singular: string; all: string }> = {
+  coffins: { singular: 'Гроб', all: 'Все гробы' },
+  wreaths: { singular: 'Венок', all: 'Все венки и цветы' },
+  crosses: { singular: 'Крест', all: 'Все кресты' },
+  clothing: { singular: 'Одежда', all: 'Вся одежда' },
+  accessories: { singular: 'Принадлежность', all: 'Все принадлежности' },
 };
 
 export const byCategory = (slug: string) => products.filter((p) => p.category === slug);
