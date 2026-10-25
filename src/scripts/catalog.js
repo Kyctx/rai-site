@@ -348,11 +348,15 @@ if (grid && moreButton) {
   };
 
   moreButton.addEventListener('click', () => {
+    // Браузерная «привязка скролла» держит кнопку на месте и сдвигает страницу вниз, из-за чего новые
+    // товары оказываются выше кнопки. Возвращаем позицию: карточки раскрываются вниз, страница стоит.
+    const scrollY = window.scrollY;
     const size = step();
     const from = size + extra;
     cells.slice(from, from + size).forEach((cell) => cell.setAttribute('data-shown', ''));
     extra += size;
     renderMore();
+    window.scrollTo({ top: scrollY, behavior: 'instant' });
   });
 
   renderMore();
