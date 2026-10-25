@@ -44,7 +44,7 @@ import { catalogUrl } from '@lib/catalog';
       </span>
       <button type="button" class="label-s saved__remove" data-row-remove>
         <span class="saved__remove-text">Убрать</span>
-        <span class="saved__remove-x" aria-hidden="true"><Icon name="close" size={16} /></span>
+        <span class="saved__remove-x" aria-hidden="true"><Icon name="close" size={20} /></span>
       </button>
     </li>
   </template>
@@ -160,14 +160,21 @@ import { catalogUrl } from '@lib/catalog';
     color: var(--color-text-primary);
   }
 
+  /* Mobile: заметная круглая кнопка 40×40 (удобная зона нажатия), тёмный крестик на бежевом круге */
   .saved__remove {
     flex-shrink: 0;
-    color: var(--color-text-secondary);
-    transition: color 0.2s ease;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    transition: color 0.2s ease, background-color 0.2s ease;
   }
 
   .saved__remove:hover {
-    color: var(--color-text-primary);
+    background: var(--color-border-default);
   }
 
   .saved__remove-text {
@@ -246,6 +253,20 @@ import { catalogUrl } from '@lib/catalog';
 
     .saved__cat {
       display: block;
+    }
+
+    /* Desktop: текстовая ссылка «Убрать», как в макете 384:375 */
+    .saved__remove {
+      display: block;
+      width: auto;
+      height: auto;
+      background: none;
+      color: var(--color-text-secondary);
+    }
+
+    .saved__remove:hover {
+      background: none;
+      color: var(--color-text-primary);
     }
 
     .saved__remove-text {
