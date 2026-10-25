@@ -28,11 +28,25 @@ const { items, hideHomeOnMobile = false } = Astro.props;
 </nav>
 
 <style>
+  /* Всегда одна строка: начало цепочки не сжимается, а последний пункт (название товара), если не помещается,
+     обрезается многоточием */
   .crumbs__list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--space-8);
     color: var(--color-text-secondary);
+  }
+
+  .crumbs__item {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .crumbs__item:last-child {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .crumbs__item + .crumbs__item::before {
