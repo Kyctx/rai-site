@@ -24,16 +24,120 @@ function openDialog(dialog) {
   dialog.showModal();
 }
 
+// На телефоне оба окна — шторки снизу: закрываются плавно (уезжают вниз) и свайпом вниз по любой
+// области шторки, как в калькуляторе. На планшете и desktop — обычное закрытие.
+const isSheet = () => !matchMedia('(min-width: 768px)').matches;
+const sheetPanel = (dialog) => $('.saved__panel, .lead__panel', dialog);
+
+function closeDialog(dialog) {
+  if (!dialog?.open || dialog.dataset.closing) return;
+  const panel = sheetPanel(dialog);
+  if (!isSheet() || !panel) {
+    dialog.close();
+    return;
+  }
+  dialog.dataset.closing = '1';
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    panel.style.transition = '';
+    panel.style.transform = '';
+    delete dialog.dataset.closing;
+    dialog.close();
+  };
+  panel.style.transition = 'transform 0.25s ease';
+  panel.style.transform = 'translateY(100%)';
+  panel.addEventListener('transitionend', finish, { once: true });
+  // Страховка: если переход не сработал (например, вкладка в фоне), окно всё равно закроется
+  setTimeout(finish, 450);
+}
+
+// Жест на закрытие начинается, только если содержимое шторки уже прокручено к самому верху —
+// иначе свайп остаётся обычной прокруткой списка. Закрытие — если сдвинули дальше четверти высоты,
+// иначе шторка пружинит обратно. Нативные touch-события: на тачскрине браузер отдаёт жест скроллу и
+// присылает pointercancel, поэтому Pointer Events тут не годятся (то же решение, что в калькуляторе).
+function enableSwipeToClose(dialog) {
+  const panel = sheetPanel(dialog);
+  if (!panel) return;
+  let startY = 0;
+  let offset = 0;
+  let dragging = false;
+
+  const getY = (event) => (event.touches?.[0] ?? event).clientY;
+
+  const onMove = (event) => {
+    if (!dragging) return;
+    offset = Math.max(0, getY(event) - startY);
+    if (offset > 0 && event.cancelable) event.preventDefault();
+    panel.style.transform = `translateY(${offset}px)`;
+  };
+
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    window.removeEventListener('touchmove', onMove);
+    window.removeEventListener('touchend', endDrag);
+    window.removeEventListener('touchcancel', endDrag);
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', endDrag);
+
+    if (offset > panel.offsetHeight * 0.25) {
+      closeDialog(dialog);
+    } else if (offset > 0) {
+      panel.style.transition = 'transform 0.2s ease';
+      panel.style.transform = '';
+      panel.addEventListener(
+        'transitionend',
+        () => {
+          panel.style.transition = '';
+        },
+        { once: true },
+      );
+    }
+    offset = 0;
+  };
+
+  const onStart = (event) => {
+    if (!isSheet() || dialog.dataset.closing) return;
+    if (event.type === 'mousedown' && event.button !== 0) return;
+    const scroller = event.target.closest?.('.saved__top');
+    if (panel.scrollTop > 0 || (scroller && scroller.scrollTop > 0)) return;
+    dragging = true;
+    startY = getY(event);
+    offset = 0;
+    panel.style.transition = '';
+    if (event.type === 'touchstart') {
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', endDrag);
+      window.addEventListener('touchcancel', endDrag);
+    } else {
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+    }
+  };
+
+  panel.addEventListener('touchstart', onStart, { passive: true });
+  panel.addEventListener('mousedown', onStart);
+}
+
 [savedDialog, leadDialog].forEach((dialog) => {
   if (!dialog) return;
   dialog.addEventListener('click', (event) => {
     // Панель лежит внутри <dialog>, клик мимо неё попадает в сам <dialog> — это «фон»
-    if (event.target === dialog) dialog.close();
+    if (event.target === dialog) closeDialog(dialog);
+  });
+  // Esc на телефоне — тоже плавно, вместо мгновенного нативного закрытия
+  dialog.addEventListener('cancel', (event) => {
+    if (!isSheet()) return;
+    event.preventDefault();
+    closeDialog(dialog);
   });
   dialog.addEventListener('close', () => {
     document.body.style.overflow = '';
   });
-  $$('[data-dialog-close]', dialog).forEach((button) => button.addEventListener('click', () => dialog.close()));
+  $$('[data-dialog-close]', dialog).forEach((button) => button.addEventListener('click', () => closeDialog(dialog)));
+  enableSwipeToClose(dialog);
 });
 
 // ===== Закладки в ячейках и на странице товара =====
@@ -323,7 +427,7 @@ onSavedChange((list) => {
   syncMarks(list);
   if (savedDialog?.open) {
     if (knownSaved().length) renderSaved();
-    else savedDialog.close();
+    else closeDialog(savedDialog);
   }
   if (leadDialog?.open) renderLeadList();
 });
