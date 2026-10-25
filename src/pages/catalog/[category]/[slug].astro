@@ -295,10 +295,46 @@ const jsonLd = {
     color: var(--color-accent-primary);
   }
 
-  .related__all {
+  /* Ссылки «Все …» без подчёркивания; при наведении линия растёт от центра — как у ссылок в шапке */
+  .related__all,
+  .extra__all {
+    position: relative;
+    width: fit-content;
     color: var(--color-accent-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  }
+
+  /* Нижние ссылки лежат в колонке — не растягиваем на всю ширину, иначе линия будет во всю карточку */
+  .related__all--bottom,
+  .extra__all--bottom {
+    align-self: flex-start;
+  }
+
+  .related__all::before,
+  .extra__all::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background-color: var(--color-accent-primary);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .related__all:hover::before,
+  .related__all:focus-visible::before,
+  .extra__all:hover::before,
+  .extra__all:focus-visible::before {
+    width: 100%;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .related__all::before,
+    .extra__all::before {
+      transition: none;
+    }
   }
 
   /* ===== Что ещё понадобится ===== */
@@ -337,11 +373,6 @@ const jsonLd = {
     display: none;
   }
 
-  .extra__all {
-    color: var(--color-accent-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
 
   /* Вкладки и ленты товаров — горизонтальная прокрутка с «примагничиванием» */
   .extra__tabs {
