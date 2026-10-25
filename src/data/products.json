@@ -1,0 +1,4343 @@
+{
+  "_meta": {
+    "source": "download_price_list.xlsx (Яндекс Бизнес), выгрузка 25.10.2026",
+    "photos": "Figma HOnzCcOgjLU9vmar47ScwR. photo.figmaNode — улучшенное фото на странице «Изображения 2» (выгрузить download_assets → rawImages[0]). Витрина всех товаров — доска «Товары — карточки для разработки» (462:798) на странице «Каталог», собрана из компонента «Ячейка товара».",
+    "count": 113,
+    "todo": {
+      "sizes": "Размеры гробов, крестов, венков и одежды — типовые для этих моделей (стандарт / колода / спецколода / европейские / американские). Перед запуском сверить с поставщиком."
+    }
+  },
+  "categories": [
+    {
+      "slug": "coffins",
+      "title": "Гробы"
+    },
+    {
+      "slug": "wreaths",
+      "title": "Венки и цветы"
+    },
+    {
+      "slug": "crosses",
+      "title": "Кресты"
+    },
+    {
+      "slug": "clothing",
+      "title": "Одежда"
+    },
+    {
+      "slug": "accessories",
+      "title": "Принадлежности"
+    }
+  ],
+  "products": [
+    {
+      "id": "clothing-sharf-na-golovu-zhenskiy",
+      "slug": "sharf-na-golovu-zhenskiy",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Шарф на голову женский",
+      "priceListName": "Шарф на голову женский",
+      "price": 550,
+      "short": "Чёрное тонкое кружево",
+      "description": "Женский ритуальный головной шарф чёрного цвета из тонкого кружева. Полупрозрачная текстура и традиционная форма делают его подходящим для покрытия головы усопшей в соответствии с обычаями.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный"
+        },
+        {
+          "label": "Материал",
+          "value": "тонкое кружево"
+        },
+        {
+          "label": "Для кого",
+          "value": "женский"
+        },
+        {
+          "label": "Размеры",
+          "value": "универсальный"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/sharf-na-golovu-zhenskiy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2899371/2a000001a0008c6b39f810b4385493293e1b/orig",
+        "figmaNode": "319:7793"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-chulki-zhenskie",
+      "slug": "chulki-zhenskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Чулки женские",
+      "priceListName": "Чулки женские",
+      "price": 780,
+      "short": "Светло-бежевые, эластичные",
+      "description": "Женские похоронные чулки светло-бежевого оттенка. Гладкие и эластичные, предназначены для полного покрытия ног при традиционном облачении усопшей.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светло-бежевый"
+        },
+        {
+          "label": "Материал",
+          "value": "эластичная гладкая ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "женские"
+        },
+        {
+          "label": "Размеры",
+          "value": "универсальный"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/chulki-zhenskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/944742/2a000001a0008a990d798ae16d7c96564e28/orig",
+        "figmaNode": "319:7796"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-tufli-muzhskie",
+      "slug": "tufli-muzhskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Туфли мужские",
+      "priceListName": "Туфли мужские",
+      "price": 850,
+      "short": "Чёрные, на шнурках",
+      "description": "Мужские похоронные туфли чёрного цвета на шнурках. Классическая модель с гладкой поверхностью, предназначенная для торжественного облачения усопшего.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный"
+        },
+        {
+          "label": "Модель",
+          "value": "классические, на шнурках"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужские"
+        },
+        {
+          "label": "Размеры",
+          "value": "39–46"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/tufli-muzhskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2899371/2a000001a000881bf3e18b893a4c4fa2fd59/orig",
+        "figmaNode": "319:7789"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-tapochki-muzhskie",
+      "slug": "tapochki-muzhskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Тапочки мужские",
+      "priceListName": "Тапочки мужские",
+      "price": 500,
+      "short": "Тёмная мягкая ткань",
+      "description": "Мужские похоронные тапочки тёмного цвета из мягкой ткани. Простая закрытая модель без жёсткой подошвы, предназначенная для традиционного облачения усопшего.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Материал",
+          "value": "мягкая ткань"
+        },
+        {
+          "label": "Подошва",
+          "value": "без жёсткой подошвы"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужские"
+        },
+        {
+          "label": "Размеры",
+          "value": "39–46"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/tapochki-muzhskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/21065090/2a000001a000856b5e32a10ff97775c26ac9/orig",
+        "figmaNode": "319:7790"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-tapochki-zhenskie",
+      "slug": "tapochki-zhenskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Тапочки женские",
+      "priceListName": "Тапочки женские",
+      "price": 500,
+      "short": "Белая мягкая ткань",
+      "description": "Женские похоронные тапочки белого цвета из мягкой ткани. Лёгкая и удобная модель без жёсткой подошвы, предназначенная для облачения усопшей в соответствии с традициями.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Материал",
+          "value": "мягкая ткань"
+        },
+        {
+          "label": "Подошва",
+          "value": "без жёсткой подошвы"
+        },
+        {
+          "label": "Для кого",
+          "value": "женские"
+        },
+        {
+          "label": "Размеры",
+          "value": "35–41"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/tapochki-zhenskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4322053/2a000001a0008243e88f2338df3be91ea981/orig",
+        "figmaNode": "319:7795"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-sorochka-zhenskaya",
+      "slug": "sorochka-zhenskaya",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Сорочка женская",
+      "priceListName": "Сорочка женская",
+      "price": 1500,
+      "short": "Белая, мелкий цветочный узор",
+      "description": "Женская похоронная сорочка белого цвета с мелким цветочным узором и широкими бретелями. Лёгкая ткань и простой крой делают её удобным и традиционным вариантом для нижнего облачения усопшей.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый с цветочным узором"
+        },
+        {
+          "label": "Крой",
+          "value": "широкие бретели"
+        },
+        {
+          "label": "Материал",
+          "value": "лёгкая ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "женская"
+        },
+        {
+          "label": "Размеры",
+          "value": "44–62"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/sorochka-zhenskaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9896919/2a000001a0008086c4cadf1efb28caa6b702/orig",
+        "figmaNode": "319:7798"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-rubashka-muzhskaya",
+      "slug": "rubashka-muzhskaya",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Рубашка мужская",
+      "priceListName": "Рубашка мужская",
+      "price": 1100,
+      "short": "Белая, длинный рукав",
+      "description": "Мужская похоронная рубашка белого цвета с длинными рукавами и стандартным воротником. Простой крой и гладкая ткань делают её универсальным вариантом для облачения усопшего в традиционном стиле.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Крой",
+          "value": "длинный рукав, классический воротник"
+        },
+        {
+          "label": "Материал",
+          "value": "гладкая ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужская"
+        },
+        {
+          "label": "Размеры",
+          "value": "46–58"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/rubashka-muzhskaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2808945/2a000001a0007e5274df752520e21843fb2e/orig",
+        "figmaNode": "319:7791"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-plate-zhenskoe-bordovoe",
+      "slug": "plate-zhenskoe-bordovoe",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Платье женское бордовое",
+      "priceListName": "Платье женское 3",
+      "price": 2400,
+      "short": "Высокий ворот, светлый узорный воротник",
+      "description": "Женское похоронное платье глубокого бордового цвета с высоким горлом и нарядным светлым воротником с узором и центральным элементом. Плотный материал и акцентная отделка делают данную модель более выразительной по сравнению с однотонными вариантами.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "бордовый"
+        },
+        {
+          "label": "Отделка",
+          "value": "светлый воротник с узором"
+        },
+        {
+          "label": "Материал",
+          "value": "плотная ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "женское"
+        },
+        {
+          "label": "Размеры",
+          "value": "44–62"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/plate-zhenskoe-bordovoe.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/944742/2a000001a0007ba6cb38a17243aa378fa791/orig",
+        "figmaNode": "319:7799"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-plate-zhenskoe-sinee",
+      "slug": "plate-zhenskoe-sinee",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Платье женское синее",
+      "priceListName": "Платье женское 2",
+      "price": 1700,
+      "short": "Высокий ворот, белый кант на манжетах",
+      "description": "Женское похоронное платье насыщенного синего цвета с высоким воротом и тонкими белыми кантами на манжетах. Простой крой и однотонная ткань делают данную модель доступным и сдержанным вариантом для облачения.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "синий"
+        },
+        {
+          "label": "Отделка",
+          "value": "белый кант на манжетах"
+        },
+        {
+          "label": "Материал",
+          "value": "однотонная ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "женское"
+        },
+        {
+          "label": "Размеры",
+          "value": "44–62"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4322053/2a000001a000789789af6f3d3a4e0fd5a910/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-plate-zhenskoe-s-vyshivkoy",
+      "slug": "plate-zhenskoe-s-vyshivkoy",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Платье женское с вышивкой",
+      "priceListName": "Платье женское",
+      "price": 3200,
+      "short": "Светлое, тёмная растительная вышивка",
+      "description": "Женское похоронное платье светлого оттенка с длинными рукавами и контрастной тёмной растительной вышивкой на верхней части. Аккуратная отделка и классический крой делают модель подходящей для традиционного облачения усопшей.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светлый"
+        },
+        {
+          "label": "Отделка",
+          "value": "тёмная растительная вышивка"
+        },
+        {
+          "label": "Рукав",
+          "value": "длинный"
+        },
+        {
+          "label": "Для кого",
+          "value": "женское"
+        },
+        {
+          "label": "Размеры",
+          "value": "44–62"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/plate-zhenskoe-s-vyshivkoy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b73449fa78caccf11d52a98af/orig",
+        "figmaNode": "319:7800"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-platok-na-golovu-zhenskiy",
+      "slug": "platok-na-golovu-zhenskiy",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Платок на голову женский",
+      "priceListName": "Платок на голову женский",
+      "price": 250,
+      "short": "Белый с голубым орнаментом",
+      "description": "Женский ритуальный головной платок белого цвета с изящным голубым цветочным орнаментом. Мягкая ткань и традиционный узор делают его подходящим для покрытия головы усопшей согласно обычаям.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый с голубым орнаментом"
+        },
+        {
+          "label": "Материал",
+          "value": "мягкая ткань"
+        },
+        {
+          "label": "Для кого",
+          "value": "женский"
+        },
+        {
+          "label": "Размеры",
+          "value": "универсальный"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/platok-na-golovu-zhenskiy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17712810/2a000001a00071d792a3824d2f12d9c5ad92/orig",
+        "figmaNode": "319:7794"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-platok-v-ruku",
+      "slug": "platok-v-ruku",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Платок в руку",
+      "priceListName": "Платок в руку",
+      "price": 100,
+      "short": "Белый с голубой каймой",
+      "description": "Небольшой ритуальный платок белого цвета с нежным голубым орнаментом по краям. Используется для традиционного возложения в руку усопшего, отличается мягкой тканью и аккуратной отделкой.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый с голубым орнаментом"
+        },
+        {
+          "label": "Материал",
+          "value": "мягкая ткань"
+        },
+        {
+          "label": "Размеры",
+          "value": "универсальный"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/platok-v-ruku.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2790747/2a000001a000705d098afdcf49222b0ae9db/orig",
+        "figmaNode": "319:7792"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-noski-muzhskie",
+      "slug": "noski-muzhskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Носки мужские",
+      "priceListName": "Носки мужские",
+      "price": 100,
+      "short": "Чёрные, мягкий трикотаж",
+      "description": "Мужские носки чёрного цвета из мягкого трикотажа. Аккуратный вид и удобство при облачении.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный"
+        },
+        {
+          "label": "Материал",
+          "value": "мягкий трикотаж"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужские"
+        },
+        {
+          "label": "Размеры",
+          "value": "25–29"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/noski-muzhskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20222640/2a000001a0006baf165191f5f411eccda069/orig",
+        "figmaNode": "319:7807"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-trusy-muzhskie",
+      "slug": "trusy-muzhskie",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Трусы мужские",
+      "priceListName": "Нательное белье мужское 2",
+      "price": 200,
+      "short": "Трикотаж сдержанной расцветки",
+      "description": "Мужское нательное бельё для комплектации погребальной одежды. Трикотаж сдержанного дизайна, удобный вариант для традиционного оформления и подготовки к церемонии прощания.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "трикотаж"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужские"
+        },
+        {
+          "label": "Размеры",
+          "value": "46–60"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/trusy-muzhskie.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a000001a0006a3480a0b6396293c2edc48e/orig",
+        "figmaNode": "319:7808"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-mayka-muzhskaya",
+      "slug": "mayka-muzhskaya",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Майка мужская",
+      "priceListName": "Нательное белье мужское",
+      "price": 500,
+      "short": "Белая, классический фасон",
+      "description": "Мужское нательное бельё для использования во время подготовки к похоронной церемонии. Классический белый цвет, простой и аккуратный фасон. Практичный вариант для полного комплекта одежды усопшего.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужская"
+        },
+        {
+          "label": "Размеры",
+          "value": "46–60"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/mayka-muzhskaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13852611/2a000001a000683b03bd406067891be7ec75/orig",
+        "figmaNode": "319:7783"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "clothing-kostyum-muzhskoy",
+      "slug": "kostyum-muzhskoy",
+      "category": "clothing",
+      "categoryTitle": "Одежда",
+      "name": "Костюм мужской",
+      "priceListName": "Костюм Мужской",
+      "price": 5900,
+      "short": "Классический строгий образ",
+      "description": "Мужской костюм для достойного оформления похоронной церемонии. Классический строгий образ, подходящий для традиционного прощания. Аккуратный внешний вид и сдержанный стиль помогают создать соответствующее церемонии оформление.",
+      "specs": [
+        {
+          "label": "Стиль",
+          "value": "классический, строгий"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужской"
+        },
+        {
+          "label": "Размеры",
+          "value": "46–60"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kostyum-muzhskoy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b726f53a2bc47ad9e2f05d1a3/orig",
+        "figmaNode": "319:7787"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-tserkovnyy-nabor-muzhskoy",
+      "slug": "tserkovnyy-nabor-muzhskoy",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Церковный набор мужской",
+      "priceListName": "Церковный набор мужской",
+      "price": 800,
+      "short": "Молитва, иконы, крест в папке",
+      "description": "Мужской погребальный церковный набор в тёмной папке. В комплекте — молитвенный текст, иконы, крест и необходимые атрибуты для обряда. Оформление строгое, всё аккуратно размещено. Удобен в использовании и хранении. Предназначен для традиционного церковного прощания.",
+      "specs": [
+        {
+          "label": "Комплектация",
+          "value": "молитвенный текст, иконы, крест"
+        },
+        {
+          "label": "Упаковка",
+          "value": "тёмная папка"
+        },
+        {
+          "label": "Для кого",
+          "value": "мужской"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5632604/2a0000019fec70551b8a6e9871f8801ad230/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-tserkovnyy-nabor-zhenskiy",
+      "slug": "tserkovnyy-nabor-zhenskiy",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Церковный набор женский",
+      "priceListName": "Церковный набор женский",
+      "price": 800,
+      "short": "Молитва, иконы, крест в папке",
+      "description": "Женский погребальный церковный набор в компактной папке. Внутри — молитвенный лист, иконы, небольшой крест и необходимые принадлежности для обряда. Оформление в традиционных тонах, всё аккуратно сложено. Удобно хранить и передавать. Подходит для проведения церковного прощания.",
+      "specs": [
+        {
+          "label": "Комплектация",
+          "value": "молитвенный лист, иконы, небольшой крест"
+        },
+        {
+          "label": "Упаковка",
+          "value": "компактная папка"
+        },
+        {
+          "label": "Для кого",
+          "value": "женский"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4472294/2a0000019fec6effd6e9993c9b153590f2b2/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-tablichka-na-krest",
+      "slug": "tablichka-na-krest",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Табличка на крест",
+      "priceListName": "Табличка на крест",
+      "price": 500,
+      "short": "С гравировкой ФИО и дат",
+      "description": "Чёрная табличка на крест с золотистой гравировкой ФИО и дат жизни. Изготовление под заказ по указанным данным. Хорошо читается, устойчива к внешним условиям. Подходит для установки на надгробный крест.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный, золотистая гравировка"
+        },
+        {
+          "label": "Изготовление",
+          "value": "под заказ по вашим данным"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/tablichka-na-krest.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10324913/2a0000019fec6c33a193783ea5ffe506887f/orig",
+        "figmaNode": "319:7784"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-stropy-dlya-opuskaniya-groba",
+      "slug": "stropy-dlya-opuskaniya-groba",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Стропы для опускания гроба",
+      "priceListName": "Стропы для опускания",
+      "price": 800,
+      "short": "Бежевые, с вышитым крестом и храмом",
+      "description": "Бежевые стропы для опускания гроба с вышитыми религиозными символами. Плотная ткань, аккуратные края. На каждом изделии изображён крест и храм в тёмно-золотистой гамме. Удобны в использовании, хорошо держат нагрузку. Подходят для традиционного обряда захоронения.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "бежевый, тёмно-золотистая вышивка"
+        },
+        {
+          "label": "Материал",
+          "value": "плотная ткань"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13944716/2a0000019fec6aa79c87bddbdfa4b4530533/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-lenta-traurnaya-ot-lyubyaschey-semi",
+      "slug": "lenta-traurnaya-ot-lyubyaschey-semi",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Лента траурная «От любящей семьи»",
+      "priceListName": "Ленты траурные",
+      "price": 300,
+      "short": "Чёрная, золотистая надпись",
+      "description": "Чёрные траурные ленты с золотистой надписью «От любящей семьи» и декоративными элементами. Материал плотный, края аккуратно обработаны. Подходят для оформления венков, корзин или гроба. Лёгкие, хорошо держат форму.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный, золотистая надпись"
+        },
+        {
+          "label": "Надпись",
+          "value": "«От любящей семьи»"
+        },
+        {
+          "label": "Для чего",
+          "value": "венки, корзины, гроб"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/lenta-traurnaya-ot-lyubyaschey-semi.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17763327/2a0000019fec68b03e0259b45f9f743fba95/orig",
+        "figmaNode": "319:7779"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-krest-na-kryshku-groba-azhurnyy",
+      "slug": "krest-na-kryshku-groba-azhurnyy",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Крест на крышку гроба ажурный",
+      "priceListName": "Крест на крышку гроба 3",
+      "price": 350,
+      "short": "С объёмным распятием",
+      "description": "Верхняя часть оформлена ажурным декором и надписью, фигура Христа выполнена объёмно. Поверхность блестящая, детали проработаны. Выглядит торжественно и заметно. Хорошо смотрится на крышке гроба при традиционном оформлении.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "золотистый"
+        },
+        {
+          "label": "Распятие",
+          "value": "объёмное"
+        },
+        {
+          "label": "Отделка",
+          "value": "ажурный верх с надписью"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-na-kryshku-groba-azhurnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9896919/2a0000019fec6723bfe75d05d2243f593c0a/orig",
+        "figmaNode": "319:7782"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-krest-na-kryshku-groba-s-raspyatiem",
+      "slug": "krest-na-kryshku-groba-s-raspyatiem",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Крест на крышку гроба с распятием",
+      "priceListName": "Крест на крышку гроба 2",
+      "price": 250,
+      "short": "Рельефное распятие",
+      "description": "Золотистый крест с распятием для установки на крышку гроба. Фигура выполнена рельефно, края креста украшены декоративными элементами. Поверхность имеет спокойный металлический блеск. Компактный и лёгкий, хорошо фиксируется. Подходит для традиционного оформления.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "золотистый"
+        },
+        {
+          "label": "Распятие",
+          "value": "рельефное"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративные края"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-na-kryshku-groba-s-raspyatiem.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5399152/2a0000019fec66a7e6b7d7d4f150eb6e839e/orig",
+        "figmaNode": "319:7781"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "accessories-krest-na-kryshku-groba-prostoy",
+      "slug": "krest-na-kryshku-groba-prostoy",
+      "category": "accessories",
+      "categoryTitle": "Принадлежности",
+      "name": "Крест на крышку гроба простой",
+      "priceListName": "Крест на крышку гроба",
+      "price": 150,
+      "short": "Без распятия",
+      "description": "Простой золотистый крест для крышки гроба. Без объёмного распятия, с аккуратными декоративными окончаниями лучей. Поверхность ровная, с лёгким блеском. Лёгкий и удобный в установке. Подходит для сдержанного традиционного оформления.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "золотистый"
+        },
+        {
+          "label": "Распятие",
+          "value": "нет"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративные окончания лучей"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-na-kryshku-groba-prostoy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2893106/2a0000019fec61db96de9799d1b9fda9906d/orig",
+        "figmaNode": "319:7771"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-sosnovyy-temnyy",
+      "slug": "krest-sosnovyy-temnyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест сосновый тёмный",
+      "priceListName": "Крест сосновый 2",
+      "price": 3600,
+      "short": "С доп. перекладиной и надписью",
+      "description": "Деревянная модель в традиционном православном исполнении с дополнительной перекладиной и надписью. Изделие выполнено в темном оттенке, имеет лаконичную форму и подходит для оформления места захоронения. Практичный вариант для тех, кто предпочитает классическое деревянное оформление.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "сосна"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Форма",
+          "value": "православный, с надписью"
+        },
+        {
+          "label": "Высота",
+          "value": "2,2 м"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-sosnovyy-temnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13944716/2a0000019fec4ede3de8aeef22dda3cbde55/orig",
+        "figmaNode": "319:7776"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-sosnovyy",
+      "slug": "krest-sosnovyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест сосновый",
+      "priceListName": "Крест сосновый",
+      "price": 2600,
+      "short": "Натуральное дерево, простая форма",
+      "description": "Традиционная православная модель из натуральной древесины. Простая форма и аккуратное исполнение делают крест подходящим для оформления места захоронения. Деревянная конструкция — практичный и доступный вариант для организации похорон.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "сосна"
+        },
+        {
+          "label": "Цвет",
+          "value": "натуральное дерево"
+        },
+        {
+          "label": "Форма",
+          "value": "православный"
+        },
+        {
+          "label": "Высота",
+          "value": "2,1 м"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-sosnovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019f4b7024ff43a11224e2b4bb3fb5/orig",
+        "figmaNode": "319:7772"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-metallicheskiy-kovanyy",
+      "slug": "krest-metallicheskiy-kovanyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест металлический кованый",
+      "priceListName": "Крест металл 2",
+      "price": 5200,
+      "short": "Декоративная ковка",
+      "description": "Прочная модель с декоративной ковкой и традиционной православной формой. Кованые элементы придают изделию благородный внешний вид, а надежное металлическое исполнение обеспечивает долговечность при установке на месте захоронения. Подходит для постоянного оформления могилы и сохраняет аккуратный вид в любых погодных условиях.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "металл"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративная ковка"
+        },
+        {
+          "label": "Форма",
+          "value": "православный"
+        },
+        {
+          "label": "Высота",
+          "value": "2,0 м"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/krest-metallicheskiy-kovanyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9240521/2a0000019fec49ca9404c98bcb7fa5f60d80/orig",
+        "figmaNode": "319:7775"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-metallicheskiy-azhurnyy",
+      "slug": "krest-metallicheskiy-azhurnyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест металлический ажурный",
+      "priceListName": "Крест металл",
+      "price": 3500,
+      "short": "Лёгкая ажурная конструкция",
+      "description": "Аккуратная модель с традиционной формой и декоративными элементами. Изделие выполнено из металла, отличается легкой ажурной конструкцией и сдержанным оформлением. Подходит для установки на могиле и оформления места захоронения.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "металл"
+        },
+        {
+          "label": "Отделка",
+          "value": "ажурные декоративные элементы"
+        },
+        {
+          "label": "Форма",
+          "value": "православный"
+        },
+        {
+          "label": "Высота",
+          "value": "2,0 м"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/krest-metallicheskiy-azhurnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9685839/2a0000019fec484bec077ec391150f34fca0/orig",
+        "figmaNode": "319:7774"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-dubovyy-temnyy",
+      "slug": "krest-dubovyy-temnyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест дубовый тёмный",
+      "priceListName": "Крест дуб темный 2.40",
+      "price": 7800,
+      "short": "Высота 2,4 м",
+      "description": "Темный дубовый крест традиционной православной формы с косой нижней перекладиной. Высота 2.40 метра и обработанное основание для установки в землю делают данную модель более высокой по сравнению со светлыми вариантами.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "дуб"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Высота",
+          "value": "2,4 м"
+        },
+        {
+          "label": "Форма",
+          "value": "православный, косая нижняя перекладина"
+        },
+        {
+          "label": "Основание",
+          "value": "обработано для установки в землю"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-dubovyy-temnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9896919/2a0000019feb5ccf37dbf73333b1ad76fc84/orig",
+        "figmaNode": "319:7777"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "crosses-krest-dubovyy-svetlyy",
+      "slug": "krest-dubovyy-svetlyy",
+      "category": "crosses",
+      "categoryTitle": "Кресты",
+      "name": "Крест дубовый светлый",
+      "priceListName": "Крест дуб светлый 2.10",
+      "price": 6000,
+      "short": "Высота 2,1 м",
+      "description": "Светлый дубовый крест классической православной формы с косой нижней перекладиной. Нижняя часть обработана для установки в грунт. Высота 2.10 метра делает модель подходящей для стандартных могильных памятников.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "дуб"
+        },
+        {
+          "label": "Цвет",
+          "value": "светлый"
+        },
+        {
+          "label": "Высота",
+          "value": "2,1 м"
+        },
+        {
+          "label": "Форма",
+          "value": "православный, косая нижняя перекладина"
+        },
+        {
+          "label": "Основание",
+          "value": "обработано для установки в грунт"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/krest-dubovyy-svetlyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b710f714990b10ac5b761d80f/orig",
+        "figmaNode": "319:7778"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-elegiya-granenaya",
+      "slug": "elegiya-granenaya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Элегия граненая",
+      "priceListName": "Элегия 2",
+      "price": 27000,
+      "short": "Тёмный лак, золотистые ручки",
+      "description": "Данная модель выполнена в глубоком темном цвете с лакированной поверхностью и слегка иной конфигурацией граней. Золотистые ручки и аккуратная отделка сохраняют сдержанный стиль.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5632604/2a0000019feb573f027894cd2b45f8764b58/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-elegiya",
+      "slug": "elegiya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Элегия",
+      "priceListName": "Элегия",
+      "price": 27000,
+      "short": "Тёмный лак, боковые панели",
+      "description": "Модель среднего ценового сегмента в глубоком темном оттенке с лакированной поверхностью и аккуратными боковыми панелями. Золотистые ручки и сдержанный дизайн придают данной модели более выразительный вид по сравнению с базовыми вариантами.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Отделка",
+          "value": "боковые панели"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/elegiya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2757887/2a0000019feb5347602f8f7a4240fda477e1/orig",
+        "figmaNode": "319:7758"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-temnyy-shestigrannyy",
+      "slug": "ekonom-temnyy-shestigrannyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом тёмный шестигранный",
+      "priceListName": "Эконом Темный 6 граней",
+      "price": 18000,
+      "short": "Шесть граней, лак",
+      "description": "Бюджетный темный гроб с шестью гранями и лакированной поверхностью. Классическая форма, глубокий цвет дерева и золотистые ручки. Простой и функциональный вариант для стандартных ритуальных услуг.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "шестигранный"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/ekonom-temnyy-shestigrannyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2757887/2a0000019feb50c28b7cd821d8d74bd51068/orig",
+        "figmaNode": "319:7761"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-temnyy",
+      "slug": "ekonom-temnyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом тёмный",
+      "priceListName": "Эконом Темный",
+      "price": 18000,
+      "short": "Гладкий лак, золотистые ручки",
+      "description": "Недорогая темная модель с гладким лаковым покрытием и золотистыми ручками. Сдержанный глубокий оттенок и простая форма, практичное и доступное решение для стандартных похорон.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/ekonom-temnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5514775/2a0000019feb4dec05a582b4430c9aa01d76/orig",
+        "figmaNode": "319:7765"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-svetlyy-shestigrannyy",
+      "slug": "ekonom-svetlyy-shestigrannyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом светлый шестигранный",
+      "priceListName": "Эконом Светлый 6 граней",
+      "price": 18000,
+      "short": "Шесть граней, тёплый оттенок",
+      "description": "Бюджетная деревянная модель с шестью гранями и лаковым покрытием теплого оттенка. Золотистые ручки и классическая граненая форма делают данную модель простым и функциональным решением для стандартных церемоний.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "шестигранный"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёплый светлый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/ekonom-svetlyy-shestigrannyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4472294/2a0000019feb4cf49cb4b499d89115464368/orig",
+        "figmaNode": "319:7766"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-svetlyy",
+      "slug": "ekonom-svetlyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом светлый",
+      "priceListName": "Эконом Светлый",
+      "price": 18000,
+      "short": "Светлый лак, золотистые ручки",
+      "description": "Доступная модель светлого тона с лакированной поверхностью и золотистыми ручками. Простая конструкция и умеренная цена делают данную модель практичным выбором.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светлый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019feb2736b807ae472e38f6fd4911/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-belyy-shestigrannyy",
+      "slug": "ekonom-belyy-shestigrannyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом белый шестигранный",
+      "priceListName": "Эконом Белый 6 граней",
+      "price": 18000,
+      "short": "Шесть граней, белая краска",
+      "description": "Белая модель эконом-сегмента с шестью гранями и гладкой окрашенной поверхностью. Классическая граненая конструкция в сочетании с металлическими ручками создает аккуратный и светлый внешний вид при минимальной стоимости.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "шестигранный"
+        },
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "окрашенная гладкая поверхность"
+        },
+        {
+          "label": "Ручки",
+          "value": "металлические"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/ekonom-belyy-shestigrannyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019f4b6e25bbe3448c4338719e10b7/orig",
+        "figmaNode": "319:7769"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ekonom-belyy",
+      "slug": "ekonom-belyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Эконом белый",
+      "priceListName": "Эконом Белый",
+      "price": 18000,
+      "short": "Белый, металлические ручки",
+      "description": "Светлая белая модель эконом-класса с гладкой поверхностью и металлическими ручками. Чистый белый цвет и простая форма делают этот гроб подходящим вариантом для тех, кто предпочитает лаконичный и недорогой ритуальный товар.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "гладкое"
+        },
+        {
+          "label": "Ручки",
+          "value": "металлические"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/ekonom-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17712810/2a0000019feb1d956d461b723d2d65eee023/orig",
+        "figmaNode": "319:7747"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-standart-koloda",
+      "slug": "standart-koloda",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Стандарт Колода",
+      "priceListName": "Стандарт-Колода",
+      "price": 22500,
+      "short": "Форма «колода», тёмный лак",
+      "description": "Практичная темная модель формы \"колода\" с лакированной поверхностью и золотистыми ручками. Простой дизайн и доступная цена делают данную модель надежным базовым вариантом для стандартных похоронных церемоний.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "колода"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 65 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 56-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17712810/2a0000019fd8387fce06ab681dedca1873be/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-standart-trisvyatoe-shestigrannyy",
+      "slug": "standart-trisvyatoe-shestigrannyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Стандарт Трисвятое шестигранный",
+      "priceListName": "Стандарт Трисвятое 6 граней",
+      "price": 27000,
+      "short": "Шесть граней, тёмный лак",
+      "description": "Модель с шестигранным корпусом, сочетающая классический стиль и современное качество исполнения. Темное лаковое покрытие, выразительная форма и аккуратная фурнитура придают изделию благородный и сдержанный внешний вид. Конструкция изготовлена из качественных материалов и рассчитана на проведение церемонии прощания с соблюдением всех традиций.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "шестигранный"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/standart-trisvyatoe-shestigrannyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13488316/2a0000019fd8363aadb10ecaabc7e4c2b82c/orig",
+        "figmaNode": "319:7757"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-standart-trisvyatoe-chetyrehgrannyy",
+      "slug": "standart-trisvyatoe-chetyrehgrannyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Стандарт Трисвятое четырёхгранный",
+      "priceListName": "Стандарт Трисвятое 4 грани",
+      "price": 27000,
+      "short": "Четыре грани, тёмный лак",
+      "description": "Модель с четырехгранным корпусом, выполненная в классическом темном цвете с лаковым покрытием. Строгий дизайн, аккуратная отделка и надежная фурнитура делают изделие достойным выбором для проведения церемонии прощания. Изготовлен из качественных материалов, отличается прочностью и высоким уровнем исполнения.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "четырёхгранный"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5234963/2a0000019fd8348dc6c82d3084c4ccf41d1f/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-standart-sets-koloda",
+      "slug": "standart-sets-koloda",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Стандарт Сец-Колода",
+      "priceListName": "Стандарт Сец-Колода",
+      "price": 36000,
+      "short": "Тёмный лак, строгий стиль",
+      "description": "Классическая модель с темным лаковым покрытием, выполненная в строгом и элегантном стиле. Благодаря качественной отделке, прочной конструкции и надежной фурнитуре изделие сочетает долговечность и достойный внешний вид. Подходит для организации традиционной церемонии прощания.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "колода"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Размер",
+          "value": "205 × 70 × 55 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "52–62-й размер одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/standart-sets-koloda.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13852611/2a0000019fd832a3f9d4e7341c601de7a019/orig",
+        "figmaNode": "319:7767"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-kombinirovannyy-pryamoy-temnaya-kryshka",
+      "slug": "kombinirovannyy-pryamoy-temnaya-kryshka",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Комбинированный Прямой, тёмная крышка",
+      "priceListName": "Комбинированный Прямой 3",
+      "price": 20000,
+      "short": "Насыщенный синий, золотистая отделка",
+      "description": "Модель с лаконичным прямым силуэтом и декоративной тканевой обивкой насыщенного синего цвета. Золотистая отделка и аккуратная фурнитура придают изделию строгий и достойный внешний вид. Изготовлен из качественных материалов, отличается надежной конструкцией и подходит для проведения церемонии прощания в соответствии с традициями.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "прямая"
+        },
+        {
+          "label": "Обивка",
+          "value": "ткань насыщенного синего цвета"
+        },
+        {
+          "label": "Отделка",
+          "value": "золотистая"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/kombinirovannyy-pryamoy-temnaya-kryshka.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13672565/2a0000019fd830104c843b7cd8dca3dadb76/orig",
+        "figmaNode": "319:7756"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-kombinirovannyy-pryamoy-belaya-kryshka",
+      "slug": "kombinirovannyy-pryamoy-belaya-kryshka",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Комбинированный Прямой, белая крышка",
+      "priceListName": "Комбинированный Прямой 2",
+      "price": 20000,
+      "short": "Белый верх, синяя обивка",
+      "description": "Выполнена в классическом стиле. Контрастное сочетание белой верхней части, синей декоративной обивки и золотистой отделки создает сдержанный и благородный внешний вид. Прочная конструкция, качественные материалы и аккуратное исполнение делают модель подходящей для проведения традиционной церемонии прощания.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "прямая"
+        },
+        {
+          "label": "Цвет",
+          "value": "белый верх, синяя обивка"
+        },
+        {
+          "label": "Отделка",
+          "value": "золотистая"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kombinirovannyy-pryamoy-belaya-kryshka.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fcecbe9545881d9beddef4b4b04/orig",
+        "figmaNode": "319:7755"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-kombinirovannyy-pryamoy",
+      "slug": "kombinirovannyy-pryamoy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Комбинированный Прямой",
+      "priceListName": "Комбинированный Прямой",
+      "price": 18000,
+      "short": "Синяя обивка, золотистый кант",
+      "description": "Практичная модель с прямыми линиями корпуса и декоративной тканевой отделкой. Классическое сочетание синего цвета с золотистым кантом придает изделию аккуратный и достойный внешний вид. Прочная конструкция и качественные материалы обеспечивают надежность при проведении церемонии прощания.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "прямая"
+        },
+        {
+          "label": "Обивка",
+          "value": "ткань синего цвета"
+        },
+        {
+          "label": "Отделка",
+          "value": "золотистый кант"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/kombinirovannyy-pryamoy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fcec7539a32b6799b036a9c1613/orig",
+        "figmaNode": "319:7753"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-kombinirovannyy-kosichka-belaya-kryshka",
+      "slug": "kombinirovannyy-kosichka-belaya-kryshka",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Комбинированный Косичка, белая крышка",
+      "priceListName": "Комбинированный Косичка 2",
+      "price": 20000,
+      "short": "Бело-синий, золотистые элементы",
+      "description": "Гроб «Комбинированный Косичка» с белой крышкой сочетает классический дизайн и аккуратную декоративную отделку. Контрастное оформление в бело-синих тонах с золотистыми элементами придает модели сдержанный и благородный внешний вид. Изготовлен из качественных материалов, отличается прочной конструкцией и подходит для проведения традиционной церемонии прощания.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белая крышка, синяя обивка"
+        },
+        {
+          "label": "Обивка",
+          "value": "ткань «косичка»"
+        },
+        {
+          "label": "Отделка",
+          "value": "золотистая"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kombinirovannyy-kosichka-belaya-kryshka.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fceb6cdb0479c224d83f6b1aac9/orig",
+        "figmaNode": "319:7750"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-kombinirovannyy-kosichka",
+      "slug": "kombinirovannyy-kosichka",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Комбинированный Косичка",
+      "priceListName": "Комбинированный Косичка",
+      "price": 20000,
+      "short": "Синяя обивка «косичка»",
+      "description": "Модель с декоративной тканевой отделкой в классическом исполнении. Сочетание насыщенного синего цвета и золотистых элементов придает изделию аккуратный и достойный внешний вид. Прочная конструкция и качественные материалы обеспечивают надежность и эстетичность во время церемонии прощания. Подходит для традиционных похорон.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "синий"
+        },
+        {
+          "label": "Обивка",
+          "value": "ткань «косичка»"
+        },
+        {
+          "label": "Отделка",
+          "value": "золотистая"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kombinirovannyy-kosichka.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fceb4929d45f6d948482d5865a1/orig",
+        "figmaNode": "319:7748"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-knyaz",
+      "slug": "knyaz",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Князь",
+      "priceListName": "Князь",
+      "price": 170000,
+      "short": "Премиум, массивная конструкция",
+      "description": "Премиальная модель, выполненная в классическом стиле с изысканной отделкой и высококачественным лаковым покрытием. Благородный темный оттенок, массивная конструкция и тщательно проработанные декоративные элементы подчеркивают высокий уровень исполнения. Предназначен для организации церемонии прощания с соблюдением традиций и пожеланий семьи.",
+      "specs": [
+        {
+          "label": "Класс",
+          "value": "премиум"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративные элементы"
+        },
+        {
+          "label": "Размер",
+          "value": "210 × 70 × 60 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 60-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/knyaz.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fcea97502a3dab5cfd04124215f/orig",
+        "figmaNode": "319:7760"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-klassika-koloda-temnyy",
+      "slug": "klassika-koloda-temnyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Классика Колода тёмный",
+      "priceListName": "Классика-Колода Темный",
+      "price": 24000,
+      "short": "Тёмный лак, классика",
+      "description": "Модель с классическим дизайном и качественным лаковым покрытием темного оттенка. Изготовлен из прочных материалов с аккуратной фурнитурой и отличается сдержанным внешним видом. Подходит для организации традиционной церемонии прощания.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "колода"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 65 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 56-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/klassika-koloda-temnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fcea6680a38cdacf30f5569c246/orig",
+        "figmaNode": "319:7754"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-klassika-koloda-svetlyy",
+      "slug": "klassika-koloda-svetlyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Классика Колода светлый",
+      "priceListName": "Классика-Колода Светлый",
+      "price": 24000,
+      "short": "Натуральный светлый тон",
+      "description": "Светлая модель с ровной лакированной поверхностью и металлическими ручками золотистого цвета. Форма \"колода\" в сочетании с мягким натуральным оттенком дерева создает простой и аккуратный внешний вид для повседневных ритуальных услуг.",
+      "specs": [
+        {
+          "label": "Форма",
+          "value": "колода"
+        },
+        {
+          "label": "Цвет",
+          "value": "светлый натуральный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые металлические"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 65 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 56-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9854027/2a0000019fc72ce5e2dfc6fa3179b8e138e8/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-klassika-temnyy",
+      "slug": "klassika-temnyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Классика тёмный",
+      "priceListName": "Классика Темный",
+      "price": 27000,
+      "short": "Массив, тёмно-коричневый лак",
+      "description": "Гроб из массива дерева глубокого оттенка. Строгая модель в насыщенном темно-коричневом цвете с лаковым покрытием и золотистыми ручками. Классические пропорции и сдержанный темный тон придают данной модели солидный и традиционный вид.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "массив дерева"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмно-коричневый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/klassika-temnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9685839/2a0000019fc7291f404f850ee5975fb4faed/orig",
+        "figmaNode": "319:7751"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-klassika-svetlyy",
+      "slug": "klassika-svetlyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Классика светлый",
+      "priceListName": "Классика Светлый",
+      "price": 21000,
+      "short": "Натуральное дерево, светлый лак",
+      "description": "Гроб из натурального дерева светлого оттенка. Светло-коричневая модель с гладкой лакированной поверхностью и золотистыми ручками. Простая классическая форма и мягкий натуральный тон дерева делают данную модель спокойным и универсальным вариантом для ритуальных церемоний.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "натуральное дерево"
+        },
+        {
+          "label": "Цвет",
+          "value": "светло-коричневый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/klassika-svetlyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10253960/2a0000019fc7216a0da43b90bada66b9d352/orig",
+        "figmaNode": "319:7749"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-florentsiya-medovaya",
+      "slug": "florentsiya-medovaya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Флоренция медовая",
+      "priceListName": "Италия Флоренция 2",
+      "price": 52000,
+      "short": "Тёплый медово-коричневый тон",
+      "description": "Гроб светло-коричневый с золотой фурнитурой. Модель в теплом медово-коричневом тоне с гладким лаковым покрытием и изящными металлическими ручками. Классическая форма и благородный оттенок дерева делают данную модель универсальным выбором для церемоний среднего ценового сегмента.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "медово-коричневый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "гладкий лак"
+        },
+        {
+          "label": "Фурнитура",
+          "value": "золотая"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/florentsiya-medovaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019fc71d72130f0d8710b506463875/orig",
+        "figmaNode": "319:7725"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-florentsiya",
+      "slug": "florentsiya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Флоренция",
+      "priceListName": "Италия Флоренция",
+      "price": 52000,
+      "short": "Массив, красно-коричневый глянец",
+      "description": "Гроб из массива дерева с лакированной поверхностью. Изысканная модель в насыщенном красно-коричневом оттенке с глянцевым лаковым покрытием и золотистыми ручками. Модель отличается плавными классическими линиями и благородным внешним видом.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "массив дерева"
+        },
+        {
+          "label": "Цвет",
+          "value": "красно-коричневый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "глянцевый лак"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/florentsiya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019fc71af8effe287e4ddd2a1978fe/orig",
+        "figmaNode": "319:7742"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-barhat",
+      "slug": "barhat",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бархат",
+      "priceListName": "Гроб Бархат",
+      "price": 11000,
+      "short": "Бордовый велюр",
+      "description": "Гроб бордовый с мягкой велюровой обивкой. Мягкая текстура ткани и сдержанный декоративный элемент на крышке придают данной модели более торжественный и уютный вид при сохранении доступной стоимости.",
+      "specs": [
+        {
+          "label": "Обивка",
+          "value": "велюр"
+        },
+        {
+          "label": "Цвет",
+          "value": "бордовый"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративный элемент на крышке"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/barhat.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b6d20d23ac1dedbf0a1a54962/orig",
+        "figmaNode": "319:7743"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-atlas-stezhka",
+      "slug": "atlas-stezhka",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Атлас Стежка",
+      "priceListName": "Гроб Атлас Стежка",
+      "price": 8000,
+      "short": "Стёганая ткань",
+      "description": "Гроб синий с простеганной тканевой обивкой с характерной стежкой по всей поверхности. Легкая конструкция и аккуратный декоративный элемент на крышке делают данную модель практичным выбором для простых ритуальных церемоний.",
+      "specs": [
+        {
+          "label": "Обивка",
+          "value": "стёганая ткань"
+        },
+        {
+          "label": "Цвет",
+          "value": "синий"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративный элемент на крышке"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/atlas-stezhka.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5567679/2a0000019fc71214fd64dcc70d80acc9e590/orig",
+        "figmaNode": "319:7744"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-atlas-nakat",
+      "slug": "atlas-nakat",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Атлас Накат",
+      "priceListName": "Гроб Атлас Накат",
+      "price": 10000,
+      "short": "Фиолетовая фактурная ткань",
+      "description": "Гроб фиолетовый с текстурной тканевой отделкой. Яркий и необычный вариант в насыщенном фиолетовом цвете. Поверхность выполнена из плотной ткани с объемной фактурой и декоративным элементом на крышке.",
+      "specs": [
+        {
+          "label": "Обивка",
+          "value": "плотная фактурная ткань"
+        },
+        {
+          "label": "Цвет",
+          "value": "фиолетовый"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративный элемент на крышке"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/atlas-nakat.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10253960/2a0000019fc704314df112aa1b3f48bd7e63/orig",
+        "figmaNode": "319:7741"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-atlas",
+      "slug": "atlas",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Атлас",
+      "priceListName": "Гроб Атлас",
+      "price": 12500,
+      "short": "Тёмно-синий атлас, узор на крышке",
+      "description": "Гроб эконом-класса с тканевой обивкой. Легкий и доступный гроб, полностью обтянутый плотной атласной тканью темно-синего оттенка с декоративным узором на крышке. Практичная модель для стандартных ритуальных услуг, отличается аккуратной отделкой и доступной ценой.",
+      "specs": [
+        {
+          "label": "Обивка",
+          "value": "плотный атлас"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмно-синий"
+        },
+        {
+          "label": "Отделка",
+          "value": "узор на крышке"
+        },
+        {
+          "label": "Размер",
+          "value": "195 × 58 × 45 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 50-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/atlas.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9854027/2a0000019fc7012b3261a50256a69307c3f8/orig",
+        "figmaNode": "319:7745"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-gertsog-oreh",
+      "slug": "gertsog-oreh",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Герцог Орех",
+      "priceListName": "Герцог Орех",
+      "price": 175000,
+      "short": "Натуральный орех, латунь",
+      "description": "Классическая модель из натурального ореха с латунной фурнитурой. Теплый ореховый оттенок, гладкая полированная поверхность и шесть изящных золотистых ручек. Модель Герцог в цвете орех сочетает строгость линий и благородство натурального дерева, подходя для торжественных прощальных церемоний.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "натуральный орех"
+        },
+        {
+          "label": "Покрытие",
+          "value": "полировка"
+        },
+        {
+          "label": "Фурнитура",
+          "value": "латунь, шесть ручек"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/gertsog-oreh.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5514775/2a0000019fc6fc2b925afba2d266576ee13c/orig",
+        "figmaNode": "319:7739"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-gertsog-venge",
+      "slug": "gertsog-venge",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Герцог Венге",
+      "priceListName": "Герцог Венге",
+      "price": 175000,
+      "short": "Массив венге, глянец",
+      "description": "Гроб премиум-класса из массива венге с золотистой фурнитурой. Элегантный темно-шоколадный гроб классической формы с глянцевым покрытием и шестью декоративными золотыми ручками. Модель Герцог из натурального дерева венге подчеркивает статус и достоинство.",
+      "specs": [
+        {
+          "label": "Материал",
+          "value": "массив венге"
+        },
+        {
+          "label": "Цвет",
+          "value": "тёмный шоколад"
+        },
+        {
+          "label": "Покрытие",
+          "value": "глянец"
+        },
+        {
+          "label": "Фурнитура",
+          "value": "золотистая, шесть ручек"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17763327/2a0000019fc6e0c6f0b69a0a7d1f15d5e62a/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-chernyy",
+      "slug": "bergamo-chernyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Чёрный",
+      "priceListName": "Бергамо Темный",
+      "price": 104000,
+      "short": "Чёрный мат, ступенчатый профиль",
+      "description": "Чёрный гроб с глубоким матовым покрытием и чётким ступенчатым профилем по бокам. Золотистые ручки ярко выделяются на тёмной поверхности и расположены удобно для переноски. Крышка плоская, линии корпуса строгие и собранные. Внешний вид лаконичный, без лишних деталей. Подходит для церемоний, где выбирают классический чёрный цвет и сдержанный стиль.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "матовое"
+        },
+        {
+          "label": "Профиль",
+          "value": "ступенчатый"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/bergamo-chernyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10118156/2a0000019fc489f9bfb127c02fb6cd9bc2aa/orig",
+        "figmaNode": "319:7736"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-karamel",
+      "slug": "bergamo-karamel",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Карамель",
+      "priceListName": "Бергамо Светлый 3",
+      "price": 104000,
+      "short": "Карамельный, серебристые ручки",
+      "description": "Гроб светлого карамельного оттенка с заметным тёплым сиянием. Боковые стенки имеют выраженный многоуровневый профиль, который добавляет корпусу глубины. Ручки серебристого тона расположены удобно и слегка контрастируют с деревом. Форма классическая, линии ровные.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светлая карамель"
+        },
+        {
+          "label": "Профиль",
+          "value": "многоуровневый"
+        },
+        {
+          "label": "Ручки",
+          "value": "серебристые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/bergamo-karamel.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5234963/2a0000019fc48640c37050aacaa84032238b/orig",
+        "figmaNode": "319:7737"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-yantar",
+      "slug": "bergamo-yantar",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Янтарь",
+      "priceListName": "Бергамо Светлый 2",
+      "price": 125000,
+      "short": "Светло-коричневый, янтарный отлив",
+      "description": "Светло-коричневый гроб с тёплым янтарным отливом покрытия. Профиль корпуса собран из нескольких горизонтальных ступеней, которые создают мягкий рельеф. Ручки металлические, тёмно-золотистого оттенка, расположены симметрично. Внешний вид светлый, ровный и довольно мягкий по восприятию. Подходит, когда хочется избежать слишком тёмных тонов в оформлении.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светло-коричневый"
+        },
+        {
+          "label": "Профиль",
+          "value": "ступенчатый"
+        },
+        {
+          "label": "Ручки",
+          "value": "тёмно-золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-yantar.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019fc484924f77a72269668e1790ff/orig",
+        "figmaNode": "319:7733"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-med",
+      "slug": "bergamo-med",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Мёд",
+      "priceListName": "Бергамо Светлый",
+      "price": 104000,
+      "short": "Медово-золотистый, рельефная окантовка",
+      "description": "Светлый гроб медово-золотистого оттенка с тёплым сиянием покрытия. Корпус украшен аккуратной рельефной окантовкой по периметру, которая добавляет изделию завершённости. Ручки золотистого цвета почти сливаются с основным тоном и выглядят легко. Общий силуэт мягкий и светлый, без тяжёлой строгости. Хороший выбор, когда хочется более тёплого и открытого визуального решения.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "медово-золотистый"
+        },
+        {
+          "label": "Отделка",
+          "value": "рельефная окантовка"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-med.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b6f39b8bcfb003e97dc0f5bf2/orig",
+        "figmaNode": "319:7738"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-oreh-klassik",
+      "slug": "bergamo-oreh-klassik",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Орех классик",
+      "priceListName": "Бергамо Орех 4",
+      "price": 125000,
+      "short": "Средний коричневый, тёмные ручки",
+      "description": "Ореховый гроб среднего коричневого тона с ровным тёплым покрытием. Линии корпуса мягко ступенчатые, без резких переходов. Тёмные металлические ручки расположены удобно и не отвлекают внимание от общего цвета. Форма классическая, пропорции выдержанные. Смотрится спокойно и аккуратно, подходит для традиционного оформления прощания.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "орех, средний коричневый"
+        },
+        {
+          "label": "Профиль",
+          "value": "мягкие ступени"
+        },
+        {
+          "label": "Ручки",
+          "value": "тёмный металл"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-oreh-klassik.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fc481096cd7249fd7c5d97a3624/orig",
+        "figmaNode": "319:7735"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-oreh-glyanets",
+      "slug": "bergamo-oreh-glyanets",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Орех глянец",
+      "priceListName": "Бергамо Орех 3",
+      "price": 125000,
+      "short": "Полированный, многоуровневый профиль",
+      "description": "Гроб в тёплом ореховом цвете с гладкой полированной поверхностью. Профиль корпуса собран из нескольких горизонтальных уровней, что придаёт ему более выразительный рельеф. Ручки золотистого цвета расположены по бокам и хорошо сочетаются с основным тоном дерева. Силуэт традиционный, пропорции спокойные. Выглядит добротно и гармонично в классической обстановке прощания.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёплый орех"
+        },
+        {
+          "label": "Покрытие",
+          "value": "полировка"
+        },
+        {
+          "label": "Профиль",
+          "value": "многоуровневый"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-oreh-glyanets.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019fc47f2beec189876bfae712b2d5/orig",
+        "figmaNode": "319:7734"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-temnyy-oreh",
+      "slug": "bergamo-temnyy-oreh",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Тёмный орех",
+      "priceListName": "Бергамо Орех 2",
+      "price": 104000,
+      "short": "Насыщенный коричневый, ровный блеск",
+      "description": "Тёмно-ореховый гроб с насыщенным коричневым покрытием и ровным блеском. Боковые стенки выполнены с несколькими горизонтальными уступами, благодаря чему корпус выглядит более объёмным. Ручки золотистого оттенка установлены симметрично и удобны в использовании. Форма классическая, без лишних украшений.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмный орех"
+        },
+        {
+          "label": "Профиль",
+          "value": "горизонтальные уступы"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-temnyy-oreh.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10324913/2a0000019fc47e0d4d2b8280618d69659ff6/orig",
+        "figmaNode": "319:7727"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-oreh",
+      "slug": "bergamo-oreh",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Орех",
+      "priceListName": "Бергамо Орех",
+      "price": 104000,
+      "short": "Тёплый орех, лёгкий блеск",
+      "description": "Гроб цвета ореха с тёплым коричневым тоном и лёгким блеском. Корпус имеет чёткий многоступенчатый профиль, который добавляет объёма и делает линии более выразительными. Золотистые ручки расположены удобно и не спорят с основным цветом. Общий вид спокойный, традиционный, без острых акцентов. Хорошо смотрится в классическом оформлении церемонии.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "орех"
+        },
+        {
+          "label": "Профиль",
+          "value": "многоступенчатый"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-oreh.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5512660/2a0000019fc47d1bed324a1e5965a081bb7d/orig",
+        "figmaNode": "319:7722"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-vishnya",
+      "slug": "bergamo-vishnya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Вишня",
+      "priceListName": "Бергамо Венге 4",
+      "price": 104000,
+      "short": "Вишнёво-коричневый, бронзовые ручки",
+      "description": "Гроб тёмного вишнёво-коричневого оттенка с выразительным ступенчатым профилем по всему периметру. Поверхность имеет мягкий глубокий блеск, который подчёркивает фактуру покрытия. Ручки бронзового цвета установлены симметрично и не перегружают общий вид. Силуэт вытянутый, пропорции классические. Выглядит спокойно, солидно и без лишней декоративности.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмная вишня"
+        },
+        {
+          "label": "Профиль",
+          "value": "ступенчатый"
+        },
+        {
+          "label": "Ручки",
+          "value": "бронзовые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/bergamo-vishnya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc47b50fb4a6526ee09f39e1af3/orig",
+        "figmaNode": "319:7726"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-venge-matovyy",
+      "slug": "bergamo-venge-matovyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Венге матовый",
+      "priceListName": "Бергамо Венге 3",
+      "price": 104000,
+      "short": "Чёрный мат, плоская крышка",
+      "description": "Чёрный гроб с ровным матовым покрытием и спокойной геометрией корпуса. Крышка плоская, боковые грани имеют мягкий ступенчатый профиль. Золотистые ручки расположены по две с каждой стороны и дают лёгкий контраст тёмной поверхности. Силуэт лаконичный, без декоративных излишеств — выглядит строго и собранно. Хороший вариант для тех, кто выбирает классический чёрный цвет.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "чёрный"
+        },
+        {
+          "label": "Покрытие",
+          "value": "матовое"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые, по две с каждой стороны"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/bergamo-venge-matovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9854027/2a0000019fc4795615a6729542f3137b408f/orig",
+        "figmaNode": "319:7724"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-venge-glyanets",
+      "slug": "bergamo-venge-glyanets",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Венге глянец",
+      "priceListName": "Бергамо Венге 2",
+      "price": 125000,
+      "short": "Тёмно-коричневый, полировка",
+      "description": "Гроб насыщенного тёмно-коричневого цвета с благородным блеском полированного дерева. Боковые грани оформлены ступенчатым профилем, который придаёт корпусу выразительность и глубину. Золотистые ручки расположены симметрично и хорошо читаются на тёмном фоне. Общий силуэт спокойный, без лишних деталей — выглядит достойно и сдержанно.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "тёмно-коричневый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "полировка"
+        },
+        {
+          "label": "Профиль",
+          "value": "ступенчатый"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-venge-glyanets.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4472294/2a0000019fc4776d8fe41d3864dabf3ea6c4/orig",
+        "figmaNode": "319:7718"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-venge",
+      "slug": "bergamo-venge",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Венге",
+      "priceListName": "Бергамо Венге",
+      "price": 125000,
+      "short": "Шоколадный венге, рельефные линии",
+      "description": "Тёмный гроб оттенка венге с глубоким, почти шоколадным цветом дерева. Корпус и крышка оформлены спокойными рельефными линиями по краям, без лишней перегруженности. Ручки золотистого цвета мягко контрастируют с основным тоном и удобно расположены по бокам. Внешний вид строгий, благородный и очень сдержанный — подходит тем, кто предпочитает классическую тёмную гамму.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "венге"
+        },
+        {
+          "label": "Отделка",
+          "value": "рельефные линии по краям"
+        },
+        {
+          "label": "Ручки",
+          "value": "золотистые"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "check",
+        "file": "/images/catalog/bergamo-venge.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5235338/2a0000019fc4743a684f5ab7e9e5608aa09e/orig",
+        "figmaNode": "319:7723"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-bergamo-svetlyy",
+      "slug": "bergamo-svetlyy",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Бергамо Светлый",
+      "priceListName": "Бергамо Светлый",
+      "price": 125000,
+      "short": "Медовый, тёмные ручки",
+      "description": "Гроб из светлого дерева тёплого медового оттенка. Поверхность гладкая, с мягким блеском, по периметру крышки и корпуса проходит декоративная окантовка. По бокам установлены тёмные металлические ручки — две пары, удобные для переноски. Форма классическая, линии спокойные и пропорциональные.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "светлый медовый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "гладкое, мягкий блеск"
+        },
+        {
+          "label": "Отделка",
+          "value": "декоративная окантовка"
+        },
+        {
+          "label": "Ручки",
+          "value": "тёмный металл, две пары"
+        },
+        {
+          "label": "Размер",
+          "value": "200 × 60 × 50 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 54-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/bergamo-svetlyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019fc471b50600315d0d8e27eac954/orig",
+        "figmaNode": "319:7717"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "coffins-ameliya",
+      "slug": "ameliya",
+      "category": "coffins",
+      "categoryTitle": "Гробы",
+      "name": "Амелия",
+      "priceListName": "Амелия",
+      "price": 240000,
+      "short": "Белый лак, премиум",
+      "description": "Классический гроб белого цвета с гладкой лакированной поверхностью. Внешний вид светлый, сдержанный и благородный. Подходит для церемоний, где предпочтителен чистый и спокойный тон.",
+      "specs": [
+        {
+          "label": "Цвет",
+          "value": "белый"
+        },
+        {
+          "label": "Покрытие",
+          "value": "лак"
+        },
+        {
+          "label": "Класс",
+          "value": "премиум"
+        },
+        {
+          "label": "Размер",
+          "value": "210 × 70 × 60 см"
+        },
+        {
+          "label": "Подходит",
+          "value": "до 60-го размера одежды"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/ameliya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9854027/2a0000019fc46bf1393d3b62581191807cb9/orig",
+        "figmaNode": "319:7732"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kompozitsiya-pastel",
+      "slug": "kompozitsiya-pastel",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Композиция «Пастель»",
+      "priceListName": "Ритуал 41",
+      "price": 8500,
+      "short": "Розы и орхидеи в розово-кремовых тонах",
+      "description": "Нежная горизонтальная композиция в пастельно-розовых и кремовых тонах. В сборке сочетаются пышные розы, орхидеи и мелкие цветы, мягко переходящие друг в друга. Зелень по краям придаёт лёгкость и естественный объём.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "горизонтальная композиция"
+        },
+        {
+          "label": "Цвета",
+          "value": "пастельно-розовый, кремовый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы, орхидеи"
+        },
+        {
+          "label": "Размер",
+          "value": "60 × 30 см, высота 25 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kompozitsiya-pastel.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc46a7f0f090f6780cb7282610f/orig",
+        "figmaNode": "319:7729"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kompozitsiya-alye-rozy",
+      "slug": "kompozitsiya-alye-rozy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Композиция «Алые розы»",
+      "priceListName": "Ритуал 40",
+      "price": 8500,
+      "short": "Красные розы и альстромерии",
+      "description": "Низкая вытянутая композиция из насыщенных красных роз и астромерий. Зелёные листья мягко обрамляют цветы и придают сборке естественный объём. Форма удобна для размещения на столе в траурном зале или у изголовья. Оттенки подобраны в одной глубокой красной гамме, благодаря чему композиция выглядит цельной и торжественной.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "горизонтальная композиция"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы, альстромерии"
+        },
+        {
+          "label": "Куда",
+          "value": "стол в зале, изголовье"
+        },
+        {
+          "label": "Размер",
+          "value": "60 × 30 см, высота 25 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kompozitsiya-alye-rozy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc469082cffe33e4a0a912fc5b5/orig",
+        "figmaNode": "319:7730"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kompozitsiya-kalla",
+      "slug": "kompozitsiya-kalla",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Композиция «Калла»",
+      "priceListName": "Ритуал 39",
+      "price": 8500,
+      "short": "Каллы, белые розы",
+      "description": "Горизонтальная ритуальная композиция из калл нежных сиренево-розовых оттенков, белых роз и ярких пурпурных цветов. Зелень мягко обрамляет бутоны и придаёт сборке естественный объём. Форма вытянутая, низкая — удобно размещается на столе в траурном зале или у изголовья.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "горизонтальная композиция"
+        },
+        {
+          "label": "Цвета",
+          "value": "сиренево-розовый, белый, пурпурный"
+        },
+        {
+          "label": "Цветы",
+          "value": "каллы, розы"
+        },
+        {
+          "label": "Куда",
+          "value": "стол в зале, изголовье"
+        },
+        {
+          "label": "Размер",
+          "value": "60 × 30 см, высота 25 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kompozitsiya-kalla.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5280674/2a0000019fc467502786cb89e2d321053a6e/orig",
+        "figmaNode": "319:7731"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-korzina-shik",
+      "slug": "korzina-shik",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Корзина «Шик»",
+      "priceListName": "Корзина Шик",
+      "price": 12000,
+      "short": "Высокая, красные розы",
+      "description": "Высокая траурная корзина на чёрном основании с удобной ручкой. Верхняя часть густо заполнена красными розами, среди которых мягко выделяются белые акценты. Зелёные листья добавляют композиции объём и свежесть. Форма корзины строгая и вытянутая, благодаря чему она выглядит торжественно и презентабельно. Устойчивое основание позволяет уверенно ставить изделие у памятника или в зале. Цветы закреплены плотно, общий вид аккуратный и законченный.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина на чёрном основании"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Высота",
+          "value": "80 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/korzina-shik.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19253181/2a0000019fc4660d52b7e866a00e993cb3af/orig",
+        "figmaNode": "319:7707"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-korzina-serdtse",
+      "slug": "korzina-serdtse",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Корзина «Сердце»",
+      "priceListName": "Корзина Сердце",
+      "price": 10000,
+      "short": "Красные розы, белая полоса",
+      "description": "Траурная корзина в форме сердца, полностью усыпанная бархатистыми красными розами. По диагонали проходит светлая полоса из белых цветов, которая мягко разделяет композицию и добавляет выразительности. По краям видны зелёные листья, придающие живость. Форма сердца делает изделие особенно трогательным и личным. Корзина устойчивая, цветы посажены плотно и выглядят свежо. Подходит для возложения к памятнику или установки в траурном зале.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина-сердце"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Размер",
+          "value": "60 × 55 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/korzina-serdtse.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4322053/2a0000019fc464618138077debd9c779cc73/orig",
+        "figmaNode": "319:7716"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-sredniy-belo-zelenyy",
+      "slug": "kabachok-sredniy-belo-zelenyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок средний, бело-зелёный",
+      "priceListName": "Кабачок средний 4",
+      "price": 11500,
+      "short": "Белые кольца, розовый центр",
+      "description": "Средний овальный венок с свежим сочетанием зелёных и белых тонов. По периметру идут ровные кольца из белых цветов, обрамлённые зеленью, а в центре собрана яркая композиция из розовых и белых бутонов. Чёрная бахрома по краю добавляет строгости. Венок выглядит светлым и аккуратным, при этом сохраняет траурный характер.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "белый, зелёный, розовый"
+        },
+        {
+          "label": "Высота",
+          "value": "110 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-sredniy-belo-zelenyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4322053/2a0000019fc4634b15696506ee8d0db074ab/orig",
+        "figmaNode": "319:7712"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-sredniy-fioletovo-kremovyy",
+      "slug": "kabachok-sredniy-fioletovo-kremovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок средний, фиолетово-кремовый",
+      "priceListName": "Кабачок средний 3",
+      "price": 11500,
+      "short": "Пурпурный центр, светлые кольца",
+      "description": "Средний овальный венок в сдержанной фиолетово-кремовой гамме. Центральная часть собрана из насыщенных пурпурных и светлых бутонов, создающих мягкий объём. Вокруг идут ровные кольца из светлых и сероватых цветов, а внешний край завершает чёрная бахрома. Композиция выглядит спокойной и благородной.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "пурпурный, кремовый"
+        },
+        {
+          "label": "Высота",
+          "value": "110 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-sredniy-fioletovo-kremovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10118156/2a0000019fc4611b8bd6b76738ef37b5c540/orig",
+        "figmaNode": "319:7715"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazon-rozovyy",
+      "slug": "vazon-rozovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазон розовый",
+      "priceListName": "Вазон 1",
+      "price": 8000,
+      "short": "Розовые и белые цветы",
+      "description": "Элегантный траурный вазон с пышным цветочным оформлением. В центре — композиция из розовых и белых цветов, мягко перевязанная сиреневой лентой. Верхняя часть украшена строгой черно-белой лентой, основание — в классическом черном цвете.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазон"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый, белый, сиреневая лента"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazon-rozovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b6bb23ee62e9ae4f6d5e323d7/orig",
+        "figmaNode": "319:7706"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazon-alyy",
+      "slug": "vazon-alyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазон алый",
+      "priceListName": "Вазон 2",
+      "price": 8000,
+      "short": "Красные розы и белые цветы",
+      "description": "Траурный вазон с выразительной цветочной композицией. В центре — яркие красные розы в сочетании с белыми цветами и зеленью. Верхняя часть оформлена черной дугой, основание — в классическом черном цвете с декоративными элементами из красных роз и белых лент.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазон"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazon-alyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5235338/2a0000019fbced2b760b496ae8dfb16064a0/orig",
+        "figmaNode": "319:7705"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazon-ognennyy",
+      "slug": "vazon-ognennyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазон огненный",
+      "priceListName": "Вазон 3",
+      "price": 8000,
+      "short": "Красные, оранжевые и белые цветы",
+      "description": "Траурный вазон с яркой и выразительной цветочной композицией. В центре — сочетание красных, оранжевых и белых цветов с зеленью. Верхняя часть оформлена черной дугой, основание — в классическом черном цвете.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазон"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, оранжевый, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazon-ognennyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10118156/2a0000019fbcf0d1e0729fa796c4828feca9/orig",
+        "figmaNode": "319:7708"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazonchik-rozovyy",
+      "slug": "vazonchik-rozovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазончик розовый",
+      "priceListName": "Вазончик 1",
+      "price": 5700,
+      "short": "Розовые цветы и белые лилии",
+      "description": "Компактный траурный вазончик с нежной цветочной композицией. В центре — яркие розовые цветы в сочетании с белыми лилиями и зеленью. Верхняя часть оформлена черно-зеленой дугой, основание — в классическом черном цвете.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазончик, компактный"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "лилии"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazonchik-rozovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4472294/2a0000019fbcf5b9a7de360608a4f536e600/orig",
+        "figmaNode": "319:7709"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazonchik-fioletovyy",
+      "slug": "vazonchik-fioletovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазончик фиолетовый",
+      "priceListName": "Вазончик 2",
+      "price": 5700,
+      "short": "Фиолетовые цветы и белые лилии",
+      "description": "Компактный траурный вазончик с выразительной цветочной композицией. В центре — насыщенные фиолетовые цветы в сочетании с белыми лилиями и зеленью. Верхняя часть оформлена черно-розовой дугой, основание — в классическом черном цвете.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазончик, компактный"
+        },
+        {
+          "label": "Цвета",
+          "value": "фиолетовый, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "лилии"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazonchik-fioletovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fbcfd98b71ba127edf888e17fda/orig",
+        "figmaNode": "319:7711"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-vazonchik-siniy",
+      "slug": "vazonchik-siniy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Вазончик синий",
+      "priceListName": "Вазончик 3",
+      "price": 5700,
+      "short": "Синие и белые цветы, лилии",
+      "description": "Компактный траурный вазончик с нежной цветочной композицией. В центре — синие и белые цветы (включая лилии) в сочетании с зеленью. Верхняя часть оформлена сине-черной дугой, основание — в классическом черном цвете с синей драпировкой.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "вазончик, компактный"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "лилии"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/vazonchik-siniy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc215d617193d84605e40d1a673/orig",
+        "figmaNode": "319:7710"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-malyy-fioletovo-zheltyy",
+      "slug": "venok-oval-malyy-fioletovo-zheltyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал малый, фиолетово-жёлтый",
+      "priceListName": "Венок Овал 0.7",
+      "price": 2400,
+      "short": "Фиолетовые и жёлтые цветы",
+      "description": "Классический траурный венок овальной формы. Композиция из ярких фиолетовых и желтых цветов на черном фоне. Компактный размер делает его удобным для возложения.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "фиолетовый, жёлтый"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-malyy-fioletovo-zheltyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/19300642/2a0000019fc21b5301d32cb0b5357ce99bdb/orig",
+        "figmaNode": "319:7719"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-malyy-krasno-belyy",
+      "slug": "venok-oval-malyy-krasno-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал малый, красно-белый",
+      "priceListName": "Венок Овал 0.7",
+      "price": 2400,
+      "short": "Красные ленты",
+      "description": "Классический траурный венок овальной формы. Композиция из красных и белых цветов с зеленью на черном фоне, украшена красными лентами. Компактный размер удобен для возложения.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-malyy-krasno-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019f4b695c84106dc46b9205e6904f/orig",
+        "figmaNode": "319:7714"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-malyy-rozovyy",
+      "slug": "venok-oval-malyy-rozovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал малый, розовый",
+      "priceListName": "Венок Овал 0.7",
+      "price": 2400,
+      "short": "Красные, розовые и белые цветы",
+      "description": "Классический траурный венок овальной формы. Композиция из красных, розовых и белых цветов с зеленью на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, розовый, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5567679/2a0000019fc21fdd65824deee72ef5652c8a/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-malyy-siniy",
+      "slug": "venok-oval-malyy-siniy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал малый, синий",
+      "priceListName": "Венок Овал 0.7",
+      "price": 2400,
+      "short": "Синие ленты",
+      "description": "Овальный траурный венок компактного размера. В центре — композиция из синих и белых цветов с зеленью, обрамленная синими лентами на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "70 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-malyy-siniy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5280674/2a0000019fc2235f98b228370d3897312fd8/orig",
+        "figmaNode": "319:7690"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-rozovo-zheltyy",
+      "slug": "venok-oval-rozovo-zheltyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал, розово-жёлтый",
+      "priceListName": "Венок Овал 1.0",
+      "price": 4500,
+      "short": "Жёлтая кайма",
+      "description": "Траурный венок овальной формы увеличенного размера. Яркая композиция из розовых, желтых и зеленых цветов, обрамленная желтой каймой на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый, жёлтый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-rozovo-zheltyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4472294/2a0000019fc2255a6db1abd1291ef866b8c8/orig",
+        "figmaNode": "319:7698"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-krasno-belyy",
+      "slug": "venok-oval-krasno-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал, красно-белый",
+      "priceListName": "Венок Овал 1.0",
+      "price": 4500,
+      "short": "Белая кайма",
+      "description": "Овальный траурный венок. Насыщенная композиция из красных и белых цветов с зеленью, обрамленная белой каймой на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-krasno-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17712810/2a0000019fc22aa80e634d97513bbcf2d6b2/orig",
+        "figmaNode": "319:7692"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-sine-belyy",
+      "slug": "venok-oval-sine-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал, сине-белый",
+      "priceListName": "Венок Овал 1.0",
+      "price": 4500,
+      "short": "Синие и белые цветы",
+      "description": "Овальный траурный венок для возложения на могилу. Композиция из синих и белых цветов с зеленью.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-sine-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/1643978/2a0000019fc22c487234c7b49a6fd09eb4c6/orig",
+        "figmaNode": "319:7697"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-oval-fioletovo-rozovyy",
+      "slug": "venok-oval-fioletovo-rozovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Овал, фиолетово-розовый",
+      "priceListName": "Венок Овал 1.0",
+      "price": 4500,
+      "short": "Белая кайма",
+      "description": "Траурный венок овальной формы. Композиция из фиолетовых, розовых и зеленых цветов, обрамленная белой каймой на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «овал»"
+        },
+        {
+          "label": "Цвета",
+          "value": "фиолетовый, розовый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-oval-fioletovo-rozovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17791271/2a0000019f4b6ac5d3839be94ebe6f3a69b4/orig",
+        "figmaNode": "319:7691"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-siniy-s-liliyami",
+      "slug": "venok-uluchshennyy-siniy-s-liliyami",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный, синий с лилиями",
+      "priceListName": "Венок Улучшенный 1.0",
+      "price": 3800,
+      "short": "Синие цветы, белые лилии",
+      "description": "Траурный венок улучшенной комплектации. Композиция из синих цветов, белых лилий и зелени на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "лилии"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-siniy-s-liliyami.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc2305dbf9306563d8787522861/orig",
+        "figmaNode": "319:7699"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-belyy",
+      "slug": "venok-uluchshennyy-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный, белый",
+      "priceListName": "Венок Улучшенный 1.0",
+      "price": 3800,
+      "short": "Белые цветы и зелень",
+      "description": "Траурный венок улучшенной комплектации. Нежная композиция из белых цветов и зелени на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/3912342/2a0000019fc2388af1796dbb6e8ce03ffd66/orig",
+        "figmaNode": "319:7702"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-rozovo-belyy",
+      "slug": "venok-uluchshennyy-rozovo-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный, розово-белый",
+      "priceListName": "Венок Улучшенный 1.0",
+      "price": 3800,
+      "short": "Розовые и белые цветы",
+      "description": "Траурный венок улучшенной комплектации. Нежная композиция из розовых и белых цветов с зеленью на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-rozovo-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/17700615/2a0000019fc23cda4752b37e395b95b883f9/orig",
+        "figmaNode": "319:7700"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-krasno-belyy",
+      "slug": "venok-uluchshennyy-krasno-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный, красно-белый",
+      "priceListName": "Венок Улучшенный 1.0",
+      "price": 3800,
+      "short": "Красные и белые цветы",
+      "description": "Траурный венок улучшенной комплектации. Композиция из красных и белых цветов с зеленью на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "100 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-krasno-belyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/13672565/2a0000019fc23eb6ac07153a83704da7a1d7/orig",
+        "figmaNode": "319:7689"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-bolshoy-belyy",
+      "slug": "venok-uluchshennyy-bolshoy-belyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный большой, белый",
+      "priceListName": "Венок Улучшенный 1.2",
+      "price": 6800,
+      "short": "Белые цветы и зелень",
+      "description": "Траурный венок улучшенной комплектации увеличенного размера. Светлая композиция из белых цветов и зелени на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "белый"
+        },
+        {
+          "label": "Высота",
+          "value": "120 см"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/20340178/2a0000019fc240a598ddc22ee85a8ec85be0/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-bolshoy-krasnyy",
+      "slug": "venok-uluchshennyy-bolshoy-krasnyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный большой, красный",
+      "priceListName": "Венок Улучшенный 1.2",
+      "price": 6800,
+      "short": "Белая и розовая кайма",
+      "description": "Траурный венок улучшенной комплектации увеличенного размера. Насыщенная композиция из красных цветов с белой и розовой каймой на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый, розовый"
+        },
+        {
+          "label": "Высота",
+          "value": "120 см"
+        }
+      ],
+      "photo": {
+        "status": "missing",
+        "file": null,
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/1643978/2a0000019fc2457605d845626535266a92f5/orig",
+        "figmaNode": null
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-bolshoy-rozovyy",
+      "slug": "venok-uluchshennyy-bolshoy-rozovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный большой, розовый",
+      "priceListName": "Венок Улучшенный 1.2",
+      "price": 6800,
+      "short": "Розовые и малиновые цветы",
+      "description": "Траурный венок улучшенной комплектации увеличенного размера. Нежная композиция из розовых и малиновых цветов с зеленью на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый, малиновый"
+        },
+        {
+          "label": "Высота",
+          "value": "120 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-bolshoy-rozovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2733259/2a0000019fc2479446881b1ab0a1b3e1ca91/orig",
+        "figmaNode": "319:7685"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-venok-uluchshennyy-bolshoy-siniy",
+      "slug": "venok-uluchshennyy-bolshoy-siniy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Венок Улучшенный большой, синий",
+      "priceListName": "Венок Улучшенный 1.2",
+      "price": 6800,
+      "short": "Синие цветы и зелень",
+      "description": "Траурный венок улучшенной комплектации увеличенного размера. Глубокая композиция из синих цветов с зеленью на черном фоне.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок улучшенный"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий"
+        },
+        {
+          "label": "Высота",
+          "value": "120 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/venok-uluchshennyy-bolshoy-siniy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10253960/2a0000019fc24a0b23eca7f03fcc63a3184a/orig",
+        "figmaNode": "319:7805"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-zhemchuzhina-sirenevaya",
+      "slug": "zhemchuzhina-sirenevaya",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Жемчужина сиреневая",
+      "priceListName": "Жемчужина 1",
+      "price": 4500,
+      "short": "Корзина с искусственными цветами",
+      "description": "Элегантная траурная композиция из искусственных цветов, выполненная в классическом стиле. Подходит для прощальной церемонии, возложения на могилу и памятных мероприятий.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина"
+        },
+        {
+          "label": "Цвета",
+          "value": "фиолетовый, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "искусственные"
+        },
+        {
+          "label": "Высота",
+          "value": "50 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/zhemchuzhina-sirenevaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/21065090/2a0000019fc44d7875e379938aad6d0efb4d/orig",
+        "figmaNode": "319:7803"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-zhemchuzhina-alaya",
+      "slug": "zhemchuzhina-alaya",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Жемчужина алая",
+      "priceListName": "Жемчужина 2",
+      "price": 4500,
+      "short": "Красные цветы",
+      "description": "Выполнена в классическом сочетании красных цветов и декоративной зелени, символизирующих уважение и светлую память. Композиция подходит для церемонии прощания, возложения на место захоронения и памятных дней.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный"
+        },
+        {
+          "label": "Высота",
+          "value": "50 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/zhemchuzhina-alaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9685839/2a0000019fc44ecb24603442443f2e86dac9/orig",
+        "figmaNode": "319:7801"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-zhemchuzhina-sinyaya",
+      "slug": "zhemchuzhina-sinyaya",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Жемчужина синяя",
+      "priceListName": "Жемчужина 3",
+      "price": 4500,
+      "short": "Бело-синие цветы",
+      "description": "Изящная цветочная композиция в бело-синих тонах, выполненная в традиционном стиле. Подходит для церемонии прощания, возложения на место захоронения и памятных мероприятий.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина"
+        },
+        {
+          "label": "Цвета",
+          "value": "синий, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "50 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/zhemchuzhina-sinyaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5399152/2a0000019fc44fbb8760442c78e605f4960f/orig",
+        "figmaNode": "319:7802"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-zhemchuzhina-rozovaya",
+      "slug": "zhemchuzhina-rozovaya",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Жемчужина розовая",
+      "priceListName": "Жемчужина 4",
+      "price": 4500,
+      "short": "Нежно-розовые цветы",
+      "description": "Выполнена в элегантной цветовой гамме с нежно-розовыми декоративными цветами. Композиция станет достойным знаком уважения и светлой памяти во время церемонии прощания, поминальных мероприятий или возложения на место захоронения.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "корзина"
+        },
+        {
+          "label": "Цвета",
+          "value": "розовый"
+        },
+        {
+          "label": "Высота",
+          "value": "50 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/zhemchuzhina-rozovaya.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5560664/2a0000019fc4513f7318e640b681089a1bb6/orig",
+        "figmaNode": "319:7804"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-malyy-belo-siniy",
+      "slug": "kabachok-malyy-belo-siniy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок малый, бело-синий",
+      "priceListName": "Кабачок мал 1",
+      "price": 8500,
+      "short": "Бело-синие кольца",
+      "description": "Выполнен в классической овальной форме с декоративной композицией в бело-синих оттенках. Сдержанное оформление подчеркивает уважение к памяти усопшего и подходит для церемонии прощания, захоронения и памятных дат.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "белый, синий"
+        },
+        {
+          "label": "Высота",
+          "value": "90 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-malyy-belo-siniy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2773996/2a0000019fc452a5d30d6580d7519023bcd5/orig",
+        "figmaNode": "319:7688"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-malyy-alyy",
+      "slug": "kabachok-malyy-alyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок малый, алый",
+      "priceListName": "Кабачок мал 2",
+      "price": 8500,
+      "short": "Красные розы, белый центр",
+      "description": "Элегантный овальный траурный венок из бархатистых красных роз, в центре которого собрана изысканная композиция из белых цветов. Чёрная бахрома по краю придаёт изделию строгий и завершённый вид. Компактный размер позволяет использовать венок как у могилы, так и в траурном зале. Исполнение аккуратное, цветы плотно закреплены — композиция сохраняет форму и свежий вид.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Высота",
+          "value": "90 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-malyy-alyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/2773996/2a0000019fc456d2ed48d3633a30362f2f3a/orig",
+        "figmaNode": "319:7680"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-malyy-sirenevyy",
+      "slug": "kabachok-malyy-sirenevyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок малый, сиреневый",
+      "priceListName": "Кабачок мал 3",
+      "price": 8500,
+      "short": "Сиреневые тона, белые лилии",
+      "description": "Траурный венок овальной формы в насыщенных сиренево-фиолетовых тонах. В центре — белые лилии, мягко выделяющиеся на фоне плотных рядов мелких цветов. По краю идёт классическая чёрная бахрома, которая подчёркивает строгость композиции. Размер небольшой, удобный для установки у памятника или в помещении. Цветы закреплены надёжно, венок выглядит аккуратно и собранно.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "сиреневый, фиолетовый, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "лилии"
+        },
+        {
+          "label": "Высота",
+          "value": "90 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-malyy-sirenevyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/5632604/2a0000019fc458bd30e037350c57d84e5713/orig",
+        "figmaNode": "319:7686"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-malyy-malinovyy",
+      "slug": "kabachok-malyy-malinovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок малый, малиновый",
+      "priceListName": "Кабачок мал 4",
+      "price": 8500,
+      "short": "Малиновые и кремовые розы",
+      "description": "Яркий овальный венок с насыщенными малиновыми и кремово-белыми розами. Центральная часть собрана в мягкую объёмную композицию, а обрамление выполнено из нескольких контрастных рядов — чёрного, белого и малинового. Чёрная бахрома по внешнему краю придаёт изделию законченный траурный вид. Компактный размер удобен для установки как на открытом воздухе, так и в помещении.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "малиновый, кремовый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Высота",
+          "value": "90 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-malyy-malinovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/9854027/2a0000019fc459dd996537d7b348e9fe4528/orig",
+        "figmaNode": "319:7687"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-sredniy-fioletovyy",
+      "slug": "kabachok-sredniy-fioletovyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок средний, фиолетовый",
+      "priceListName": "Кабачок средний 1",
+      "price": 11500,
+      "short": "Фиолетовые кольца, светлый центр",
+      "description": "Средний овальный венок с выразительными концентрическими кольцами из плотных фиолетовых цветов. Центральная часть оформлена светлыми бутонами, которые мягко контрастируют с насыщенным основным тоном. По внешнему краю идёт классическая чёрная бахрома. Более крупный размер делает композицию заметной и торжественной.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "фиолетовый, белый"
+        },
+        {
+          "label": "Высота",
+          "value": "110 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-sredniy-fioletovyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/10118156/2a0000019fc45c90205f6ef9c3e56709e3ee/orig",
+        "figmaNode": "319:7682"
+      },
+      "popular": false,
+      "inStock": true
+    },
+    {
+      "id": "wreaths-kabachok-sredniy-krasnyy",
+      "slug": "kabachok-sredniy-krasnyy",
+      "category": "wreaths",
+      "categoryTitle": "Венки и цветы",
+      "name": "Кабачок средний, красный",
+      "priceListName": "Кабачок средний 2",
+      "price": 11500,
+      "short": "Ряды красных роз",
+      "description": "Средний траурный венок с глубоким красным цветом. Несколько рядов плотно посаженных роз образуют выразительные кольца, между которыми проходят светлые акценты. Центральная часть собрана более объёмно и мягко выделяется на общем фоне. По краю — традиционная чёрная бахрома. Размер позволяет венку выглядеть торжественно и заметно.",
+      "specs": [
+        {
+          "label": "Тип",
+          "value": "венок «кабачок»"
+        },
+        {
+          "label": "Цвета",
+          "value": "красный, белый"
+        },
+        {
+          "label": "Цветы",
+          "value": "розы"
+        },
+        {
+          "label": "Высота",
+          "value": "110 см"
+        }
+      ],
+      "photo": {
+        "status": "ok",
+        "file": "/images/catalog/kabachok-sredniy-krasnyy.webp",
+        "fallbackUrl": "https://avatars.mds.yandex.net/get-sprav-products/4322053/2a0000019fc45f2459967993d5073c11e1ae/orig",
+        "figmaNode": "319:7684"
+      },
+      "popular": false,
+      "inStock": true
+    }
+  ]
+}

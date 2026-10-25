@@ -19,6 +19,11 @@
   --color-accent-soft: #DDE2D3;
   --color-border-default: #DAD2C4;
 
+  /* Каталог: акцент на тёмном фоне и ошибка формы (см. спецификацию каталога) */
+  --color-accent-on-inverse: #A9BA98;
+  --color-feedback-error: #9C4A3A;
+  --color-feedback-error-soft: #F3E4DC;
+
   /* Отступы (шкала space/*) */
   --space-4: 4px;
   --space-8: 8px;
