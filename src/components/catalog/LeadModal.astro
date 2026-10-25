@@ -1,0 +1,381 @@
+---
+// Форма звонка. Figma: «Форма — обратный звонок» 426:702 (desktop, модальное окно 560 px),
+// 434:915 (mobile, шторка снизу с ручкой). Четыре состояния: заполнение, отправка, успех, ошибка.
+// Логика и отправка в /api/lead.php — catalog.js; источники заявки: catalog-bar | product | saved-list.
+import Button from '@components/Button.astro';
+import Icon from '@components/Icon.astro';
+import site from '@data/site.json';
+import { base } from '@lib/catalog';
+
+const telHref = `tel:${site.phone.tel}`;
+---
+
+<dialog class="lead" id="lead-dialog" aria-labelledby="lead-title" data-state="form" data-api={`${base}/api/lead.php`}>
+  <div class="lead__panel">
+    <span class="lead__handle" aria-hidden="true"></span>
+
+    <form class="lead__form" data-lead-form novalidate>
+      <div class="lead__head">
+        <h2 class="h3" id="lead-title">Перезвоним за 5 минут</h2>
+        <button type="button" class="lead__close" data-dialog-close aria-label="Закрыть">
+          <Icon name="close" size={24} />
+        </button>
+      </div>
+      <p class="body-s lead__lead">Агент позвонит, обсудит ваш список и ответит на вопросы.<br />Это бесплатно и ни к чему не обязывает.</p>
+
+      <div class="lead__alert" role="alert" data-lead-error hidden>
+        <p class="body-s-strong lead__alert-title">Не получилось отправить заявку</p>
+        <p class="body-s">
+          Ваши данные и список сохранены — попробуйте ещё раз или позвоните нам:
+          <a class="lead__alert-phone" href={telHref}>{site.phone.display}</a>, круглосуточно.
+        </p>
+      </div>
+
+      <label class="lead__field">
+        <span class="body-s lead__label">Как к вам обращаться</span>
+        <input class="body-m lead__input" type="text" name="name" placeholder="Имя" autocomplete="given-name" maxlength="80" />
+      </label>
+
+      <label class="lead__field">
+        <span class="body-s lead__label">Телефон</span>
+        <input class="body-m lead__input" type="tel" name="phone" placeholder="+7 (___) ___-__-__" inputmode="tel" autocomplete="tel" required />
+        <span class="body-s lead__error" data-field-error="phone"></span>
+      </label>
+
+      <p class="body-s lead__interest" data-lead-product hidden>Интересует: <strong data-lead-product-name></strong></p>
+
+      <div class="lead__list" data-lead-list hidden>
+        <p class="label-m lead__list-title">Передадим агенту ваш список</p>
+        <ul class="lead__chips" data-lead-chips></ul>
+      </div>
+
+      <div class="lead__consent-wrap">
+        <label class="lead__consent">
+          <input class="lead__check" type="checkbox" name="consent" />
+          <span class="body-s">
+            Согласен на <a href={`${base}/consent`} target="_blank" rel="noopener">обработку персональных данных</a>, с
+            <a href={`${base}/privacy`} target="_blank" rel="noopener">политикой</a> ознакомлен
+          </span>
+        </label>
+        <span class="body-s lead__error" data-field-error="consent"></span>
+      </div>
+
+      <!-- Ловушка для ботов: человек это поле не видит и не заполняет -->
+      <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <Button type="submit" data-lead-submit data-label="Жду звонка">Жду звонка</Button>
+      <p class="body-s lead__call">Или позвоните сами: <a href={telHref} data-goal="call_click">{site.phone.display}</a></p>
+    </form>
+
+    <div class="lead__done" data-lead-done hidden>
+      <div class="lead__done-top">
+        <span class="lead__done-icon"><Icon name="check" size={24} /></span>
+        <button type="button" class="lead__close" data-dialog-close aria-label="Закрыть">
+          <Icon name="close" size={24} />
+        </button>
+      </div>
+      <h2 class="h3">Заявка принята</h2>
+      <p class="body-m">Агент перезвонит в течение 5 минут на номер <span data-done-phone></span>.</p>
+      <p class="body-s lead__done-list" data-done-list hidden></p>
+      <Button variant="outline" size="l" data-dialog-close>Хорошо</Button>
+    </div>
+  </div>
+
+  <template data-chip>
+    <li class="lead__chip">
+      <span class="body-s" data-chip-name></span>
+      <button type="button" class="label-s lead__chip-x" data-chip-remove><Icon name="close" size={14} /></button>
+    </li>
+  </template>
+</dialog>
+
+<style>
+  .lead {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .lead::backdrop {
+    background: color-mix(in srgb, var(--color-bg-inverse) 50%, transparent);
+  }
+
+  /* Mobile 434:915 — шторка снизу с ручкой */
+  .lead__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 94dvh;
+    overflow-y: auto;
+    padding: var(--space-12) var(--space-20) var(--space-24);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--color-bg-page);
+    animation: lead-up 0.28s ease;
+  }
+
+  .lead__handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    margin: 0 auto var(--space-16);
+    border-radius: var(--radius-pill);
+    background: var(--color-border-default);
+  }
+
+  .lead__form,
+  .lead__done {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .lead__form[hidden],
+  .lead__done[hidden] {
+    display: none;
+  }
+
+  .lead__head,
+  .lead__done-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  .lead__close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .lead__lead,
+  .lead__label {
+    color: var(--color-text-secondary);
+  }
+
+  .lead__alert {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-16) var(--space-20);
+    border-radius: var(--radius-md);
+    background: var(--color-feedback-error-soft);
+  }
+
+  .lead__alert[hidden] {
+    display: none;
+  }
+
+  .lead__alert-title,
+  .lead__alert-phone {
+    color: var(--color-feedback-error);
+  }
+
+  .lead__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .lead__input {
+    width: 100%;
+    padding: var(--space-16);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+  }
+
+  .lead__input::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .lead__input:focus-visible {
+    outline-offset: 0;
+    border-color: var(--color-accent-primary);
+  }
+
+  .lead__input[aria-invalid='true'] {
+    border-color: var(--color-feedback-error);
+  }
+
+  .lead__error {
+    color: var(--color-feedback-error);
+  }
+
+  .lead__error:empty {
+    display: none;
+  }
+
+  .lead__interest strong {
+    font-weight: 500;
+  }
+
+  .lead__interest[hidden],
+  .lead__list[hidden] {
+    display: none;
+  }
+
+  .lead__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding: var(--space-16);
+    border-radius: var(--radius-md);
+    background: var(--color-accent-soft);
+  }
+
+  .lead__list-title {
+    color: var(--color-accent-primary);
+  }
+
+  .lead__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  .lead__chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-12);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-surface);
+  }
+
+  .lead__chip-x {
+    display: grid;
+    place-items: center;
+    color: var(--color-text-secondary);
+  }
+
+  .lead__consent-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .lead__consent {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .lead__consent a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .lead__check {
+    appearance: none;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-surface);
+    cursor: pointer;
+  }
+
+  .lead__check:checked {
+    border-color: var(--color-accent-primary);
+    background: var(--color-accent-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' stroke='%23F5F1EA' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+  }
+
+  .lead__check[aria-invalid='true'] {
+    border-color: var(--color-feedback-error);
+  }
+
+  .lead__form :global([data-lead-submit]) {
+    width: 100%;
+  }
+
+  .lead__form :global([data-lead-submit]:disabled) {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .lead__call {
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .lead__call a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .lead__done-icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-primary);
+  }
+
+  .lead__done-list {
+    color: var(--color-text-secondary);
+  }
+
+  .lead__done-list[hidden] {
+    display: none;
+  }
+
+  .lead__done :global(.btn) {
+    width: 100%;
+  }
+
+  /* Desktop 426:702 — модальное окно 560 px по центру */
+  @media (min-width: 768px) {
+    .lead__panel {
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      width: 560px;
+      max-width: calc(100% - var(--space-40));
+      max-height: calc(100dvh - var(--space-40));
+      padding: var(--space-40);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      transform: translate(-50%, -50%);
+      animation-name: lead-fade;
+    }
+
+    .lead__handle {
+      display: none;
+    }
+
+    .lead__form,
+    .lead__done {
+      gap: var(--space-20);
+    }
+  }
+
+  @keyframes lead-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes lead-fade {
+    from {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 12px));
+    }
+  }
+</style>

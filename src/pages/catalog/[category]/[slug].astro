@@ -1,0 +1,605 @@
+---
+// /catalog/{category}/{slug}/ — страница товара. Figma: desktop 371:3534, mobile 432:1510.
+import Catalog from '@layouts/Catalog.astro';
+import Breadcrumbs from '@components/catalog/Breadcrumbs.astro';
+import ProductCell from '@components/catalog/ProductCell.astro';
+import ProductPanel from '@components/catalog/ProductPanel.astro';
+import {
+  base,
+  byCategory,
+  catalogUrl,
+  categories,
+  categoryForms,
+  countIn,
+  formatNumber,
+  formatPrice,
+  photoUrl,
+  productUrl,
+  products,
+  type Product,
+} from '@lib/catalog';
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { category: product.category, slug: product.slug }, props: { product } }));
+}
+
+const { product } = Astro.props as { product: Product };
+const forms = categoryForms[product.category];
+const category = categories.find((item) => item.slug === product.category)!;
+const siblings = byCategory(product.category);
+
+// «Ещё в разделе»: окно из 8 моделей так, чтобы текущая оказалась внутри
+const position = siblings.findIndex((item) => item.slug === product.slug);
+const start = Math.max(0, Math.min(position - 3, siblings.length - 8));
+const related = siblings.slice(start, start + 8);
+
+// «Что ещё понадобится»: остальные разделы, в каждом — первые 4 товара
+const otherCategories = categories.filter((item) => item.slug !== product.category);
+const tabs = otherCategories.map((item) => ({ ...item, count: countIn(item.slug), items: byCategory(item.slug).slice(0, 4) }));
+
+const crumbs = [
+  { label: 'Главная', href: `${base}/` },
+  { label: 'Каталог', href: catalogUrl() },
+  { label: category.title, href: catalogUrl(category.slug) },
+  { label: product.name },
+];
+
+const url = new URL(productUrl(product), Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  description: product.description,
+  category: product.categoryTitle,
+  image: new URL(photoUrl(product), Astro.site).href,
+  offers: {
+    '@type': 'Offer',
+    price: product.price,
+    priceCurrency: 'RUB',
+    availability: 'https://schema.org/InStock',
+    url,
+  },
+};
+---
+
+<Catalog
+  title={product.name}
+  fullTitle={`${product.name} — ${formatNumber(product.price)} ₽ | Ритуальная служба «Рай», Нижний Новгород`}
+  description={`${product.short} — ${formatNumber(product.price)} ₽`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
+  </Fragment>
+
+  <div class="crumbs-wrap">
+    <Breadcrumbs items={crumbs} hideHomeOnMobile />
+  </div>
+
+  <section class="stage" aria-labelledby="product-title">
+    <div class="stage__inner">
+      <div class="stage__photo">
+        <img src={photoUrl(product)} alt={product.name} width="640" height="465" decoding="async" fetchpriority="high" />
+      </div>
+      <ProductPanel product={product} />
+    </div>
+  </section>
+
+  <section class="details" aria-labelledby="description-title">
+    <div class="details__inner">
+      <div class="details__col">
+        <h2 class="h3" id="description-title">Описание</h2>
+        <p class="body-l details__text">{product.description}</p>
+      </div>
+      <div class="details__col">
+        <h2 class="h3" id="specs-title">Характеристики</h2>
+        <dl class="specs body-m">
+          {product.specs.map((spec) => (
+            <div class="specs__row">
+              <dt>{spec.label}</dt>
+              <dd>{spec.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="related" aria-labelledby="related-title">
+    <div class="related__inner">
+      <div class="related__head">
+        <h2 class="h3 related__title" id="related-title">Ещё в разделе «{category.title}»</h2>
+        <p class="eyebrow related__eyebrow" aria-hidden="true">Ещё в разделе <span>«{category.title}»</span></p>
+        <a class="label-m related__all related__all--top" href={catalogUrl(category.slug)}>{forms.all}</a>
+      </div>
+      <ul class="related__list">
+        {related.map((item) => {
+          const current = item.slug === product.slug;
+          return (
+            <li>
+              <a class:list={['related__item', { 'related__item--current': current }]} href={productUrl(item)} aria-current={current ? 'page' : undefined}>
+                <span class="h-index-s related__name">{current ? `(${item.name})` : item.name}</span>
+                <span class="related__price">{formatPrice(item.price)}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <a class="label-m related__all related__all--bottom" href={catalogUrl(category.slug)}>{forms.all} · {siblings.length}</a>
+    </div>
+  </section>
+
+  <section class="extra" aria-labelledby="extra-title">
+    <div class="extra__inner">
+      <div class="extra__head">
+        <div class="extra__text">
+          <p class="eyebrow extra__eyebrow">Вместе с {forms.with} <span>обычно выбирают</span></p>
+          <h2 class="h3" id="extra-title">Что ещё понадобится</h2>
+        </div>
+        {tabs.map((tab, index) => (
+          <a class="label-m extra__all extra__all--top" id={`link-${tab.slug}`} href={catalogUrl(tab.slug)} data-tab-link hidden={index !== 0}>
+            {categoryForms[tab.slug].all}
+          </a>
+        ))}
+      </div>
+
+      <div class="extra__tabs" role="tablist" aria-label="Разделы" data-tabs>
+        {tabs.map((tab, index) => (
+          <button
+            type="button"
+            class="label-m extra__tab"
+            role="tab"
+            id={`tab-${tab.slug}`}
+            aria-controls={`panel-${tab.slug}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+            data-link={`link-${tab.slug}`}
+          >
+            {tab.title} <span class="label-s extra__count">{tab.count}</span>
+          </button>
+        ))}
+      </div>
+
+      {tabs.map((tab, index) => (
+        <div class="extra__panel" role="tabpanel" id={`panel-${tab.slug}`} aria-labelledby={`tab-${tab.slug}`} hidden={index !== 0}>
+          <div class="extra__cells">
+            {tab.items.map((item) => (
+              <div class="extra__cell">
+                <ProductCell product={item} />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {tabs.map((tab, index) => (
+        <a class="label-m extra__all extra__all--bottom" href={catalogUrl(tab.slug)} data-tab-link hidden={index !== 0}>
+          {categoryForms[tab.slug].all} · {tab.count}
+        </a>
+      ))}
+    </div>
+  </section>
+</Catalog>
+
+<style>
+  .crumbs-wrap,
+  .stage__inner,
+  .details__inner,
+  .related__inner,
+  .extra__inner {
+    max-width: calc(var(--container-max) + var(--space-page-x) * 2);
+    margin-inline: auto;
+  }
+
+  .crumbs-wrap {
+    padding: var(--space-8) var(--space-16) var(--space-16);
+  }
+
+  /* ===== Сцена: фото + тёмная панель ===== */
+
+  .stage__photo {
+    padding: var(--space-16);
+    background: var(--color-bg-secondary);
+  }
+
+  .stage__photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 640 / 465;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  /* ===== Описание и характеристики ===== */
+
+  .details {
+    padding-block: var(--space-40) var(--space-24);
+  }
+
+  .details__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding-inline: var(--space-16);
+  }
+
+  .details__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .details__text {
+    color: var(--color-text-secondary);
+  }
+
+  .specs__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-24);
+    padding-block: var(--space-12);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .specs dt {
+    color: var(--color-text-secondary);
+  }
+
+  .specs dd {
+    margin: 0;
+    text-align: right;
+  }
+
+  /* ===== Ещё в разделе ===== */
+
+  .related {
+    padding-block: var(--space-40);
+  }
+
+  .related__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline: var(--space-16);
+  }
+
+  .related__eyebrow,
+  .related__all--top {
+    display: none;
+  }
+
+  .related__item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-block: var(--space-8);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .related__name {
+    transition: opacity 0.2s ease;
+  }
+
+  .related__price {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-s);
+    line-height: var(--lh-body-s);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .related__item--current .related__name {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-accent-primary);
+  }
+
+  .related__all {
+    color: var(--color-accent-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ===== Что ещё понадобится ===== */
+
+  .extra {
+    padding-block: var(--space-40);
+  }
+
+  .extra__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    padding-inline: var(--space-16);
+  }
+
+  .extra__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .extra__eyebrow {
+    color: var(--color-text-secondary);
+  }
+
+  .extra__eyebrow span,
+  .related__eyebrow span {
+    color: var(--color-accent-primary);
+  }
+
+  .extra__all--top {
+    display: none;
+  }
+
+  .extra__all[hidden] {
+    display: none;
+  }
+
+  .extra__all {
+    color: var(--color-accent-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Вкладки и ленты товаров — горизонтальная прокрутка с «примагничиванием» */
+  .extra__tabs {
+    display: flex;
+    gap: var(--space-8);
+    margin-inline: calc(var(--space-16) * -1);
+    padding-inline: var(--space-16);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .extra__tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    flex-shrink: 0;
+    padding: var(--space-8) var(--space-16);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .extra__tab:hover {
+    border-color: var(--color-accent-primary);
+  }
+
+  .extra__tab[aria-selected='true'] {
+    border-color: var(--color-bg-inverse);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .extra__count {
+    color: var(--color-text-secondary);
+  }
+
+  .extra__tab[aria-selected='true'] .extra__count {
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .extra__panel[hidden] {
+    display: none;
+  }
+
+  .extra__cells {
+    display: flex;
+    margin-inline: calc(var(--space-16) * -1);
+    padding-inline: var(--space-16);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-16);
+    scrollbar-width: none;
+  }
+
+  .extra__cell {
+    flex: 0 0 172px;
+    scroll-snap-align: start;
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .extra__cell:first-child {
+    border-left: 1px solid var(--color-border-default);
+  }
+
+  /* ===== Планшет и desktop ===== */
+
+  @media (min-width: 768px) {
+    .crumbs-wrap,
+    .details__inner,
+    .related__inner,
+    .extra__inner {
+      padding-inline: var(--space-page-x);
+    }
+
+    .crumbs-wrap {
+      padding-top: var(--space-24);
+    }
+
+    .stage__inner {
+      padding-inline: var(--space-page-x);
+    }
+
+    .stage__photo {
+      padding: var(--space-24) var(--space-40);
+    }
+
+    .extra__tabs,
+    .extra__cells {
+      margin-inline: 0;
+      padding-inline: 0;
+    }
+
+    .extra__cells {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      overflow: visible;
+      border-left: 1px solid var(--color-border-default);
+    }
+
+    .extra__cell {
+      min-width: 0;
+      border-left: 0;
+    }
+
+    .extra__tab {
+      padding: var(--space-12) var(--space-20);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .crumbs-wrap {
+      padding-top: var(--space-48);
+      padding-bottom: var(--space-32);
+    }
+
+    .stage__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 440px;
+      align-items: center;
+      gap: var(--space-40);
+      min-height: 680px;
+      padding: 0 calc(var(--space-page-x) + var(--space-40));
+      background: var(--color-bg-secondary);
+    }
+
+    /* На desktop фон у всей сцены, а не только у фото */
+    .stage {
+      padding-inline: var(--space-page-x);
+    }
+
+    .stage__inner {
+      padding-inline: var(--space-40);
+      max-width: var(--container-max);
+    }
+
+    .stage__photo {
+      padding: 0;
+      background: none;
+    }
+
+    .details {
+      padding-block: var(--space-96) var(--space-96);
+    }
+
+    .details__inner {
+      flex-direction: row;
+      gap: var(--space-96);
+    }
+
+    .details__col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .specs dt {
+      width: 180px;
+      flex-shrink: 0;
+    }
+
+    .specs__row {
+      justify-content: flex-start;
+    }
+
+    .specs dd {
+      flex: 1;
+      text-align: left;
+    }
+
+    .related {
+      padding-block: 0 var(--space-96);
+    }
+
+    .related__inner {
+      gap: var(--space-24);
+    }
+
+    .related__head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .related__title,
+    .related__all--bottom {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .related__eyebrow {
+      display: block;
+      color: var(--color-text-secondary);
+    }
+
+    .related__all--top {
+      display: block;
+    }
+
+    .related__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8) var(--space-40);
+    }
+
+    .related__item {
+      padding: 0;
+      border: 0;
+      gap: var(--space-8);
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .related__item:not(.related__item--current) .related__name {
+      opacity: 0.32;
+    }
+
+    .related__item:hover .related__name {
+      opacity: 1;
+    }
+
+    .related__price {
+      font-size: var(--fs-label-s);
+      line-height: var(--lh-label-s);
+      opacity: 0.7;
+    }
+
+    .extra {
+      padding-block: 0 var(--space-96);
+    }
+
+    .extra__head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .extra__all--top:not([hidden]) {
+      display: block;
+    }
+
+    .extra__all--bottom {
+      display: none;
+    }
+
+    .extra__inner {
+      gap: var(--space-24);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .extra__all--bottom[hidden] {
+      display: none;
+    }
+  }
+</style>

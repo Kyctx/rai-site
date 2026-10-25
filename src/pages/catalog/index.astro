@@ -1,0 +1,13 @@
+---
+// /catalog/ — все товары. Figma: desktop 329:81, mobile 432:1509.
+import Catalog from '@layouts/Catalog.astro';
+import CatalogView from '@components/catalog/CatalogView.astro';
+import { products } from '@lib/catalog';
+---
+
+<Catalog
+  title="Каталог товаров"
+  description={`Гробы, венки, кресты, одежда и принадлежности для похорон — ${products.length} позиций с ценами. Оплата после, цена фиксируется в договоре.`}
+>
+  <CatalogView />
+</Catalog>

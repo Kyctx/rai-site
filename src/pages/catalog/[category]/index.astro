@@ -1,0 +1,19 @@
+---
+// /catalog/{category}/ — раздел каталога: тот же макет, активен раздел указателя.
+import Catalog from '@layouts/Catalog.astro';
+import CatalogView from '@components/catalog/CatalogView.astro';
+import { categories, countIn } from '@lib/catalog';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+---
+
+<Catalog
+  title={category.title}
+  description={`${category.title} — ${countIn(category.slug)} позиций с ценами. Оплата после, цена фиксируется в договоре.`}
+>
+  <CatalogView category={category} />
+</Catalog>

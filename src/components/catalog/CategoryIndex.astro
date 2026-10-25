@@ -1,0 +1,94 @@
+---
+// Указатель разделов каталога. Figma: «Раздел каталога» 426:4044 (Обычный / Активный), блок 350:596.
+// Обычные ссылки на /catalog/…, а не JS-фильтр. Активный — курсив, акцентный цвет, название в скобках.
+import { categories, products, countIn, catalogUrl } from '@lib/catalog';
+
+interface Props {
+  // slug раздела; не задан — активна «Все товары»
+  active?: string;
+}
+
+const { active } = Astro.props;
+
+const items = [
+  { slug: undefined, title: 'Все товары', count: products.length },
+  ...categories.map((category) => ({ slug: category.slug, title: category.title, count: countIn(category.slug) })),
+];
+---
+
+<nav aria-label="Разделы каталога">
+  <ul class="index">
+    {items.map((item) => {
+      const isActive = item.slug === active;
+      return (
+        <li>
+          <a class:list={['index__item', { 'index__item--active': isActive }]} href={catalogUrl(item.slug)} aria-current={isActive ? 'page' : undefined}>
+            <span class="h-index index__name">{isActive ? `(${item.title})` : item.title}</span>
+            <span class="index__count">{item.count}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>
+
+<style>
+  .index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-16);
+  }
+
+  .index__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .index__name {
+    opacity: 0.32;
+    transition: opacity 0.2s ease;
+  }
+
+  .index__item:hover .index__name,
+  .index__item:focus-visible .index__name {
+    opacity: 1;
+  }
+
+  /* Счётчики: mobile — 10/12 px (исключение из правила 2, см. CLAUDE.md), desktop — Label S */
+  .index__count {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+  }
+
+  .index__item--active .index__name {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-accent-primary);
+    opacity: 1;
+  }
+
+  .index__item--active .index__count {
+    color: var(--color-accent-primary);
+    opacity: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .index {
+      gap: var(--space-8) var(--space-40);
+    }
+
+    .index__item {
+      gap: var(--space-8);
+    }
+
+    .index__count {
+      font-size: var(--fs-label-s);
+      line-height: var(--lh-label-s);
+    }
+  }
+</style>

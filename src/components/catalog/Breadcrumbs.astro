@@ -1,0 +1,72 @@
+---
+// Хлебные крошки. Последний пункт — текущая страница (на desktop — акцентным цветом).
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+  // На mobile страницы товара «Главная» в крошках не показывается (432:1510)
+  hideHomeOnMobile?: boolean;
+}
+
+const { items, hideHomeOnMobile = false } = Astro.props;
+---
+
+<nav class="crumbs" aria-label="Хлебные крошки">
+  <ol class="body-s crumbs__list">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class:list={['crumbs__item', { 'crumbs__item--home': hideHomeOnMobile && index === 0 }]}>
+          {item.href && !isLast ? <a href={item.href}>{item.label}</a> : <span aria-current={isLast ? 'page' : undefined}>{item.label}</span>}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<style>
+  .crumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    color: var(--color-text-secondary);
+  }
+
+  .crumbs__item + .crumbs__item::before {
+    content: '/';
+    margin-right: var(--space-8);
+    color: var(--color-border-default);
+  }
+
+  .crumbs__item:last-child {
+    color: var(--color-text-primary);
+  }
+
+  .crumbs__item a {
+    transition: color 0.2s ease;
+  }
+
+  .crumbs__item a:hover {
+    color: var(--color-accent-primary);
+  }
+
+  /* Без «Главной» первый пункт — «Каталог» — без разделителя перед ним */
+  @media (max-width: 767px) {
+    .crumbs__item--home {
+      display: none;
+    }
+
+    .crumbs__item--home + .crumbs__item::before {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .crumbs__item:last-child {
+      color: var(--color-accent-primary);
+    }
+  }
+</style>

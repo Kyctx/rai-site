@@ -6,9 +6,11 @@ import site from '@data/site.json';
 interface Props {
   title: string;
   description?: string;
+  // Если задан — используется как есть, без добавления « · Рай» (карточки товаров, SEO по спецификации)
+  fullTitle?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, fullTitle } = Astro.props;
 const isProd = import.meta.env.PROD;
 const metrikaId = import.meta.env.PUBLIC_YANDEX_METRIKA_ID;
 
@@ -94,8 +96,9 @@ const fontFaceCss = `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
-    <title>{title} · {site.brand}</title>
+    <title>{fullTitle ?? `${title} · ${site.brand}`}</title>
     {description && <meta name="description" content={description} />}
+    <slot name="head" />
 
     <link rel="preload" href={font('cormorant-garamond-500-cyrillic-v2.woff2')} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={font('onest-variable-cyrillic.woff2')} as="font" type="font/woff2" crossorigin />

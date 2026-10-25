@@ -1,0 +1,220 @@
+---
+// Страница каталога: все товары (/catalog/) или раздел (/catalog/{category}/).
+// Figma: desktop 329:81, mobile 432:1509, пустой раздел 426:3623.
+// Порядок товаров — как в products.json; сортировок и фильтров нет.
+import Button from '@components/Button.astro';
+import AgentBar from './AgentBar.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import CategoryIndex from './CategoryIndex.astro';
+import ProductCell from './ProductCell.astro';
+import { base, byCategory, catalogUrl, products, type Category } from '@lib/catalog';
+
+interface Props {
+  category?: Category;
+}
+
+const { category } = Astro.props;
+const list = category ? byCategory(category.slug) : products;
+const isEmpty = list.length === 0;
+
+const crumbs = [
+  { label: 'Главная', href: `${base}/` },
+  { label: 'Каталог', href: category ? catalogUrl() : undefined },
+  ...(category ? [{ label: category.title }] : []),
+];
+
+// Первые 12 товаров на desktop и 8 на mobile — остальные раскрывает «Показать ещё» (catalog.js)
+const collapsed = list.length > 8;
+const leftDesktop = Math.max(0, list.length - 12);
+const leftMobile = Math.max(0, list.length - 8);
+---
+
+<section class="catalog" aria-labelledby="catalog-title">
+  <div class="catalog__inner">
+    <Breadcrumbs items={crumbs} />
+    <h1 class="sr-only" id="catalog-title">Каталог товаров — {category?.title ?? 'все разделы'}</h1>
+    <CategoryIndex active={category?.slug} />
+
+    {!isEmpty && <div class="catalog__bar"><AgentBar /></div>}
+
+    {isEmpty ? (
+      <div class="empty">
+        <p class="h3">В этом разделе <em>пока ничего нет</em></p>
+        <p class="body-m empty__text">Ассортимент обновляется. Агент подберёт нужное у проверенных поставщиков и пришлёт варианты с ценами — бесплатно.</p>
+        <div class="empty__actions">
+          <Button data-open-lead="catalog-bar">Перезвоните мне</Button>
+          <Button variant="outline" href={catalogUrl()}>Смотреть все товары · {products.length}</Button>
+        </div>
+      </div>
+    ) : (
+      <div class="catalog__grid">
+        <div class="grid" data-grid data-collapsed={collapsed ? '' : undefined}>
+          {list.map((product, index) => (
+            <div class="grid__item">
+              <ProductCell product={product} eager={index < 4} />
+            </div>
+          ))}
+        </div>
+
+        {collapsed && (
+          <div class="more">
+            <Button
+              variant="outline"
+              size="l"
+              data-more
+              data-d-empty={leftDesktop === 0 ? '' : undefined}
+              data-m-empty={leftMobile === 0 ? '' : undefined}
+            >
+              Показать ещё <span data-more-n="d">{leftDesktop}</span><span data-more-n="m">{leftMobile}</span>
+            </Button>
+          </div>
+        )}
+        <noscript><style>.grid__item { display: block !important; } .more { display: none; }</style></noscript>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .catalog {
+    padding-bottom: var(--space-24);
+  }
+
+  /* Mobile-first: поля 16, как в макете 432:1509 */
+  .catalog__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    max-width: calc(var(--container-max) + var(--space-page-x) * 2);
+    margin-inline: auto;
+    padding: var(--space-8) var(--space-16) 0;
+  }
+
+  /* На mobile плашка агента — под сеткой */
+  .catalog__bar {
+    order: 5;
+    padding-top: var(--space-4);
+  }
+
+  .catalog__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border-default);
+    border-left: 1px solid var(--color-border-default);
+  }
+
+  .grid__item {
+    min-width: 0;
+  }
+
+  @media (max-width: 767px) {
+    .grid[data-collapsed] .grid__item:nth-child(n + 9):not([data-shown]) {
+      display: none;
+    }
+
+    .more :global([data-m-empty]) {
+      display: none;
+    }
+
+    .more :global(.btn) {
+      width: 100%;
+    }
+
+    [data-more-n='d'] {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid[data-collapsed] .grid__item:nth-child(n + 13):not([data-shown]) {
+      display: none;
+    }
+
+    .more :global([data-d-empty]) {
+      display: none;
+    }
+
+    [data-more-n='m'] {
+      display: none;
+    }
+  }
+
+  .more {
+    display: flex;
+    justify-content: center;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-16);
+    padding: var(--space-64) var(--space-20);
+    border: 1px solid var(--color-border-default);
+    text-align: center;
+  }
+
+  .empty__text {
+    max-width: 560px;
+    color: var(--color-text-secondary);
+  }
+
+  .empty__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+    padding-top: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .catalog__inner {
+      padding-inline: var(--space-page-x);
+    }
+
+    .catalog__grid {
+      gap: var(--space-48);
+    }
+
+    .empty__actions {
+      flex-direction: row;
+      justify-content: center;
+      width: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .catalog {
+      padding-bottom: var(--space-80);
+    }
+
+    .catalog__inner {
+      gap: var(--space-48);
+      padding-top: var(--space-48);
+    }
+
+    /* На desktop плашка агента — над сеткой */
+    .catalog__bar {
+      order: 0;
+      padding-top: 0;
+    }
+
+    .grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .empty {
+      padding: var(--space-96) var(--space-40);
+    }
+  }
+</style>

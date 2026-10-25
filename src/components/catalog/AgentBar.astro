@@ -1,0 +1,57 @@
+---
+// Плашка агента. Figma: «Плашка агента» 426:4019. Кнопка открывает форму звонка без списка (source: catalog-bar).
+import Button from '@components/Button.astro';
+---
+
+<aside class="agent-bar" aria-label="Помощь агента">
+  <div class="agent-bar__text">
+    <p class="title">Не хотите выбирать сами?</p>
+    <p class="body-s agent-bar__lead">Агент подберёт всё под ваш бюджет и пришлёт список с ценами. Бесплатно и ни к чему не обязывает.</p>
+  </div>
+  <Button class="agent-bar__btn" data-open-lead="catalog-bar">Перезвоните мне</Button>
+</aside>
+
+<style>
+  .agent-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-20);
+    border-radius: var(--radius-md);
+    background: var(--color-accent-soft);
+  }
+
+  .agent-bar__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .agent-bar__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .agent-bar :global(.agent-bar__btn) {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .agent-bar {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-24);
+      padding: var(--space-20) var(--space-20) var(--space-20) var(--space-24);
+      border-radius: var(--radius-lg);
+    }
+
+    .agent-bar__text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .agent-bar :global(.agent-bar__btn) {
+      width: auto;
+      flex-shrink: 0;
+    }
+  }
+</style>

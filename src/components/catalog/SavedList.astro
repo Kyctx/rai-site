@@ -1,0 +1,275 @@
+---
+// Список отложенного. Figma: desktop 384:375 — шторка справа, mobile 384:892 — шторка снизу.
+// <dialog>: Esc и клик по фону закрывают (логика — catalog.js). Строки клонируются из <template>.
+import Button from '@components/Button.astro';
+import Icon from '@components/Icon.astro';
+import { catalogUrl } from '@lib/catalog';
+---
+
+<dialog class="saved" id="saved-dialog" aria-labelledby="saved-title" data-catalog-url={catalogUrl()}>
+  <div class="saved__panel">
+    <span class="saved__handle" aria-hidden="true"></span>
+
+    <div class="saved__top">
+      <div class="saved__head">
+        <h2 class="h3" id="saved-title">Отмечено для агента</h2>
+        <button type="button" class="saved__close" data-dialog-close aria-label="Закрыть">
+          <Icon name="close" size={24} />
+        </button>
+      </div>
+      <p class="body-s saved__lead">Агент посмотрит список и перезвонит.<br />Оплачивать сейчас ничего не нужно.</p>
+      <ul class="saved__list" data-saved-list></ul>
+    </div>
+
+    <div class="saved__bottom">
+      <p class="saved__total">
+        <span class="body-m saved__total-label">Примерно за товары</span>
+        <span class="num-l" data-saved-total></span>
+      </p>
+      <Button size="l" data-saved-send>Передать агенту</Button>
+      <button type="button" class="saved__share label-m" data-saved-share>
+        <Icon name="users" size={18} />
+        <span>Поделиться с близкими</span>
+      </button>
+    </div>
+  </div>
+
+  <template data-row>
+    <li class="saved__row">
+      <span class="saved__thumb"><img src="" alt="" width="58" height="58" loading="lazy" decoding="async" data-row-photo /></span>
+      <span class="saved__text">
+        <span class="eyebrow saved__cat" data-row-cat></span>
+        <a class="title saved__name" href="#" data-row-name></a>
+        <span class="h5 saved__price" data-row-price></span>
+      </span>
+      <button type="button" class="label-s saved__remove" data-row-remove>
+        <span class="saved__remove-text">Убрать</span>
+        <span class="saved__remove-x" aria-hidden="true"><Icon name="close" size={16} /></span>
+      </button>
+    </li>
+  </template>
+</dialog>
+
+<style>
+  .saved {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .saved::backdrop {
+    background: color-mix(in srgb, var(--color-bg-inverse) 50%, transparent);
+  }
+
+  /* Mobile 384:892 — шторка снизу с ручкой */
+  .saved__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 92dvh;
+    padding: var(--space-12) var(--space-20) var(--space-24);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--color-bg-page);
+    animation: saved-up 0.28s ease;
+  }
+
+  .saved__handle {
+    align-self: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 4px;
+    margin-bottom: var(--space-16);
+    border-radius: var(--radius-pill);
+    background: var(--color-border-default);
+  }
+
+  .saved__top {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .saved__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  .saved__close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .saved__lead {
+    color: var(--color-text-secondary);
+  }
+
+  .saved__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    padding-block: var(--space-12);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .saved__thumb {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-secondary);
+  }
+
+  .saved__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .saved__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .saved__cat {
+    display: none;
+    color: var(--color-text-secondary);
+  }
+
+  .saved__price {
+    color: var(--color-text-primary);
+  }
+
+  .saved__remove {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .saved__remove:hover {
+    color: var(--color-text-primary);
+  }
+
+  .saved__remove-text {
+    display: none;
+  }
+
+  .saved__remove-x {
+    display: block;
+  }
+
+  .saved__bottom {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-top: var(--space-16);
+  }
+
+  .saved__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  .saved__total-label {
+    color: var(--color-text-secondary);
+  }
+
+  .saved__share {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    color: var(--color-accent-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .saved__share:hover {
+    color: var(--color-accent-hover);
+  }
+
+  /* Desktop 384:375 — шторка справа, 480 px */
+  @media (min-width: 768px) {
+    .saved__panel {
+      left: auto;
+      top: 0;
+      width: 480px;
+      max-width: 100%;
+      max-height: none;
+      padding: var(--space-32);
+      border-radius: 0;
+      justify-content: space-between;
+      animation-name: saved-left;
+    }
+
+    .saved__handle {
+      display: none;
+    }
+
+    .saved__top {
+      flex: 0 1 auto;
+      gap: var(--space-20);
+    }
+
+    .saved__thumb {
+      width: 72px;
+      height: 72px;
+      padding: var(--space-8);
+    }
+
+    .saved__row {
+      padding-block: var(--space-16);
+    }
+
+    .saved__cat {
+      display: block;
+    }
+
+    .saved__remove-text {
+      display: inline;
+    }
+
+    .saved__remove-x {
+      display: none;
+    }
+
+    .saved__bottom {
+      padding-top: 0;
+    }
+  }
+
+  @keyframes saved-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes saved-left {
+    from {
+      transform: translateX(100%);
+    }
+  }
+</style>

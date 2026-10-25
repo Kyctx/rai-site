@@ -1,0 +1,107 @@
+---
+// Всё, что поверх страниц каталога: тост «отмечен для агента», шторка списка, форма звонка,
+// данные для клиента (название/цена/фото по slug) и скрипт интерфейса.
+import Icon from '@components/Icon.astro';
+import SavedList from './SavedList.astro';
+import LeadModal from './LeadModal.astro';
+import { clientCatalog } from '@lib/catalog';
+
+// «<» экранируем, чтобы данные не могли закрыть тег <script>
+const data = JSON.stringify(clientCatalog()).replace(/</g, '\\u003c');
+---
+
+<script type="application/json" id="catalog-data" is:inline set:html={data}></script>
+
+<!-- Область role="status": подтверждение зачитывается скринридером, исчезает через 4 секунды (383:433) -->
+<div class="toast-region" id="saved-toast" role="status" aria-live="polite">
+  <div class="toast" hidden>
+    <Icon name="bookmark-filled" size={24} />
+    <p class="body-s toast__text" data-toast-text></p>
+    <button type="button" class="label-m toast__action" data-toast-open>Посмотреть список</button>
+    <button type="button" class="label-m toast__close" data-toast-close aria-label="Закрыть">✕</button>
+  </div>
+</div>
+
+<SavedList />
+<LeadModal />
+
+<script>
+  import '../../scripts/catalog.js';
+</script>
+
+<style>
+  .toast-region {
+    position: fixed;
+    left: var(--space-16);
+    right: var(--space-16);
+    bottom: var(--space-16);
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding: var(--space-12) var(--space-12) var(--space-12) var(--space-16);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-lg);
+    pointer-events: auto;
+    animation: toast-in 0.24s ease;
+  }
+
+  .toast[hidden] {
+    display: none;
+  }
+
+  .toast :global(svg) {
+    flex-shrink: 0;
+  }
+
+  .toast__action {
+    flex-shrink: 0;
+    color: var(--color-accent-on-inverse);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  .toast__action[hidden] {
+    display: none;
+  }
+
+  .toast__close {
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .toast__close:hover {
+    opacity: 1;
+  }
+
+  /* На узком экране текст переносится, а кнопки остаются в одну строку */
+  @media (max-width: 767px) {
+    .toast {
+      flex-wrap: wrap;
+      border-radius: var(--radius-md);
+      width: 100%;
+    }
+
+    .toast__text {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+</style>

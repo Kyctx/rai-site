@@ -12,7 +12,7 @@ import site from '@data/site.json';
 
 const telHref = `tel:${site.phone.tel}`;
 
-const columns = [
+const rawColumns = [
   {
     title: 'Услуги',
     links: [
@@ -48,6 +48,11 @@ const columns = [
 // BASE_URL учитывает /rai-site/ на GitHub Pages (см. astro.config.mjs) —
 // внутренние страницы должны идти через него, а не как жёсткий "/путь".
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Якоря секций главной ведём через base — ссылки должны работать и со страниц каталога
+const columns = rawColumns.map((col) => ({
+  ...col,
+  links: col.links.map((link) => ({ ...link, href: link.href.length > 1 && link.href.startsWith('#') ? `${base}/${link.href}` : link.href })),
+}));
 const legalDocs = [
   { label: 'Политика обработки персональных данных', href: `${base}/privacy` },
   { label: 'Согласие на обработку ПДн', href: `${base}/consent` },

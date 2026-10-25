@@ -1,0 +1,299 @@
+---
+// Ячейка товара. Figma: «Ячейка товара» 425:384 (Default / Hover / Отложено), mobile — 432:3682.
+// Вся ячейка — ссылка на страницу товара; закладка лежит рядом с ссылкой, а не внутри неё
+// (вложенные интерактивные элементы недопустимы). Состояние «Отложено» выставляет catalog.js
+// атрибутом data-saved на корне. Рамки — только справа и снизу: верх и лево рисует контейнер сетки.
+import Icon from '@components/Icon.astro';
+import { formatPrice, photoUrl, productUrl, type Product } from '@lib/catalog';
+
+interface Props {
+  product: Product;
+  // Фото первого экрана грузим сразу, остальные — лениво
+  eager?: boolean;
+}
+
+const { product, eager = false } = Astro.props;
+const price = formatPrice(product.price);
+---
+
+<article class="cell" data-slug={product.slug}>
+  <a class="cell__link" href={productUrl(product)}>
+    <span class="cell__photo">
+      <img src={photoUrl(product)} alt="" width="228" height="220" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    </span>
+    <span class="cell__info">
+      <span class="title cell__name">{product.name}</span>
+      <span class="body-s cell__short">{product.short}</span>
+      <span class="h4 cell__price">{price}</span>
+    </span>
+    <!-- «Шторка» при наведении (только desktop) -->
+    <span class="cell__drawer" aria-hidden="true">
+      <span class="title cell__drawer-name">{product.name}</span>
+      <span class="body-s cell__drawer-text">{product.description}</span>
+      <span class="cell__drawer-row">
+        <span class="h4">{price}</span>
+        <span class="label-m cell__more">Подробнее</span>
+      </span>
+    </span>
+  </a>
+
+  <button type="button" class="cell__mark" data-save aria-pressed="false" aria-label="Отложить для агента">
+    <Icon name="bookmark" size={24} class="cell__icon cell__icon--off" />
+    <Icon name="bookmark-filled" size={24} class="cell__icon cell__icon--on" />
+  </button>
+  <span class="label-s cell__tip" aria-hidden="true">Отложить для агента</span>
+</article>
+
+<style>
+  /* Mobile 375: ячейка 172 × 300, без описания и без закладки в обычном состоянии */
+  .cell {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  .cell__link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: var(--color-text-primary);
+  }
+
+  .cell__photo {
+    position: absolute;
+    top: 43px;
+    left: var(--space-16);
+    right: var(--space-16);
+    height: 128px;
+    mix-blend-mode: multiply;
+    transition: top 0.22s ease, height 0.22s ease;
+  }
+
+  .cell__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cell__info {
+    position: absolute;
+    top: 195px;
+    left: var(--space-12);
+    right: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .cell__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .cell__short,
+  .cell__drawer,
+  .cell__tip {
+    display: none;
+  }
+
+  .cell__name,
+  .cell__short {
+    min-width: 0;
+  }
+
+  /* Закладка: на mobile видна только у отложенного товара */
+  .cell__mark {
+    position: absolute;
+    top: var(--space-8);
+    right: var(--space-8);
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-text-primary);
+    color: var(--color-text-primary);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .cell__mark :global(.cell__icon) {
+    grid-area: 1 / 1;
+    width: 20px;
+    height: 20px;
+  }
+
+  .cell__mark :global(.cell__icon--on) {
+    display: none;
+  }
+
+  .cell[data-saved] .cell__mark {
+    opacity: 1;
+    pointer-events: auto;
+    background: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .cell[data-saved] .cell__mark :global(.cell__icon--off) {
+    display: none;
+  }
+
+  .cell[data-saved] .cell__mark :global(.cell__icon--on) {
+    display: block;
+  }
+
+  /* Планшет и desktop: ячейка 300 × 440 с описанием */
+  @media (min-width: 768px) {
+    .cell {
+      height: 440px;
+    }
+
+    .cell__photo {
+      top: 47px;
+      left: 12%;
+      right: 12%;
+      height: 220px;
+    }
+
+    .cell__info {
+      top: 314px;
+      left: var(--space-20);
+      right: var(--space-20);
+      gap: var(--space-4);
+    }
+
+    .cell__name {
+      display: block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .cell__short {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--color-text-secondary);
+    }
+
+    .cell__price {
+      padding-top: var(--space-12);
+    }
+
+    .cell__mark {
+      top: 15px;
+      right: 17px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .cell__mark :global(.cell__icon) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  /* Hover: снизу выезжает тёмная шторка, фото поднимается, появляется закладка с подсказкой */
+  @media (hover: hover) and (min-width: 768px) {
+    .cell__drawer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      padding: var(--space-20);
+      background: var(--color-bg-inverse);
+      color: var(--color-text-inverse);
+      transform: translateY(100%);
+      transition: transform 0.22s ease;
+    }
+
+    .cell__drawer-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .cell__drawer-text {
+      opacity: 0.72;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .cell__drawer-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-top: var(--space-4);
+    }
+
+    .cell__more {
+      color: var(--color-accent-on-inverse);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .cell:hover .cell__drawer,
+    .cell:focus-within .cell__drawer {
+      transform: none;
+    }
+
+    .cell:hover .cell__photo,
+    .cell:focus-within .cell__photo {
+      top: 27px;
+      height: 190px;
+    }
+
+    .cell:hover .cell__info,
+    .cell:focus-within .cell__info {
+      visibility: hidden;
+    }
+
+    .cell:hover .cell__mark,
+    .cell:focus-within .cell__mark {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cell__mark:hover {
+      background: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+
+    .cell[data-saved] .cell__mark:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+
+    .cell__tip {
+      position: absolute;
+      top: 61px;
+      right: var(--space-16);
+      display: block;
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-inverse);
+      color: var(--color-text-inverse);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .cell__mark:hover + .cell__tip,
+    .cell__mark:focus-visible + .cell__tip {
+      opacity: 1;
+    }
+  }
+</style>
