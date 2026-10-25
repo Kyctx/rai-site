@@ -275,12 +275,12 @@ input, textarea, select {
 }
 
 /* Указатель каталога — крупные ссылки-«оглавление».
-   Mobile H2 (32) → Desktop H1 (72); второй вариант — Mobile H4 (24) → Desktop H2 (52). */
+   Mobile H1 (40) → Desktop H1 (72); второй вариант — Mobile H4 (24) → Desktop H2 (52). */
 .h-index {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: var(--fs-h2-mobile);
-  line-height: var(--lh-h2);
+  font-size: var(--fs-h1-mobile);
+  line-height: var(--lh-h1);
 }
 
 .h-index-s {
