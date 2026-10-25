@@ -289,6 +289,12 @@ const jsonLd = {
     white-space: nowrap;
   }
 
+  /* У текущего товара зелёным не только название, но и цена (макет 371:3599) */
+  .related__item--current .related__price {
+    color: var(--color-accent-primary);
+    opacity: 1;
+  }
+
   .related__item--current .related__name {
     font-style: italic;
     font-weight: 400;
