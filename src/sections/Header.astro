@@ -61,7 +61,7 @@ const telHref = `tel:${site.phone.tel}`;
       </a>
       <div class="header__actions">
         <!-- Появляется, когда отмечен хотя бы один товар («Отметить для агента»); ведёт к списку отмеченного -->
-        <a href={savedHref} class="header__icon-btn header__icon-btn--saved pill-hover" data-saved-link data-open-saved hidden>
+        <a href={savedHref} class="header__icon-btn header__icon-btn--accent pill-hover" data-saved-link data-open-saved hidden>
           <Icon name="bookmark-filled" size={20} />
           <span class="sr-only">Отмечено для агента: <span data-saved-count></span></span>
         </a>
@@ -348,10 +348,6 @@ const telHref = `tel:${site.phone.tel}`;
 
   .header__icon-btn[hidden] {
     display: none;
-  }
-
-  .header__icon-btn--saved {
-    color: var(--color-accent-primary);
   }
 
   .header__icon-btn--accent {
