@@ -263,8 +263,8 @@ const jsonLd = {
     padding-inline: var(--space-16);
   }
 
-  /* Заголовок-надпись и ссылка «Все …» сверху, затем «облако» названий с ценами — одинаково на mobile и desktop.
-     Настоящий <h2> и нижняя ссылка с количеством скрыты визуально (остаются для скринридеров). */
+  /* Надпись сверху, затем «облако» названий с ценами. Ссылка «Все …»: на desktop справа сверху,
+     на mobile — снизу под списком (как под каруселью). Настоящий <h2> скрыт визуально, остаётся для скринридеров. */
   .related__head {
     display: flex;
     flex-wrap: wrap;
@@ -273,8 +273,7 @@ const jsonLd = {
     gap: var(--space-8) var(--space-16);
   }
 
-  .related__title,
-  .related__all--bottom {
+  .related__title {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -288,7 +287,7 @@ const jsonLd = {
   }
 
   .related__all--top {
-    display: block;
+    display: none;
   }
 
   .related__list {
@@ -608,6 +607,18 @@ const jsonLd = {
 
     .related__list {
       column-gap: var(--space-40);
+    }
+
+    .related__all--top {
+      display: block;
+    }
+
+    .related__all--bottom {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
     }
 
     .extra {
