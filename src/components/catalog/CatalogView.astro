@@ -7,14 +7,15 @@ import AgentBar from './AgentBar.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import CategoryIndex from './CategoryIndex.astro';
 import ProductCell from './ProductCell.astro';
-import { base, byCategory, catalogUrl, products, type Category } from '@lib/catalog';
+import { base, byCategory, catalogUrl, mixedProducts, products, type Category } from '@lib/catalog';
 
 interface Props {
   category?: Category;
 }
 
 const { category } = Astro.props;
-const list = category ? byCategory(category.slug) : products;
+// «Все товары» — особый порядок (разделы вперемешку), в разделе — как в products.json
+const list = category ? byCategory(category.slug) : mixedProducts();
 const isEmpty = list.length === 0;
 
 const crumbs = [
