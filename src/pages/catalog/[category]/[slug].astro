@@ -278,7 +278,7 @@ const jsonLd = {
   }
 
   .related__name {
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, color 0.2s ease;
   }
 
   .related__price {
@@ -564,8 +564,11 @@ const jsonLd = {
       opacity: 0.32;
     }
 
-    .related__item:hover .related__name {
+    /* Ховер — тёмно-бежевый. Готового токена нет, цвет собран из токенов (текст + граница);
+       если у дизайнера есть точное значение — заменить здесь. */
+    .related__item:not(.related__item--current):hover .related__name {
       opacity: 1;
+      color: color-mix(in srgb, var(--color-text-primary) 40%, var(--color-border-default));
     }
 
     .related__price {
