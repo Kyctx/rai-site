@@ -43,8 +43,6 @@ const telHref = `tel:${site.phone.tel}`;
         <span class="body-s lead__error" data-field-error="phone"></span>
       </label>
 
-      <p class="body-s lead__interest" data-lead-product hidden>Интересует: <strong data-lead-product-name></strong></p>
-
       <div class="lead__list" data-lead-list hidden>
         <p class="label-m lead__list-title">Передадим агенту ваш список</p>
         <ul class="lead__chips" data-lead-chips></ul>
@@ -234,11 +232,6 @@ const telHref = `tel:${site.phone.tel}`;
     display: none;
   }
 
-  .lead__interest strong {
-    font-weight: 500;
-  }
-
-  .lead__interest[hidden],
   .lead__list[hidden] {
     display: none;
   }

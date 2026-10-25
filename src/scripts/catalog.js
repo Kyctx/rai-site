@@ -266,8 +266,9 @@ function setLeadState(state) {
 }
 
 function renderLeadList() {
-  const withList = leadSource === 'saved-list';
-  const list = withList ? knownSaved() : [];
+  // Заявка со страницы товара — в блоке один товар, с которым открыли форму; из шторки — весь список отмеченного
+  const fromProduct = leadSource === 'product';
+  const list = fromProduct ? (leadProduct && catalog[leadProduct] ? [leadProduct] : []) : leadSource === 'saved-list' ? knownSaved() : [];
   const block = $('[data-lead-list]', leadDialog);
   block.hidden = !list.length;
 
@@ -279,14 +280,18 @@ function renderLeadList() {
     $('[data-chip-name]', chip).textContent = catalog[slug].name;
     const remove = $('[data-chip-remove]', chip);
     remove.setAttribute('aria-label', `Убрать: ${catalog[slug].name}`);
-    // ✕ убирает товар и из формы, и из списка в localStorage
-    remove.addEventListener('click', () => removeSaved(slug));
+    remove.addEventListener('click', () => {
+      if (fromProduct) {
+        // Товар страницы убираем только из этой заявки, в списке отмеченного он не появляется
+        leadProduct = null;
+        renderLeadList();
+      } else {
+        // ✕ убирает товар и из формы, и из списка в localStorage
+        removeSaved(slug);
+      }
+    });
     chips.append(chip);
   });
-
-  const product = $('[data-lead-product]', leadDialog);
-  product.hidden = !leadProduct;
-  if (leadProduct) $('[data-lead-product-name]', leadDialog).textContent = catalog[leadProduct]?.name ?? '';
 }
 
 function openLead(source, productSlug = null) {
