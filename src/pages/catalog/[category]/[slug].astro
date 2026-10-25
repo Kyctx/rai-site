@@ -490,14 +490,20 @@ const jsonLd = {
       padding-block: var(--space-96) var(--space-96);
     }
 
+    /* «Характеристики» начинаются от левого края тёмной панели: справа от края контейнера
+       это отступ сцены (40) + ширина панели (440) = 480 */
     .details__inner {
-      flex-direction: row;
-      gap: var(--space-96);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) calc(var(--space-40) + 440px);
+      gap: 0;
     }
 
     .details__col {
-      flex: 1;
       min-width: 0;
+    }
+
+    .details__col:first-child {
+      max-width: 552px;
     }
 
     .specs dt {
