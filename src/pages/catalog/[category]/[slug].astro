@@ -33,9 +33,9 @@ const position = siblings.findIndex((item) => item.slug === product.slug);
 const start = Math.max(0, Math.min(position - 3, siblings.length - 8));
 const related = siblings.slice(start, start + 8);
 
-// «Что ещё понадобится»: остальные разделы, в каждом — первые 4 товара
+// «Что ещё понадобится»: остальные разделы, в каждом — первые 12 товаров (лента-карусель)
 const otherCategories = categories.filter((item) => item.slug !== product.category);
-const tabs = otherCategories.map((item) => ({ ...item, count: countIn(item.slug), items: byCategory(item.slug).slice(0, 4) }));
+const tabs = otherCategories.map((item) => ({ ...item, count: countIn(item.slug), items: byCategory(item.slug).slice(0, 12) }));
 
 const crumbs = [
   { label: 'Главная', href: `${base}/` },
@@ -158,12 +158,15 @@ const jsonLd = {
 
       {tabs.map((tab, index) => (
         <div class="extra__panel" role="tabpanel" id={`panel-${tab.slug}`} aria-labelledby={`tab-${tab.slug}`} hidden={index !== 0}>
-          <div class="extra__cells">
-            {tab.items.map((item) => (
-              <div class="extra__cell">
-                <ProductCell product={item} />
-              </div>
-            ))}
+          <!-- Лента едет сама (catalog.js дублирует карточки для бесшовной петли); при наведении останавливается -->
+          <div class="extra__marquee" data-marquee style={`--count: ${tab.items.length}`}>
+            <div class="extra__track">
+              {tab.items.map((item) => (
+                <div class="extra__cell">
+                  <ProductCell product={item} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ))}
@@ -414,24 +417,42 @@ const jsonLd = {
     display: none;
   }
 
-  .extra__cells {
-    display: flex;
+  /* Карусель: без JS — обычная горизонтальная прокрутка, с JS (.is-running) — плавно едет сама */
+  .extra__marquee {
     margin-inline: calc(var(--space-16) * -1);
-    padding-inline: var(--space-16);
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--space-16);
     scrollbar-width: none;
+  }
+
+  .extra__marquee.is-running {
+    overflow: hidden;
+  }
+
+  .extra__track {
+    display: flex;
+    width: max-content;
+  }
+
+  /* Скорость — 9 секунд на карточку (медленно); в треке две копии набора, поэтому сдвиг на -50% бесшовный */
+  .extra__marquee.is-running .extra__track {
+    animation: extra-marquee calc(var(--count) * 9s) linear infinite;
+  }
+
+  /* Наведение на карточку (или фокус с клавиатуры) останавливает ленту, уход курсора — продолжает */
+  .extra__marquee.is-running:hover .extra__track,
+  .extra__marquee.is-running:focus-within .extra__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes extra-marquee {
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .extra__cell {
     flex: 0 0 172px;
-    scroll-snap-align: start;
     border-top: 1px solid var(--color-border-default);
-  }
-
-  .extra__cell:first-child {
-    border-left: 1px solid var(--color-border-default);
   }
 
   /* ===== Планшет и desktop ===== */
@@ -457,21 +478,17 @@ const jsonLd = {
     }
 
     .extra__tabs,
-    .extra__cells {
+    .extra__marquee {
       margin-inline: 0;
       padding-inline: 0;
     }
 
-    .extra__cells {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      overflow: visible;
+    .extra__marquee {
       border-left: 1px solid var(--color-border-default);
     }
 
     .extra__cell {
-      min-width: 0;
-      border-left: 0;
+      flex-basis: 300px;
     }
 
     .extra__tab {

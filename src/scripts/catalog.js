@@ -386,6 +386,24 @@ $$('[role="tablist"][data-tabs]').forEach((tablist) => {
   });
 });
 
+// ===== Карусель «Что ещё понадобится»: лента едет сама, наведение останавливает (CSS) =====
+// Дублируем карточки, чтобы петля была бесшовной (сдвиг трека на -50%). Копии скрыты от скринридеров
+// и не берут фокус, но кликаются мышью. При prefers-reduced-motion лента остаётся обычной прокруткой.
+
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  $$('[data-marquee]').forEach((box) => {
+    const track = box.firstElementChild;
+    const copies = [...track.children].map((cell) => {
+      const copy = cell.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      $$('a, button', copy).forEach((node) => (node.tabIndex = -1));
+      return copy;
+    });
+    track.append(...copies);
+    box.classList.add('is-running');
+  });
+}
+
 // ===== Старт: ссылка «Поделиться» (?saved=…), #saved, подсветка закладок =====
 
 const shared = new URLSearchParams(location.search).get('saved');
