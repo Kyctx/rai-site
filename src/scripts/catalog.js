@@ -498,17 +498,97 @@ $$('[role="tablist"][data-tabs]').forEach((tablist) => {
 // Дублируем карточки, чтобы петля была бесшовной (сдвиг трека на -50%). Копии скрыты от скринридеров
 // и не берут фокус, но кликаются мышью. При prefers-reduced-motion лента остаётся обычной прокруткой.
 
+// На телефоне лента едет за счёт прокрутки (scrollLeft), поэтому её можно листать пальцем: пока палец на
+// ленте и ещё 1,2 с после инерции автоход стоит, потом продолжается с того места, где остановили.
+// Для этого нужны три набора карточек (можно листать и назад), позиция держится в среднем наборе.
+// На планшете и desktop — прежняя CSS-анимация с наведением (два набора).
+
+function autoScroll(box, count) {
+  const track = box.firstElementChild;
+  const cellWidth = () => track.firstElementChild.getBoundingClientRect().width;
+  let pos = 0;
+  let last = performance.now();
+  let ready = false;
+  let touching = false;
+  let hovering = false;
+  let inView = true;
+  let idleTimer;
+
+  const resumeLater = () => {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      touching = false;
+      pos = box.scrollLeft;
+    }, 1200);
+  };
+
+  box.addEventListener('touchstart', () => {
+    touching = true;
+    clearTimeout(idleTimer);
+  }, { passive: true });
+  box.addEventListener('touchend', resumeLater, { passive: true });
+  box.addEventListener('touchcancel', resumeLater, { passive: true });
+  // Инерция после отпускания пальца приходит событиями scroll — ждём, пока она закончится
+  box.addEventListener('scroll', () => {
+    if (touching) resumeLater();
+  }, { passive: true });
+  // Мышь на узком окне: наведение останавливает, как на desktop
+  box.addEventListener('pointerenter', (event) => {
+    if (event.pointerType === 'mouse') hovering = true;
+  });
+  box.addEventListener('pointerleave', (event) => {
+    if (event.pointerType === 'mouse') hovering = false;
+  });
+  new IntersectionObserver(([entry]) => (inView = entry.isIntersecting)).observe(box);
+
+  const frame = (now) => {
+    const dt = Math.min(0.1, (now - last) / 1000);
+    last = now;
+    if (box.offsetParent === null) {
+      // Вкладка скрыта (display: none) — прокрутка сбрасывается, при показе встанем на средний набор заново
+      ready = false;
+    } else {
+      const set = cellWidth() * count;
+      if (!ready) {
+        pos = set;
+        box.scrollLeft = pos;
+        ready = true;
+      }
+      if (touching || hovering || !inView) {
+        pos = box.scrollLeft;
+      } else {
+        pos += (cellWidth() / 9) * dt; // 9 секунд на карточку, как на desktop
+        // Набор повторяется, поэтому сдвиг на целый набор незаметен: держимся в среднем наборе
+        while (pos >= set * 2) pos -= set;
+        while (pos < set) pos += set;
+        box.scrollLeft = pos;
+      }
+    }
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const phone = matchMedia('(max-width: 767px)').matches;
   $$('[data-marquee]').forEach((box) => {
     const track = box.firstElementChild;
-    const copies = [...track.children].map((cell) => {
-      const copy = cell.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      $$('a, button', copy).forEach((node) => (node.tabIndex = -1));
-      return copy;
-    });
-    track.append(...copies);
+    const originals = [...track.children];
+    const makeCopies = () =>
+      originals.map((cell) => {
+        const copy = cell.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        $$('a, button', copy).forEach((node) => (node.tabIndex = -1));
+        return copy;
+      });
+    // Телефон: 3 набора (оригинал + 2 копии), остальные экраны: 2 набора для CSS-анимации
+    track.append(...makeCopies());
+    if (phone) track.append(...makeCopies());
     box.classList.add('is-running');
+    if (phone) {
+      box.classList.add('is-swipe');
+      autoScroll(box, originals.length);
+    }
   });
 }
 

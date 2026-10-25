@@ -460,7 +460,7 @@ const jsonLd = {
     scrollbar-width: none;
   }
 
-  .extra__marquee.is-running {
+  .extra__marquee.is-running:not(.is-swipe) {
     overflow: hidden;
   }
 
@@ -470,14 +470,26 @@ const jsonLd = {
   }
 
   /* Скорость — 9 секунд на карточку (медленно); в треке две копии набора, поэтому сдвиг на -50% бесшовный */
-  .extra__marquee.is-running .extra__track {
+  .extra__marquee.is-running:not(.is-swipe) .extra__track {
     animation: extra-marquee calc(var(--count) * 9s) linear infinite;
   }
 
   /* Наведение на карточку (или фокус с клавиатуры) останавливает ленту, уход курсора — продолжает */
-  .extra__marquee.is-running:hover .extra__track,
-  .extra__marquee.is-running:focus-within .extra__track {
+  .extra__marquee.is-running:not(.is-swipe):hover .extra__track,
+  .extra__marquee.is-running:not(.is-swipe):focus-within .extra__track {
     animation-play-state: paused;
+  }
+
+  /* Телефон (.is-swipe): лента едет за счёт прокрутки (catalog.js), её можно листать пальцем; без полосы прокрутки */
+  .extra__marquee.is-swipe {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .extra__marquee.is-swipe::-webkit-scrollbar {
+    display: none;
   }
 
   @keyframes extra-marquee {
