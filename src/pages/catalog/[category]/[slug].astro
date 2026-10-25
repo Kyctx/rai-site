@@ -263,18 +263,54 @@ const jsonLd = {
     padding-inline: var(--space-16);
   }
 
-  .related__eyebrow,
+  /* Заголовок-надпись и ссылка «Все …» сверху, затем «облако» названий с ценами — одинаково на mobile и desktop.
+     Настоящий <h2> и нижняя ссылка с количеством скрыты визуально (остаются для скринридеров). */
+  .related__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-8) var(--space-16);
+  }
+
+  .related__title,
+  .related__all--bottom {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .related__eyebrow {
+    display: block;
+    color: var(--color-text-secondary);
+  }
+
   .related__all--top {
-    display: none;
+    display: block;
+  }
+
+  .related__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-24);
   }
 
   .related__item {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-16);
-    padding-block: var(--space-8);
-    border-bottom: 1px solid var(--color-border-default);
+    align-items: flex-start;
+    gap: var(--space-8);
+  }
+
+  .related__item:not(.related__item--current) .related__name {
+    opacity: 0.32;
+  }
+
+  /* Ховер — тёмно-бежевый (токен --color-hover-beige) */
+  .related__item:not(.related__item--current):hover .related__name {
+    opacity: 1;
+    color: var(--color-hover-beige);
   }
 
   .related__name {
@@ -283,9 +319,10 @@ const jsonLd = {
 
   .related__price {
     font-family: var(--font-sans);
-    font-size: var(--fs-body-s);
-    line-height: var(--lh-body-s);
+    font-size: var(--fs-label-s);
+    line-height: var(--lh-label-s);
     color: var(--color-text-secondary);
+    opacity: 0.7;
     white-space: nowrap;
   }
 
@@ -569,58 +606,8 @@ const jsonLd = {
       gap: var(--space-24);
     }
 
-    .related__head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
-    .related__title,
-    .related__all--bottom {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-    }
-
-    .related__eyebrow {
-      display: block;
-      color: var(--color-text-secondary);
-    }
-
-    .related__all--top {
-      display: block;
-    }
-
     .related__list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-8) var(--space-40);
-    }
-
-    .related__item {
-      padding: 0;
-      border: 0;
-      gap: var(--space-8);
-      justify-content: flex-start;
-      align-items: flex-start;
-    }
-
-    .related__item:not(.related__item--current) .related__name {
-      opacity: 0.32;
-    }
-
-    /* Ховер — тёмно-бежевый (токен --color-hover-beige) */
-    .related__item:not(.related__item--current):hover .related__name {
-      opacity: 1;
-      color: var(--color-hover-beige);
-    }
-
-    .related__price {
-      font-size: var(--fs-label-s);
-      line-height: var(--lh-label-s);
-      opacity: 0.7;
+      column-gap: var(--space-40);
     }
 
     .extra {
